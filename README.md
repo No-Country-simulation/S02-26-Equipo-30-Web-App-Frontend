@@ -1,16 +1,60 @@
-# React + Vite
+# Horsetrust - Web App Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite)
+![Architecture](https://img.shields.io/badge/Architecture-Screaming%20%2F%20FSD-success)
 
-Currently, two official plugins are available:
+Horsetrust es una plataforma moderna para la gestión y mercado de caballos, construida con React y Vite, diseñada para ser escalable, mantenible y performante.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías Principales
 
-## React Compiler
+- **React 19**: Biblioteca para la interfaz de usuario.
+- **Vite 7**: Herramienta de construcción ultrarrápida.
+- **ESLint**: Mantenedor de la calidad y estilo del código.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 🏗️ Arquitectura
 
-## Expanding the ESLint configuration
+El proyecto sigue una **Screaming Architecture** basada en los principios de **Feature-Sliced Design (FSD)**. La estructura del código "grita" las funcionalidades de negocio en lugar de los detalles técnicos.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Estructura de Carpetas
+
+- `src/app/`: Configuración global, estilos base y proveedores.
+- `src/features/`: Módulos de negocio independientes (auth, horse, marketplace, etc.).
+- `src/shared/`: Componentes, hooks y utilidades reutilizables en toda la app.
+
+## 🛠️ Instalación y Uso
+
+### Requisitos Previos
+
+- [Node.js](https://nodejs.org/) (versión recomendada LTS)
+- npm o yarn
+
+### Pasos
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone <URL-del-repositorio>
+   cd S02-26-Equipo-30-Web-App-Frontend
+   ```
+
+2. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
+
+3. **Ejecutar en modo desarrollo**
+   ```bash
+   npm run dev
+   ```
+
+4. **Construir para producción**
+   ```bash
+   npm run build
+   ```
+
+## 🧹 Calidad de Código
+
+Para ejecutar el linter y asegurar que se sigan las reglas establecidas:
+```bash
+npm run lint
+```
