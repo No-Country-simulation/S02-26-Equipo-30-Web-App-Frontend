@@ -6,3 +6,6 @@ export { default as Info } from './Info';
 export { default as ChevronDown } from './ChevronDown';
 export { default as User } from './User';
 export { default as Crown } from './Crown';
+export { default as ArrowRight } from './ArrowRight';
+export { default as Search } from './Search';
+export { default as Sparkles } from './Sparkles';

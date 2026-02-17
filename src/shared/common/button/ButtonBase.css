@@ -48,3 +48,16 @@
 }
 
 
+.btn-primary {
+    width: max-content;
+    background: #d4af37 !important;
+    color: #0d1b2a !important;
+    font-weight: 600 !important;
+}
+
+.btn-secondary {
+    width: max-content;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    background: rgba(13, 27, 42, 0.5) !important;
+}
+
