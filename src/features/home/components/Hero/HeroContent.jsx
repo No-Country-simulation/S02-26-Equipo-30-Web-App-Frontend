@@ -11,7 +11,7 @@ const HeroContent = () => {
             </Badge>
 
             <h1 className="hero-title">
-                Tu Próximo <span className="text-gold">Campeón <Sparkles size={24} color="#d4af37" style={{ verticalAlign: 'middle', marginLeft: '4px' }} /></span> Te Espera
+                Tu Próximo <span className="text-gold">Campeón</span> Te Espera
             </h1>
 
             <p className="hero-subtitle">
