@@ -1,8 +1,8 @@
 import './Navbar.css';
-import logo from '../../../branding/logo_218_64.png';
-import Btn from '../../../common/button/Btn';
-import IconBtn from '../../../common/button/IconBtn';
-import Crown from '../../../branding/icons/Crown';
+import logo from '@shared/branding/logo_218_64.png';
+import Btn from '@components/button/Btn';
+import IconBtn from '@components/button/IconBtn';
+import Crown from '@shared/branding/icons/Crown';
 
 const Navbar = () => {
     return (
