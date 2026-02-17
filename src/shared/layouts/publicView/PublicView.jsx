@@ -1,4 +1,5 @@
 import Navbar from './Navbar/Navbar.jsx';
+import Footer from '@components/footer/Footer.jsx';
 
 
 const PublicView = ({ children }) => {
@@ -8,7 +9,7 @@ const PublicView = ({ children }) => {
             <main style={{ flex: 1 }}>
                 {children}
             </main>
-
+            <Footer />
         </div>
     );
 };

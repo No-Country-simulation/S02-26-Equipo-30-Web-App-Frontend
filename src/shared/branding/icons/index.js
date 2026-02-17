@@ -9,3 +9,8 @@ export { default as Crown } from './Crown';
 export { default as ArrowRight } from './ArrowRight';
 export { default as Search } from './Search';
 export { default as Sparkles } from './Sparkles';
+export { default as Facebook } from './Facebook';
+export { default as Instagram } from './Instagram';
+export { default as Twitter } from './Twitter';
+export { default as Mail } from './Mail';
+export { default as MapPin } from './MapPin';
