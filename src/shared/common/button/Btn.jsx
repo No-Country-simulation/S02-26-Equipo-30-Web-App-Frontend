@@ -1,12 +1,11 @@
 import React from 'react'
 import './Btn.css'
 
-const Btn = ({ children, onClick, variant = 'primary', className = '', ...props }) => {
-    const variantClass = variant === 'ghost' ? 'btn-ghost' : 'btn-primary';
+const Btn = ({ children, onClick, className = '', ...props }) => {
 
     return (
         <button
-            className={`btn-base ${variantClass} ${className}`}
+            className={`btn-base ${className}`}
             onClick={onClick}
             {...props}
         >
