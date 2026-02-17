@@ -1,0 +1,130 @@
+.success-history {
+  background-color: #0c1c3c;
+  color: #ffffff;
+  padding: 6rem 1rem;
+  text-align: center;
+  font-family: inherit;
+}
+
+.success-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.success-content h2 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.success-content h2 span {
+  display: block;
+  color: #d4c4b0; /* Gold/Beige from image */
+}
+
+.success-subtitle {
+  color: #b0b8c4;
+  font-size: 1.25rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 6rem;
+}
+
+.btn-explore {
+  background-color: #d4a753; /* Warmer gold for the CTA button */
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(212, 167, 83, 0.3);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-explore:hover {
+  background-color: #c99841;
+  transform: translateY(-2px);
+}
+
+.btn-sell {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-sell:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
+.success-features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 4rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.feature-icon {
+  color: #d4c4b0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  max-width: 140px;
+  line-height: 1.4;
+}
+
+@media (max-width: 968px) {
+  .success-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .success-content h2 {
+    font-size: 2.5rem;
+  }
+  
+  .success-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .success-features {
+    grid-template-columns: 1fr;
+  }
+}
