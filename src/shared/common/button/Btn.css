@@ -1,0 +1,52 @@
+.btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    color: inherit;
+    background: transparent;
+}
+
+/* Primary State: Dark with Gold Bottom Border */
+.btn-primary {
+    background-color: #1b263b; /* Slightly lighter than navbar for contrast */
+    color: #ffffff;
+    box-shadow: 0 4px 0 #c5a021; /* Gold bottom border effect */
+    margin-bottom: 4px; /* Offset for the box-shadow */
+}
+
+.btn-primary:hover {
+    background-color: #415a77;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 #d4af37;
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c5a021;
+}
+
+/* Ghost State: Text Link */
+.btn-ghost {
+    background-color: transparent;
+    color: #e0e1dd;
+    padding: 0.6rem 0.8rem;
+}
+
+.btn-ghost:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-ghost.active {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
