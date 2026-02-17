@@ -1,17 +1,17 @@
 import React from 'react';
 import Btn from '@/shared/common/button/Btn';
-import { Crown } from '@/shared/branding/icons';
+import Badge from '@/shared/common/badge/Badge';
+import { ArrowRight, Sparkles } from '@/shared/branding/icons';
 
 const HeroContent = () => {
     return (
         <div className="hero-content">
-            <div className="hero-badge">
-                <Crown size={16} color="#d4af37" />
-                <span>Marketplace #1 de Caballos de Alta Confianza</span>
-            </div>
+            <Badge icon={Sparkles} className="hero-badge-margin">
+                Marketplace #1 de Caballos de Alta Confianza
+            </Badge>
 
             <h1 className="hero-title">
-                Tu Próximo <span className="text-gold">Campeón</span> Te Espera
+                Tu Próximo <span className="text-gold">Campeón <Sparkles size={24} color="#d4af37" style={{ verticalAlign: 'middle', marginLeft: '4px' }} /></span> Te Espera
             </h1>
 
             <p className="hero-subtitle">
@@ -21,10 +21,10 @@ const HeroContent = () => {
 
             <div className="hero-actions">
                 <Btn className="btn-primary">
-                    Explorar Caballos →
+                    Explorar Caballos<ArrowRight size={16} />
                 </Btn>
                 <Btn className="btn-secondary">
-                    Vender mi Caballo →
+                    Vender mi Caballo<ArrowRight size={16} />
                 </Btn>
             </div>
         </div>

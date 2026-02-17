@@ -29,16 +29,7 @@
     max-width: 600px;
 }
 
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    padding: 0.5rem 1rem;
-    border-radius: 100px;
-    font-size: 0.875rem;
-    color: #d4af37;
+.hero-badge-margin {
     margin-bottom: 2rem;
 }
 

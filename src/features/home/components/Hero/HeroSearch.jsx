@@ -1,7 +1,7 @@
 import React from 'react';
 import Btn from '@/shared/common/button/Btn';
 import Dropdown from '@/shared/common/dropdown/Dropdown';
-import { ChevronDown } from '@/shared/branding/icons';
+import { ChevronDown, Search } from '@/shared/branding/icons';
 
 const HeroSearch = () => {
     const disciplinas = [
@@ -18,7 +18,7 @@ const HeroSearch = () => {
 
             <div className="search-field">
                 <div className="input-wrapper">
-                    <span className="search-icon">🔍</span>
+                    <Search className="search-icon" size={18} />
                     <input
                         type="text"
                         placeholder="Buscar por nombre, raza, disciplina..."
@@ -41,7 +41,7 @@ const HeroSearch = () => {
             </div>
 
             <Btn className="btn-search">
-                <span>🔍</span> Buscar Ahora
+                <Search size={18} />Buscar Ahora
             </Btn>
 
             <div className="popular-searches">
