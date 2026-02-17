@@ -14,3 +14,5 @@ export { default as Instagram } from './Instagram';
 export { default as Twitter } from './Twitter';
 export { default as Mail } from './Mail';
 export { default as MapPin } from './MapPin';
+export { default as Heart } from './Heart';
+export { default as Support } from './Support';
