@@ -14,12 +14,12 @@ const Navbar = () => {
             <div className="navbar-center">
                 <Btn>Inicio</Btn>
                 <Btn>Explorar</Btn>
-                <IconBtn iconPosition="right" icon={<Crown size={16} />}>Premium</IconBtn>
+                <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
                 <Btn>Recursos</Btn>
             </div>
 
             <div className="navbar-right">
-                <Btn>Ingresar</Btn>
+                <IconBtn>Ingresar</IconBtn>
             </div>
 
 

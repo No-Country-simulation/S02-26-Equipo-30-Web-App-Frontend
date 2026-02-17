@@ -93,3 +93,8 @@
 .logout-icon:hover {
     opacity: 1;
 }
+.premium-btn{
+    background-color: #B8914A !important;
+    color: #ffffff !important;
+   
+}
