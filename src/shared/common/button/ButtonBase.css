@@ -28,3 +28,23 @@
     transform: translateY(2px);
     box-shadow: 0 2px 0 #c5a021;
 }
+
+.line-btn{
+    border: 1px solid #c5a021;
+    color: #c5a021;
+    font-size: 14px;
+    font-weight: 700;
+}
+.line-btn:hover{
+    border: 1px solid #c5a021;
+    background-color: #ffffff ;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.line-btn:active{
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c5a021;
+}
+
+
