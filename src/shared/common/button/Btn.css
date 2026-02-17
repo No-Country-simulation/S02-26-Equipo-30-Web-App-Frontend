@@ -1,31 +1,4 @@
-.btn-base {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 7.5px 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-    color: inherit;
-    background: transparent;
-    width: min-content;
-    height: 40px;
-}
+@import url('./ButtonBase.css');
 
-.btn-base:hover {
-    background-color: #415a77;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 0 #d4af37;
-}
-
-.btn-base:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #c5a021;
-}
 
 
