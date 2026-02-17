@@ -1,0 +1,12 @@
+@import url('./ButtonBase.css');
+
+.icon-btn {
+    gap: 8px; /* Specialized spacing for icons */
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
