@@ -1,6 +1,7 @@
 import React from "react";
 import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
+import HorseProfile from "./components/horseProfile/HorseProfile";
 
 export default function HorseDetails() {
     return (
@@ -76,6 +77,7 @@ export default function HorseDetails() {
                     <Btn className="cta">Express Purchase Interest</Btn>
                 </div>
             </div>
+            <HorseProfile />
         </div>
     );
 }
