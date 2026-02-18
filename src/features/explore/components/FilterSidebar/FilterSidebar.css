@@ -1,0 +1,92 @@
+.filter-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px 20px;
+    height: fit-content;
+    position: sticky;
+    top: 24px;
+    font-family: 'Inter', sans-serif;
+}
+
+.filter-sidebar-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0d1b2a;
+    margin: 0 0 20px;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.filter-select,
+.filter-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #0d1b2a;
+    background: #f8fafc;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+    border-color: #0d1b2a;
+    background: #fff;
+}
+
+.price-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.price-input {
+    width: 0;
+    flex: 1;
+}
+
+.price-separator {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.price-slider {
+    width: 100%;
+    accent-color: #0d1b2a;
+    cursor: pointer;
+}
+
+.price-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .filter-sidebar {
+        width: 100%;
+        position: static;
+    }
+}
