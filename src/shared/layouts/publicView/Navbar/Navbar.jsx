@@ -15,15 +15,18 @@ const Navbar = () => {
         { label: 'Contacto', icon: <Phone size={16} />, onClick: () => console.log('Contacto') },
     ];
 
+    const goHome = () => { window.location.hash = ''; };
+    const goExplore = () => { window.location.hash = '#/explorar'; };
+
     return (
         <nav className="navbar-container">
             <div className="navbar-left">
-                <img src={logo} alt="HorseTrust Logo" className="navbar-logo" />
+                <img src={logo} alt="HorseTrust Logo" className="navbar-logo" onClick={goHome} style={{ cursor: 'pointer' }} />
             </div>
 
             <div className="navbar-center">
-                <Btn>Inicio</Btn>
-                <Btn>Explorar</Btn>
+                <Btn onClick={goHome}>Inicio</Btn>
+                <Btn onClick={goExplore}>Explorar</Btn>
                 <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
 
                 <Dropdown

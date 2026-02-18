@@ -1,0 +1,52 @@
+.explore-header {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 100%);
+    padding: 60px 24px 50px;
+    text-align: center;
+    color: #fff;
+}
+
+.explore-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', sans-serif;
+}
+
+.explore-subtitle {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin: 0 0 32px;
+    font-family: 'Inter', sans-serif;
+}
+
+.explore-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 20px;
+    max-width: 560px;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+.search-icon {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.explore-search-input {
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    color: #0d1b2a;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+}
+
+.explore-search-input::placeholder {
+    color: #94a3b8;
+}
