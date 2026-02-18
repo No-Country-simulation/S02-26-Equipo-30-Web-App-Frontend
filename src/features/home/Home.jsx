@@ -1,14 +1,14 @@
 import React from 'react'
 import Hero from './components/Hero/Hero'
 import Stats from './components/Stats/Stats'
-import SuccessHistory from './components/SuccessHistory/SuccessHistory'
+import SuccessHistoryCTA from './components/SuccessHistoryCTA/SuccessHistoryCTA'
 
 const Home = () => {
     return (
         <>
             <Hero />
             <Stats />
-            <SuccessHistory />
+            <SuccessHistoryCTA />
         </>
     )
 }
