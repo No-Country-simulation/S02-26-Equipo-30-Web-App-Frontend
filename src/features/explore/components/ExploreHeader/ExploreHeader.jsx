@@ -4,7 +4,7 @@ import './ExploreHeader.css';
 
 const ExploreHeader = ({ searchValue, onSearchChange }) => {
     return (
-        <div className="explore-header">
+        <div className="header">
             <h1 className="explore-title">Explora Nuestro Catálogo Completo</h1>
             <p className="explore-subtitle">200 caballos de alta calidad esperando encontrar su nuevo hogar</p>
             <div className="explore-search-bar">

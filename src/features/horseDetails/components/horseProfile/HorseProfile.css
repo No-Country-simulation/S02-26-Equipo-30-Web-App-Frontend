@@ -1,0 +1,86 @@
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: Arial, sans-serif;
+  max-width:1100px;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+.cards-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card h2 {
+  font-size: 1.125rem; /* ~18px */
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.space-y-2 > * + * {
+  margin-top: 8px;
+}
+
+.button {
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: #2563eb; /* azul */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #1d4ed8;
+}
+
+.status {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.video-item {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.video-item:hover {
+  background-color: #f9fafb;
+}
+
+.seller-card {
+  background-color: #fef3c7;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.seller-card p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.seller-score {
+  color: #78350f;
+}
