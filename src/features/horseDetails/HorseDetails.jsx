@@ -1,9 +1,9 @@
 import React from 'react'
 
-function HomeDetails() {
+function HorseDetails() {
     return (
         <div>HomeDetails</div>
     )
 }
 
-export default HomeDetails
+export default HorseDetails
