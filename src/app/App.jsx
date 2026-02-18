@@ -5,11 +5,11 @@ import { Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <Routes>
-      <PublicView>
+    <PublicView>
+      <Routes>
         <Route path="/" element={<Home />} />
-      </PublicView>
-    </Routes>
+      </Routes>
+    </PublicView>
   )
 }
 
