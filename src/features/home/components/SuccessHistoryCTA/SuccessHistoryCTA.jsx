@@ -1,5 +1,5 @@
 import React from 'react';
-import './SuccessHistory.css';
+import './SuccessHistoryCTA.css';
 import {
     Search,
     ArrowRight,
@@ -9,7 +9,7 @@ import {
     Support
 } from '@shared/branding/icons';
 
-const SuccessHistory = () => {
+const SuccessHistoryCTA = () => {
     const features = [
         {
             icon: <Shield size={32} />,
@@ -65,4 +65,4 @@ const SuccessHistory = () => {
     );
 };
 
-export default SuccessHistory;
+export default SuccessHistoryCTA;

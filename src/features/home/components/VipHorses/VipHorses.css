@@ -1,0 +1,343 @@
+.vip-horses-section {
+    padding: 100px 20px;
+    background-color: #0d1b2a;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    font-family: 'Inter', sans-serif;
+}
+
+.vip-header {
+    text-align: center;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.exclusive-collection-badge {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.vip-title-container h2 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.vip-title-container .highlight {
+    display: block;
+    background: linear-gradient(90deg, #d4af37 0%, #f1d27a 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4rem;
+}
+
+.vip-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Cards Grid */
+.vip-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.vip-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: #0d1b2a;
+}
+
+.vip-card-image-container {
+    height: 280px;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.vip-card-placeholder {
+    width: 100%;
+    height: 480px;
+    background-color: #e2e8f0;
+    border-radius: 20px;
+}
+
+.vip-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vip-card-badges {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+.badge-vip {
+    background: #d4af37;
+    color: #0d1b2a;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-featured {
+    background: #ef4444;
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.video-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove obsolete vip-card content styles */
+
+.vip-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.vip-card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.vip-card-price {
+    color: #d4af37;
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-align: right;
+}
+
+.vip-card-breed {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+}
+
+.vip-card-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.vip-tag {
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #475569;
+}
+
+.vip-card-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 0.875rem;
+    margin-bottom: 24px;
+}
+
+.vip-card-trust {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 16px;
+}
+
+.trust-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+}
+
+.trust-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.trust-score {
+    font-weight: 700;
+}
+
+.trust-score .max {
+    color: #64748b;
+    font-weight: 400;
+}
+
+.trust-bar-container {
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.trust-bar {
+    height: 100%;
+    background: #10b981;
+    border-radius: 4px;
+}
+
+.trust-status {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Benefits Section */
+.vip-benefits-container {
+    width: 100%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vip-benefits-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.vip-benefits-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vip-benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.check-icon {
+    color: #d4af37;
+}
+
+.vip-cta-btn {
+    background: #d4af37;
+    color: #0d1b2a;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.vip-cta-btn:hover {
+    background: #f1d27a;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+@media (max-width: 1024px) {
+    .vip-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .vip-benefits-container {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    
+    .vip-benefits-content h3 {
+        justify-content: center;
+    }
+    
+    .benefit-item {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .vip-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .vip-title-container h2 {
+        font-size: 2.5rem;
+    }
+    
+    .vip-title-container .highlight {
+        font-size: 3rem;
+    }
+}
