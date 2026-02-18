@@ -1,12 +1,15 @@
 import './App.css'
 import PublicView from '../shared/layouts/publicView/PublicView.jsx';
 import Home from '../features/home/Home.jsx';
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <PublicView>
-      <Home />
-    </PublicView>
+    <Routes>
+      <PublicView>
+        <Route path="/" element={<Home />} />
+      </PublicView>
+    </Routes>
   )
 }
 
