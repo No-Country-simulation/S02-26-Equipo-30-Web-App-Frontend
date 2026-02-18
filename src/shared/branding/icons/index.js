@@ -16,3 +16,4 @@ export { default as Mail } from './Mail';
 export { default as MapPin } from './MapPin';
 export { default as Heart } from './Heart';
 export { default as Support } from './Support';
+export { default as Star } from './Star';
