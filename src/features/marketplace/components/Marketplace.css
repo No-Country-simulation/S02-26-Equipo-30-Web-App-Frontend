@@ -1,0 +1,15 @@
+.marketplace {
+  padding: 16px;
+}
+
+.marketplace__title {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+}
+
+.marketplace__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
