@@ -1,0 +1,30 @@
+.horse-grid-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.horse-grid-count {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0d1b2a;
+    margin: 0 0 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.horse-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1200px) {
+    .horse-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .horse-grid {
+        grid-template-columns: 1fr;
+    }
+}
