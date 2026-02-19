@@ -1,0 +1,26 @@
+.explore-page {
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: 'Inter', sans-serif;
+}
+
+.explore-body {
+    display: flex;
+    gap: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    align-items: flex-start;
+}
+
+.explore-main {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .explore-body {
+        flex-direction: column;
+        padding: 20px 16px 60px;
+    }
+}

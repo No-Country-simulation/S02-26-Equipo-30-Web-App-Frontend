@@ -5,6 +5,7 @@ import IconBtn from '@components/button/IconBtn';
 import { Crown, User, Info, Shield, Dollar, Phone, ChevronDown } from '@shared/branding/icons';
 
 import Dropdown from '@components/dropdown/Dropdown';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const recursosItems = [
@@ -15,16 +16,25 @@ const Navbar = () => {
         { label: 'Contacto', icon: <Phone size={16} />, onClick: () => console.log('Contacto') },
     ];
 
+    const goHome = () => { window.location.hash = ''; };
+    const goExplore = () => { window.location.hash = '#/explorar'; };
+
     return (
         <nav className="navbar-container">
             <div className="navbar-left">
-                <img src={logo} alt="HorseTrust Logo" className="navbar-logo" />
+                <img src={logo} alt="HorseTrust Logo" className="navbar-logo" onClick={goHome} style={{ cursor: 'pointer' }} />
             </div>
 
             <div className="navbar-center">
-                <Btn>Inicio</Btn>
-                <Btn>Explorar</Btn>
-                <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
+                <NavLink to="/">
+                    <Btn>Inicio</Btn>
+                </NavLink>
+                <NavLink to="/explorar">
+                    <Btn>Explorar</Btn>
+                </NavLink>
+                <NavLink to="/premium">
+                    <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
+                </NavLink>
 
                 <Dropdown
                     trigger={
