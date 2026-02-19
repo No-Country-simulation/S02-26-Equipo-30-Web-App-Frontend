@@ -1,4 +1,4 @@
-import HorseCard from "./HorseCard";
+import HorseCard from "@shared/common/cards/HorseCard";
 import "./Marketplace.css";
 
 export default function Marketplace() {

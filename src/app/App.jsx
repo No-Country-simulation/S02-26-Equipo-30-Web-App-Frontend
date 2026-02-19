@@ -1,7 +1,6 @@
 import "./App.css";
 import PublicView from "../shared/layouts/publicView/PublicView.jsx";
 import Home from "../features/home/Home.jsx";
-
 import Explore from "@features/explore/Explore.jsx";
 import HorseDetails from "@features/horseDetails/HorseDetails.jsx";
 import Premium from "@features/premium/Premium.jsx";
