@@ -6,7 +6,7 @@ export default function HorseCard(props) {
   // 2) <HorseCard {...horse} />
   const horse = props.horse ?? props;
 
-  const {
+    const {
     id = "",
     name = "Sin nombre",
     image = "https://via.placeholder.com/800x500",
@@ -14,24 +14,48 @@ export default function HorseCard(props) {
     age = "",
     height = "",
     discipline = "",
+    tags = [],
     location = "",
     price = "",
     trustScore = 0,
     isVip = false,
     isFeatured = false,
-  } = horse;
+    } = horse;
+
+    // 1) Si viene tags, úsalo. Si no, construye tags desde age/height/discipline
+    const pills =
+    Array.isArray(tags) && tags.length > 0
+        ? tags
+        : [age, height, discipline].filter(Boolean);
+
+
 
   const safeTrust = Math.max(0, Math.min(100, Number(trustScore) || 0));
+
+  const getTrustMeta = (score) => {
+    if (score >= 90) return { level: "excellent", label: "Excelente" };
+    if (score >= 75) return { level: "good", label: "Muy bueno" };
+    if (score >= 55) return { level: "fair", label: "Bueno" };
+    return { level: "poor", label: "Mejorable" };
+  };
+
+  const trust = getTrustMeta(safeTrust);
 
   return (
     <article className="horse-card">
       <div className="horse-card__media">
-        <img className="horse-card__img" src={image} alt={name} />
+        <img
+          className="horse-card__img"
+          src={image || "https://via.placeholder.com/800x500"}
+          alt={name}
+        />
 
         {(isVip || isFeatured) && (
           <div className="horse-card__badges">
             {isVip && <span className="badge badge--vip">VIP</span>}
-            {isFeatured && <span className="badge badge--featured">Destacado</span>}
+            {isFeatured && (
+              <span className="badge badge--featured">Destacado</span>
+            )}
           </div>
         )}
 
@@ -48,20 +72,26 @@ export default function HorseCard(props) {
           </div>
 
           <div className="horse-card__priceWrap">
-            <span className="horse-card__price">${price}</span>
+            {price && (
+                <span className="horse-card__price">${price}</span>
+            )}
             {id !== "" && <span className="horse-card__id">{id}</span>}
           </div>
         </div>
 
-        {(age || height || discipline) && (
-          <div className="horse-card__meta">
-            {age && <span className="horse-card__pill">{age}</span>}
-            {height && <span className="horse-card__pill">{height}</span>}
-            {discipline && <span className="horse-card__pill">{discipline}</span>}
-          </div>
+        {pills.length > 0 && (
+        <div className="horse-card__meta">
+            {pills.map((t, i) => (
+            <span key={`${id}-${i}`} className="horse-card__pill">
+                {t}
+            </span>
+            ))}
+        </div>
         )}
 
         {location && <p className="horse-card__location">{location}</p>}
+        
+        <hr className="horse-card__divider" />
 
         <div className="horse-card__trustRow">
           <span className="horse-card__trustLabel">Trust Score</span>
@@ -69,11 +99,14 @@ export default function HorseCard(props) {
         </div>
 
         <div className="horse-card__progress">
-          <div className="horse-card__progressFill" style={{ width: `${safeTrust}%` }} />
+          <div
+            className={`horse-card__progressFill horse-card__progressFill--${trust.level}`}
+            style={{ width: `${safeTrust}%` }}
+          />
         </div>
 
-        <p className="horse-card__quality">
-          {safeTrust >= 90 ? "Excelente" : safeTrust >= 75 ? "Muy bueno" : "Bueno"}
+        <p className={`horse-card__quality horse-card__quality--${trust.level}`}>
+          {trust.label}
         </p>
       </div>
     </article>

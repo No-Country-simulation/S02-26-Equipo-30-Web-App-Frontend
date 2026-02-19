@@ -38,7 +38,7 @@ const FeaturedHorses = () => {
             tags: ["14 years", "15.2 hh", "Show Jumping"],
             location: "Ocala, FL",
             trustScore: 95,
-            image: "https://images.unsplash.com/photo-1518467166778-b8c6b252b19a?q=80&w=800&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=800&auto=format&fit=crop",
             isVip: true,
             isFeatured: true
         },
@@ -49,7 +49,7 @@ const FeaturedHorses = () => {
             breed: "Dutch Warmblood",
             tags: ["4 years", "17.0 hh", "Cutting"],
             location: "Saratoga Springs, NY",
-            trustScore: 95,
+            trustScore: 80,
             image: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?q=80&w=800&auto=format&fit=crop",
             isVip: true,
             isFeatured: true
@@ -61,8 +61,8 @@ const FeaturedHorses = () => {
             breed: "Arabian",
             tags: ["7 years", "15.1 hh", "Dressage"],
             location: "Lexington, KY",
-            trustScore: 93,
-            image: "https://images.unsplash.com/photo-1534070348795-40a2322a303a?q=80&w=800&auto=format&fit=crop",
+            trustScore: 70,
+            image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=800&auto=format&fit=crop",
             isVip: true,
             isFeatured: true
         },
@@ -73,8 +73,8 @@ const FeaturedHorses = () => {
             breed: "Westphalian",
             tags: ["6 years", "17.2 hh", "Endurance"],
             location: "Charleston, SC",
-            trustScore: 96,
-            image: "https://images.unsplash.com/photo-1520108930432-8cf3bb519280?q=80&w=800&auto=format&fit=crop",
+            trustScore: 50,
+            image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=800&auto=format&fit=crop",
             isVip: true,
             isFeatured: true
         }

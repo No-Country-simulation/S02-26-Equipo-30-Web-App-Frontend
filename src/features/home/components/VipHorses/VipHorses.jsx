@@ -1,5 +1,5 @@
 import React from 'react';
-import HorseCard from '@components/cards/HorseCard';
+import HorseCard from "@shared/common/cards/HorseCard";
 import VipBenefits from './VipBenefits';
 import { Crown } from '@shared/branding/icons';
 import Badge from '@components/badge/Badge';

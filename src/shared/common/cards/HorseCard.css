@@ -1,8 +1,9 @@
 .horse-card {
-  border: 1px solid #e5e5e5;
-  border-radius: 16px;
+  border: 1px solid #e9eef2;
+  border-radius: 18px;
   overflow: hidden;
   background: white;
+  box-shadow: 0 2px 12px rgba(16, 24, 40, 0.08);
 }
 
 .horse-card__media {
@@ -11,25 +12,26 @@
 
 .horse-card__img {
   width: 100%;
-  height: 220px;
+  height: 220px; /* más parecido a Figma */
   object-fit: cover;
   display: block;
 }
 
 .horse-card__badges {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .badge {
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: white;
+  line-height: 1;
 }
 
 .badge--vip {
@@ -42,18 +44,21 @@
 
 .horse-card__play {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
   border: none;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
 }
 
 .horse-card__body {
-  padding: 14px;
+  padding: 14px 16px;
   display: grid;
   gap: 10px;
 }
@@ -62,18 +67,19 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .horse-card__title {
   margin: 0;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 790;
+  color: #111827;
 }
 
 .horse-card__breed {
-  margin: 2px 0 0 0;
-  font-size: 13px;
+  margin: 3px 0 0 0;
+  font-size: 12px;
   opacity: 0.7;
 }
 
@@ -83,59 +89,118 @@
 
 .horse-card__price {
   display: block;
-  font-weight: 700;
+  font-weight: 790;
+  font-size: 18px;
+  color: #caa64c;
+  white-space: nowrap;
 }
 
 .horse-card__id {
   display: block;
-  opacity: 0.6;
+  opacity: 0.55;
   font-size: 12px;
   margin-top: 2px;
 }
 
 .horse-card__meta {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 0px;
 }
 
 .horse-card__pill {
-  border: 1px solid #e6e6e6;
-  border-radius: 999px;
-  padding: 4px 8px;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 6px; 
+  padding: 2px 8px; 
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.horse-card__breed {
+  margin: 4px 0 6px 0;
   font-size: 12px;
-  background: #fafafa;
+  opacity: 0.7;
 }
 
 .horse-card__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin: 0;
-  opacity: 0.75;
-  font-size: 13px;
+  opacity: 0.8;
+  font-size: 12px;
+}
+
+.horse-card__divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 8px 0 4px 0;
 }
 
 .horse-card__trustRow {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 12px;
-  opacity: 0.85;
+  margin-top: 6px;
+}
+
+
+.horse-card__trustValue {
+  font-weight: 800;
+  color: #111827;
 }
 
 .horse-card__progress {
-  height: 7px;
+  height: 8px;
   border-radius: 999px;
-  background: #efefef;
+  background: #e5e7eb;
   overflow: hidden;
+  margin-top: 6px;
 }
+
 
 .horse-card__progressFill {
   height: 100%;
   border-radius: 999px;
-  background: #0f766e;
+  width: 0%;
+  transition: width 250ms ease, background-color 250ms ease;
+}
+
+/* Colores dinámicos según nivel */
+.horse-card__progressFill--excellent {
+  background: #0f766e; /* teal */
+}
+.horse-card__progressFill--good {
+  background: #16a34a; /* verde */
+}
+.horse-card__progressFill--fair {
+  background: #f59e0b; /* naranja */
+}
+.horse-card__progressFill--poor {
+  background: #ef4444; /* rojo */
 }
 
 .horse-card__quality {
   margin: 0;
   text-align: right;
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: 11px;
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+/* Texto también cambia de color */
+.horse-card__quality--excellent {
+  color: #0f766e;
+}
+.horse-card__quality--good {
+  color: #16a34a;
+}
+.horse-card__quality--fair {
+  color: #b45309;
+}
+.horse-card__quality--poor {
+  color: #b91c1c;
 }
