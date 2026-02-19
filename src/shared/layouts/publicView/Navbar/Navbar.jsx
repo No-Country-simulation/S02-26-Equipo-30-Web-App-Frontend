@@ -5,6 +5,7 @@ import IconBtn from '@components/button/IconBtn';
 import { Crown, User, Info, Shield, Dollar, Phone, ChevronDown } from '@shared/branding/icons';
 
 import Dropdown from '@components/dropdown/Dropdown';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const recursosItems = [
@@ -25,9 +26,15 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-center">
-                <Btn onClick={goHome}>Inicio</Btn>
-                <Btn onClick={goExplore}>Explorar</Btn>
-                <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
+                <NavLink to="/">
+                    <Btn>Inicio</Btn>
+                </NavLink>
+                <NavLink to="/explorar">
+                    <Btn>Explorar</Btn>
+                </NavLink>
+                <NavLink to="/premium">
+                    <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
+                </NavLink>
 
                 <Dropdown
                     trigger={
