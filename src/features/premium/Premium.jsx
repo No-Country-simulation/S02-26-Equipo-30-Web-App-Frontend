@@ -1,10 +1,18 @@
 import React from 'react'
-import Hero from './components/Hero/Hero'
+import HeroSection from './components/HeroSection/HeroSection'
+import FeatureCards from './components/FeatureCards/FeatureCards'
+import PremiumIncludes from './components/PremiumIncludes/PremiumIncludes'
+import StatsBar from './components/StatsBar/StatsBar'
+import HorseGrid from './components/HorseGrid/HorseGrid'
 
 function Premium() {
     return (
         <>
-            <Hero />
+            <HeroSection />
+            <FeatureCards />
+            <PremiumIncludes />
+            <StatsBar />
+            <HorseGrid />
         </>
     )
 }
