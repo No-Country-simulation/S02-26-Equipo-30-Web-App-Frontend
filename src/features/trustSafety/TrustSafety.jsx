@@ -1,132 +1,212 @@
-import React from "react";
-import Badge from "@components/badge/Badge";
-import Btn from "@components/button/Btn";
-import { Shield, ArrowRight, Award, Support } from "@shared/branding/icons";
 import "./TrustSafety.css";
 
-const TrustSafety = () => {
+import Badge from "@components/badge/Badge";
+import Btn from "@components/button/Btn";
+import { Link } from "react-router-dom";
+
+import {
+  Shield,
+  Award,
+  Dollar,
+  Phone,
+  Info,
+  User,
+  Crown,
+  Sparkles,
+  ArrowRight,
+  Heart,
+  Support,
+  Star
+} from "@shared/branding/icons";
+
+
+export default function TrustSafety() {
   const pillars = [
     {
-      icon: Shield,
+      tone: "teal",
+      icon: <Shield size={22} />,
       title: "Verificación Veterinaria",
       desc: "Cada caballo pasa por un examen completo realizado por veterinarios certificados antes de aparecer en la plataforma.",
-      items: ["Examen físico completo", "Rayos X y análisis", "Historial médico verificado"],
+      items: [
+        "Examen físico completo de 47 puntos",
+        "Rayos X y análisis de sangre actualizados",
+        "Historial médico verificado y certificado",
+      ],
     },
     {
-      icon: Award,
+      tone: "gold",
+      icon: <Info size={22} />,
       title: "Verificación de Vendedores",
-      desc: "Sistema de puntuación de credibilidad basado en historial, reseñas verificadas y documentación.",
-      items: ["Identidad verificada", "Historial auditado", "Reseñas reales"],
+      desc: "Sistema de puntuación de credibilidad de 100 puntos basado en historial, reseñas verificadas y documentación.",
+      items: [
+        "Verificación de identidad obligatoria",
+        "Historial de ventas auditado",
+        "Reseñas verificadas de compradores reales",
+      ],
     },
     {
-      icon: Shield,
+      tone: "teal",
+      icon: <Dollar size={22} />,
       title: "Pagos Protegidos",
       desc: "Sistema de pago seguro con retención de fondos hasta confirmación de entrega satisfactoria.",
-      items: ["Encriptación", "Escrow/retención", "Antifraude"],
+      items: [
+        "Encriptación bancaria de nivel militar",
+        "Retención de fondos en escrow",
+        "Protección contra fraude automatizada",
+      ],
     },
     {
-      icon: Award,
+      tone: "gold",
+      icon: <Award size={22} />,
       title: "Garantía 30 Días",
-      desc: "Si no estás 100% satisfecho, devolución completa sin preguntas.",
-      items: ["Reembolso garantizado", "Sin justificaciones", "Proceso rápido"],
+      desc: "Si no estás 100% satisfecho con tu compra, devolución completa sin preguntas durante 30 días.",
+      items: [
+        "Reembolso completo garantizado",
+        "Sin preguntas ni justificaciones",
+        "Proceso de devolución en 48h",
+      ],
     },
     {
-      icon: Support,
+      tone: "teal",
+      icon: <Phone size={22} />,
       title: "Soporte 24/7",
-      desc: "Equipo especializado disponible para resolver dudas en cualquier momento.",
-      items: ["Chat 24/7", "Línea prioritaria", "Respuesta rápida"],
+      desc: "Equipo especializado de expertos ecuestres disponible en cualquier momento para resolver tus dudas.",
+      items: [
+        "Chat en vivo 24/7 con especialistas",
+        "Línea telefónica directa prioritaria",
+        "Respuesta en menos de 15 minutos",
+      ],
     },
     {
-      icon: Award,
+      tone: "gold",
+      icon: <Sparkles size={22} />,
       title: "Documentación Legal",
-      desc: "Contratos, certificados y papeles en orden. Asesoría legal incluida.",
-      items: ["Contratos certificados", "Transferencia asistida", "Asesoría incluida"],
+      desc: "Todos los contratos, certificados y papeles en orden. Asesoría legal incluida en cada transacción.",
+      items: [
+        "Contratos digitales certificados",
+        "Transferencia de propiedad asistida",
+        "Asesoría legal gratuita incluida",
+      ],
     },
   ];
 
   const steps = [
-    { n: "1", title: "Exploración Segura", desc: "Solo caballos verificados. Historial completo visible." },
-    { n: "2", title: "Contacto Directo", desc: "Chat encriptado. Visitas coordinadas por nosotros." },
-    { n: "3", title: "Pago Protegido", desc: "Fondos retenidos hasta confirmación de entrega." },
-    { n: "4", title: "Garantía Activa", desc: "30 días de protección total. Soporte continuo." },
+    {
+      n: "1",
+      title: "Exploración Segura",
+      desc: "Solo caballos verificados. Historial completo visible.",
+    },
+    {
+      n: "2",
+      title: "Contacto Directo",
+      desc: "Chat encriptado. Visitas coordinadas por nosotros.",
+    },
+    {
+      n: "3",
+      title: "Pago Protegido",
+      desc: "Fondos retenidos hasta confirmación de entrega.",
+    },
+    {
+      n: "4",
+      title: "Garantía Activa",
+      desc: "30 días de protección total. Soporte continuo.",
+    },
   ];
 
-  const resolution = [
+  const panel = [
     {
       title: "Mediación Profesional",
-      desc: "En caso de desacuerdo, intervenimos rápido para encontrar una solución justa.",
+      desc: "En caso de cualquier desacuerdo, nuestro equipo de mediación profesional interviene en menos de 24 horas para encontrar una solución justa para ambas partes.",
+      tone: "teal",
+      icon: <Info size={18} />,
     },
     {
       title: "Respuesta Rápida",
-      desc: "Nuestro objetivo es resolver incidencias en el menor tiempo posible.",
+      desc: "El 94% de los casos se resuelven en menos de 72 horas. Nuestro compromiso es encontrar la mejor solución sin demoras innecesarias.",
+      tone: "gold",
+      icon: <Award size={18} />,
     },
     {
       title: "Protección del Comprador",
-      desc: "Si el caballo no coincide con la descripción, buscamos reembolso/solución.",
+      desc: "Si el caballo no coincide con la descripción o tiene problemas ocultos, garantizamos reembolso completo más compensación por tiempo y gastos de evaluación.",
+      tone: "teal",
+      icon: <Shield size={18} />,
     },
-  ];
-
-  const stats = [
-    { value: "98.5%", label: "Satisfacción del Cliente" },
-    { value: "2,400+", label: "Caballos Verificados" },
-    { value: "$0", label: "Fraudes Reportados" },
-    { value: "15min", label: "Tiempo de Respuesta" },
   ];
 
   return (
     <main className="trust">
       {/* HERO */}
       <section className="trust-hero">
-        <div className="trust-container">
-          <Badge icon={Shield}>Tu Seguridad es Nuestra Prioridad</Badge>
+        <div className="trust-hero__inner">
+          <div className="trust-hero__badgeWrap">
+            <Badge className="trust-hero__badge" icon={Shield}>
+              Tu Seguridad es Nuestra Prioridad
+            </Badge>
+          </div>
 
           <h1 className="trust-hero__title">
             Confianza y Seguridad <span>en Cada Transacción</span>
           </h1>
 
           <p className="trust-hero__subtitle">
-            Sistemas de verificación multicapa, garantías reales y soporte 24/7 para proteger cada compra y venta
+            Sistemas de verificación multicapa, garantías reales y soporte 24/7
+            para proteger cada compra y venta
           </p>
 
           <div className="trust-hero__actions">
-            <Btn className="trust-btn trust-btn--primary">
-              Comprar con Confianza <ArrowRight size={18} />
-            </Btn>
+            <Link to="/explorar">
+              <Btn className="trust-btn trust-btn--primary">
+                Comprar con Confianza <ArrowRight size={18} />
+              </Btn>
+            </Link>
 
-            <Btn className="trust-btn trust-btn--ghost">
-              Contactar Soporte <Support size={18} />
-            </Btn>
+            <Link to="/contacto">
+              <Btn className="trust-btn trust-btn--ghost">
+                Contactar Soporte <Phone size={18} />
+              </Btn>
+            </Link>
           </div>
         </div>
+
+        <div className="trust-hero__fade" />
       </section>
 
-      {/* PILARS */}
-      <section className="trust-section">
+      {/* PILARES */}
+      <section className="trust-section trust-pillars">
         <div className="trust-container">
-          <p className="trust-kicker">NUESTROS PILARES</p>
-          <h2 className="trust-h2">
+          <p className="trust-pillars__kicker">NUESTROS PILARES</p>
+          <h2 className="trust-pillars__title">
             Cómo Protegemos <span>Tu Inversión</span>
           </h2>
 
-          <div className="trust-grid">
-            {pillars.map((p) => {
-              const Icon = p.icon;
-              return (
-                <article key={p.title} className="trust-card">
-                  <div className="trust-card__icon">
-                    <Icon size={18} />
-                  </div>
-                  <h3 className="trust-card__title">{p.title}</h3>
-                  <p className="trust-card__desc">{p.desc}</p>
+          <div className="trust-pillars__grid">
+            {pillars.map((p) => (
+              <article
+                key={p.title}
+                className={`trust-pillarCard trust-pillarCard--${p.tone}`}
+              >
+                <div
+                  className={`trust-pillarCard__icon trust-pillarCard__icon--${p.tone}`}
+                >
+                  {p.icon}
+                </div>
 
-                  <ul className="trust-card__list">
-                    {p.items.map((it) => (
-                      <li key={it}>{it}</li>
-                    ))}
-                  </ul>
-                </article>
-              );
-            })}
+                <h3 className="trust-pillarCard__title">{p.title}</h3>
+                <p className="trust-pillarCard__desc">{p.desc}</p>
+
+                <ul className="trust-pillarCard__list">
+                  {p.items.map((it) => (
+                    <li key={it} className="trust-pillarCard__li">
+                      <span className="trust-pillarCard__check" aria-hidden="true">
+                        ✓
+                      </span>
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -136,33 +216,40 @@ const TrustSafety = () => {
         <div className="trust-container">
           <p className="trust-kicker">PROCESO DE COMPRA</p>
           <h2 className="trust-h2">Protección en Cada Paso</h2>
-          <p className="trust-sub">Desde el primer contacto hasta la entrega final, estamos contigo</p>
+          <p className="trust-sub">
+            Desde el primer contacto hasta la entrega final, estamos contigo
+          </p>
 
           <div className="trust-steps__row">
             {steps.map((s) => (
-              <div key={s.n} className="trust-step">
+              <article key={s.n} className="trust-step">
                 <div className="trust-step__n">{s.n}</div>
                 <h4 className="trust-step__title">{s.title}</h4>
                 <p className="trust-step__desc">{s.desc}</p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* RESOLUTION */}
+      {/* PANEL (Siempre de tu lado) */}
       <section className="trust-section">
         <div className="trust-container">
           <p className="trust-kicker">RESOLUCIÓN DE CONFLICTOS</p>
           <h2 className="trust-h2">Siempre de Tu Lado</h2>
 
           <div className="trust-panel">
-            {resolution.map((r) => (
-              <div key={r.title} className="trust-panel__item">
-                <div className="trust-panel__dot" />
-                <div>
-                  <h4 className="trust-panel__title">{r.title}</h4>
-                  <p className="trust-panel__desc">{r.desc}</p>
+            {panel.map((item) => (
+              <div key={item.title} className="trust-panel__row">
+                <div
+                  className={`trust-panel__icon trust-panel__icon--${item.tone}`}
+                >
+                  {item.icon}
+                </div>
+
+                <div className="trust-panel__content">
+                  <h4 className="trust-panel__title">{item.title}</h4>
+                  <p className="trust-panel__desc">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -170,38 +257,67 @@ const TrustSafety = () => {
         </div>
       </section>
 
-      {/* STATS + CTA */}
+      {/* STATS */}
       <section className="trust-stats">
-        <div className="trust-container trust-stats__grid">
-          {stats.map((st) => (
-            <div key={st.label} className="trust-stat">
-              <div className="trust-stat__value">{st.value}</div>
-              <div className="trust-stat__label">{st.label}</div>
+        <div className="trust-container">
+          <div className="trust-stats__head">
+            <h2 className="trust-stats__title">Números que Hablan</h2>
+            <p className="trust-stats__sub">
+              Resultados verificables de nuestro compromiso
+            </p>
+          </div>
+
+          <div className="trust-stats__grid">
+            <div className="trust-stat">
+              <div className="trust-stat__value">98.5%</div>
+              <div className="trust-stat__label">Satisfacción del Cliente</div>
             </div>
-          ))}
+            <div className="trust-stat">
+              <div className="trust-stat__value">2,400+</div>
+              <div className="trust-stat__label">Caballos Verificados</div>
+            </div>
+            <div className="trust-stat">
+              <div className="trust-stat__value">$0</div>
+              <div className="trust-stat__label">Fraudes Reportados</div>
+            </div>
+            <div className="trust-stat">
+              <div className="trust-stat__value">15min</div>
+              <div className="trust-stat__label">Tiempo de Respuesta</div>
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* CTA FINAL */}
       <section className="trust-cta">
-        <div className="trust-container trust-cta__box">
-          <div className="trust-cta__icon">
-            <Shield size={18} />
-          </div>
-          <h3 className="trust-cta__title">¿Tienes Preguntas?</h3>
-          <p className="trust-cta__text">
-            Nuestro equipo está disponible 24/7 para resolver cualquier duda sobre seguridad y confianza
-          </p>
+        <div className="trust-container">
+          <div className="trust-cta__box">
+            <div className="trust-cta__icon">
+              <Shield size={20} />
+            </div>
 
-          <div className="trust-cta__actions">
-            <Btn className="trust-btn trust-btn--primary">Contactar Soporte</Btn>
-            <Btn className="trust-btn trust-btn--ghost">
-              Cómo Funciona <ArrowRight size={18} />
-            </Btn>
+            <h2 className="trust-cta__title">¿Tienes Preguntas?</h2>
+            <p className="trust-cta__text">
+              Nuestro equipo está disponible 24/7 para resolver cualquier duda
+              sobre seguridad y confianza
+            </p>
+
+            <div className="trust-cta__actions">
+              <Link to="/contacto">
+                <Btn className="trust-btn trust-btn--primary">
+                  Contactar Soporte <Phone size={18} />
+                </Btn>
+              </Link>
+
+              <Link to="/como-funciona">
+                <Btn className="trust-btn trust-btn--outlineDark">
+                  Cómo Funciona <ArrowRight size={18} />
+                </Btn>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
     </main>
   );
-};
-
-export default TrustSafety;
+}
