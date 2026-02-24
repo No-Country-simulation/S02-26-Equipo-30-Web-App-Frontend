@@ -1,0 +1,72 @@
+.how-hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 100%);
+    padding: 80px 24px;
+    text-align: center;
+    color: #fff;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.process-badge {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #d4af37 !important;
+    margin-bottom: 2rem;
+}
+
+.how-hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.brand-highlight {
+    color: #d4af37;
+}
+
+.how-hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+}
+
+.how-hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-primary-how {
+    background: #d4af37 !important;
+    color: #0d1b2a !important;
+    border: none !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+}
+
+.btn-secondary-how {
+    background: transparent !important;
+    border: 2px solid #fff !important;
+    color: #fff !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 768px) {
+    .how-hero-title {
+        font-size: 2.5rem;
+    }
+    .how-hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
