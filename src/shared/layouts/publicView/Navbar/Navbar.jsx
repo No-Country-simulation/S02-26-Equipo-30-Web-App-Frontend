@@ -12,7 +12,7 @@ const Navbar = () => {
     { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
     { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
     { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
-    { label: "Sobre Nosotros", icon: <User size={16} />, onClick: () => navigate("/sobre-nosotros") },
+    { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
     { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
