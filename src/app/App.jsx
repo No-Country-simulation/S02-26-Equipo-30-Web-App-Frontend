@@ -7,8 +7,9 @@ import Login from '@features/auth/Login.jsx';
 import Register from '@features/auth/Register.jsx';
 import Verification from '@features/auth/Verification.jsx';
 import Profile from '@features/profile/Profile.jsx';
-import Premium from '@features/premium/Premium.jsx';
 import EditProfile from '@features/profile-edit/EditProfile.jsx';
+import Favorites from '@/features/favorites/Favorites.jsx';
+import Premium from '@features/premium/Premium.jsx';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/verificar" element={<Verification />} />
         <Route path="/perfil" element={<Profile />} />
         <Route path="/perfil/editar" element={<EditProfile />} />
+        <Route path="/favoritos" element={<Favorites />} />
         <Route path="/premium" element={<Premium />} />
       </Routes>
     </PublicView>
