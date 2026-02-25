@@ -1,0 +1,20 @@
+.stats {
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 14px;
+  padding: 35px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  margin-top: -40px;
+  position: relative;
+}
+
+.stat h3 {
+  font-size: 28px;
+  color: #d4af37;
+}
+
+.stat p {
+  font-size: 14px;
+  margin-top: 5px;
+}
