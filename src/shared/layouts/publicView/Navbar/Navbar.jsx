@@ -2,21 +2,22 @@ import './Navbar.css';
 import logo from '@shared/branding/logo_218_64.png';
 import Btn from '@components/button/Btn';
 import IconBtn from '@components/button/IconBtn';
+import { NavLink, useNavigate } from "react-router-dom";
 import { Crown, User, Info, Shield, Dollar, Phone, ChevronDown } from '@shared/branding/icons';
 
 import Dropdown from '@components/dropdown/Dropdown';
-import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const recursosItems = [
-        { label: 'Cómo Funciona', icon: <Info size={16} />, onClick: () => console.log('Cómo Funciona') },
-        { label: 'Confianza y Seguridad', icon: <Shield size={16} />, onClick: () => console.log('Confianza y Seguridad') },
-        { label: 'Planes y Precios', icon: <Dollar size={16} />, onClick: () => console.log('Planes y Precios') },
-        { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => console.log('Sobre Nosotros') },
-        { label: 'Contacto', icon: <Phone size={16} />, onClick: () => console.log('Contacto') },
+    { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
+    { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
+    { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
+    { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
+    { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
-    const goHome = () => { window.location.hash = ''; };
+    const navigate = useNavigate();
+    const goHome = () => navigate("/");
     const goExplore = () => { window.location.hash = '#/explorar'; };
 
     return (
