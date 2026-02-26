@@ -1,6 +1,241 @@
-.horse-card-placeholder {
-    width: 100%;
-    height: 480px;
-    background-color: #e2e8f0;
-    border-radius: 20px;
+.horse-card {
+  border: 1px solid #f3f4f6;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
+
+.horse-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.horse-card__media {
+  position: relative;
+}
+
+.horse-card__img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.horse-card__badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge--vip {
+  background: #ca8a04;
+}
+
+.badge--featured {
+  background: #dc2626;
+}
+
+.horse-card__play {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: background 0.2s ease;
+}
+
+.horse-card__play:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.horse-card__body {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.horse-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.horse-card__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.horse-card__breed-text {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.horse-card__priceWrap {
+  text-align: right;
+}
+
+.horse-card__price {
+  display: block;
+  font-weight: 700;
+  font-size: 20px;
+  color: #ca8a04;
+  white-space: nowrap;
+}
+
+.horse-card__id {
+  display: block;
+  color: #9ca3af;
+  font-size: 11px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.horse-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.horse-card__pill {
+  background: #fdf8ed;
+  color: #4b5563;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #f973161a;
+}
+
+.horse-card__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.location-icon {
+  color: #ca8a04;
+  opacity: 0.7;
+}
+
+.horse-card__divider {
+  border: none;
+  border-top: 1px solid #f3f4f6;
+  margin: 4px 0;
+}
+
+.horse-card__trustRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.horse-card__trust-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trust-icon {
+  opacity: 0.8;
+}
+
+.trust-icon--excellent { color: #0d9488; }
+.trust-icon--good { color: #059669; }
+.trust-icon--fair { color: #d97706; }
+.trust-icon--poor { color: #dc2626; }
+
+.horse-card__trustLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.horse-card__trustValue {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.score-num {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.score-total {
+  color: #9ca3af;
+  margin-left: 2px;
+}
+
+.horse-card__trustValue--excellent .score-num { color: #0d9488; }
+.horse-card__trustValue--good .score-num { color: #059669; }
+.horse-card__trustValue--fair .score-num { color: #d97706; }
+.horse-card__trustValue--poor .score-num { color: #dc2626; }
+
+.horse-card__progress {
+  height: 6px;
+  border-radius: 100px;
+  background: #f3f4f6;
+  overflow: hidden;
+  margin-top: -4px;
+}
+
+.horse-card__progressFill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.horse-card__progressFill--excellent { background: #0d9488; }
+.horse-card__progressFill--good { background: #059669; }
+.horse-card__progressFill--fair { background: #d97706; }
+.horse-card__progressFill--poor { background: #dc2626; }
+
+.horse-card__quality {
+  margin: -8px 0 0 0;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.horse-card__quality--excellent { color: #0d9488; }
+.horse-card__quality--good { color: #059669; }
+.horse-card__quality--fair { color: #b45309; }
+.horse-card__quality--poor { color: #b91c1c; }
