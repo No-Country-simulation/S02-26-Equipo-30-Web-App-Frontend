@@ -1,5 +1,5 @@
 .steps-section {
-    padding: 100px 24px;
+    padding: 120px 24px;
     background: #fff;
     max-width: 1200px;
     margin: 0 auto;
@@ -7,33 +7,38 @@
 
 .steps-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
 .steps-label {
-    color: #d4af37;
+    color: #ca8a04;
     font-weight: 700;
-    font-size: 0.875rem;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    margin-bottom: 16px;
     display: block;
+    text-transform: uppercase;
 }
 
 .steps-title {
-    font-size: 2.5rem;
-    color: #0d1b2a;
-    margin-bottom: 1rem;
+    font-size: 48px;
+    color: #111827;
+    margin-bottom: 16px;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .steps-subtitle {
-    color: #666;
-    font-size: 1.125rem;
+    color: #6b7280;
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .steps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 40px;
     position: relative;
 }
 
@@ -46,93 +51,116 @@
         left: 20%;
         right: 20%;
         height: 2px;
-        background: #f0f0f0;
+        background: #f3f4f6;
         z-index: 1;
     }
 }
 
 .step-card {
     background: #fff;
-    padding: 40px 30px;
-    border-radius: 12px;
-    border: 1px solid #f0f0f0;
-    transition: all 0.3s ease;
+    padding: 48px 40px;
+    border-radius: 16px;
+    border: 1px solid #f3f4f6;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 .step-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+    transform: translateY(-8px);
+    border-color: #ca8a04;
 }
 
 .step-number {
-    width: 40px;
-    height: 40px;
-    background: #d4af37;
+    width: 44px;
+    height: 44px;
+    background: #ca8a04;
     color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    margin: 0 auto 30px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(202, 138, 4, 0.2);
 }
 
 .step-icon-container {
-    color: #d4af37;
-    background: rgba(212, 175, 55, 0.05);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    color: #ca8a04;
+    background: #fffbeb;
+    width: 88px;
+    height: 88px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 30px;
+    margin: 0 auto 32px;
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover .step-icon-container {
+    transform: rotate(5deg) scale(1.1);
 }
 
 .step-card-title {
-    font-size: 1.5rem;
-    color: #0d1b2a;
-    margin-bottom: 1.5rem;
+    font-size: 24px;
+    color: #111827;
+    margin-bottom: 20px;
     text-align: center;
+    font-weight: 600;
 }
 
 .step-card-description {
-    color: #666;
+    color: #4b5563;
     line-height: 1.6;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
     text-align: center;
+    flex: 1;
 }
 
 .step-features {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .step-features li {
     display: flex;
-    gap: 10px;
-    color: #666;
-    font-size: 0.9375rem;
-    margin-bottom: 10px;
-    line-height: 1.4;
+    gap: 12px;
+    color: #4b5563;
+    font-size: 15px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    align-items: flex-start;
 }
 
 .check-icon {
-    color: #d4af37;
+    color: #ca8a04;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .seller-steps {
-    background: #fdfdfd;
+    background: #f9fafb;
 }
 
 .step-card.alternate {
     text-align: left;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+.step-card.alternate:hover {
+    transform: none;
 }
 
 .step-card.alternate .step-icon-container {
-    margin: 0 0 30px 0;
+    margin: 0 0 32px 0;
 }
 
 .step-card.alternate .step-card-title {
@@ -146,5 +174,10 @@
 @media (max-width: 1024px) {
     .steps-grid {
         grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .steps-section {
+        padding: 80px 24px;
     }
 }

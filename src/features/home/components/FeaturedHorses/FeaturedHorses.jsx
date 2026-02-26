@@ -62,7 +62,7 @@ const FeaturedHorses = () => {
             tags: ["7 years", "15.1 hh", "Dressage"],
             location: "Lexington, KY",
             trustScore: 93,
-            image: "https://images.unsplash.com/photo-1534070348795-40a2322a303a?q=80&w=800&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1523467113937-24a471f87fdc?q=80&w=800&auto=format&fit=crop",
             isVip: true,
             isFeatured: true
         },

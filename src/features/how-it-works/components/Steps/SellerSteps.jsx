@@ -1,13 +1,13 @@
 import React from 'react';
 import './Steps.css';
-import { Mail, Shield, Star } from '@shared/branding/icons';
+import { Sparkles, Award, Dollar } from '@shared/branding/icons';
 
 const SellerSteps = () => {
     const steps = [
         {
             number: 1,
-            icon: Mail, // Usando Mail como placeholder para "Publicar"
-            title: "1. Crea tu Anuncio",
+            icon: Sparkles,
+            title: "Crea tu Anuncio",
             description: "Formulario guiado paso a paso con validación automática de datos.",
             features: [
                 "Fotos profesionales (hasta 20)",
@@ -17,8 +17,8 @@ const SellerSteps = () => {
         },
         {
             number: 2,
-            icon: Star, // Usando Star para "Verificación"
-            title: "2. Obtén Verificación",
+            icon: Award,
+            title: "Obtén Verificación",
             description: "Nuestro equipo verifica tu anuncio en menos de 24 horas.",
             features: [
                 "Validación veterinaria gratuita",
@@ -28,8 +28,8 @@ const SellerSteps = () => {
         },
         {
             number: 3,
-            icon: Shield, // Usando Shield para "Gestión"
-            title: "3. Gestiona Interesados",
+            icon: Dollar,
+            title: "Gestiona Interesados",
             description: "Dashboard completo para gestionar consultas y visitas.",
             features: [
                 "Chat integrado con compradores",
@@ -54,14 +54,14 @@ const SellerSteps = () => {
                 {steps.map((step) => (
                     <div key={step.number} className="step-card alternate">
                         <div className="step-icon-container">
-                            <step.icon size={32} />
+                            <step.icon size={36} />
                         </div>
-                        <h3 className="step-card-title">{step.title}</h3>
+                        <h3 className="step-card-title">{step.number}. {step.title}</h3>
                         <p className="step-card-description">{step.description}</p>
                         <ul className="step-features">
                             {step.features.map((feature, index) => (
                                 <li key={index}>
-                                    <span className="check-icon">●</span> {feature}
+                                    <span className="check-icon">✔</span> {feature}
                                 </li>
                             ))}
                         </ul>

@@ -12,6 +12,7 @@ import Favorites from '@/features/favorites/Favorites.jsx';
 import Premium from '@features/premium/Premium.jsx';
 import TrustSafety from "@/features/trustSafety/TrustSafety";
 import AboutUs from "@features/aboutUs/AboutUs.jsx";
+import HowItWorks from "@features/how-it-works/HowItWorks.jsx";
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/premium" element={<Premium />} />
         <Route path="/confianza-seguridad" element={<TrustSafety />} />
         <Route path="/sobre-nosotros" element={<AboutUs />} />
+        <Route path="/como-funciona" element={<HowItWorks />} />
       </Routes>
     </PublicView>
   );

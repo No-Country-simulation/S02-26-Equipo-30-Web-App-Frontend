@@ -1,6 +1,6 @@
 import React from 'react';
 import './Steps.css';
-import { Search, Shield, Award } from '@shared/branding/icons';
+import { Search, Shield, User } from '@shared/branding/icons';
 
 const BuyerSteps = () => {
     const steps = [
@@ -17,7 +17,7 @@ const BuyerSteps = () => {
         },
         {
             number: 2,
-            icon: Award, // Usando Award como placeholder para "Verifica"
+            icon: User,
             title: "Verifica y Conoce",
             description: "Accede a información completa: historial médico, videos de rendimiento y puntuación de credibilidad del vendedor.",
             features: [
@@ -55,7 +55,7 @@ const BuyerSteps = () => {
                     <div key={step.number} className="step-card">
                         <div className="step-number">{step.number}</div>
                         <div className="step-icon-container">
-                            <step.icon size={32} />
+                            <step.icon size={36} />
                         </div>
                         <h3 className="step-card-title">{step.title}</h3>
                         <p className="step-card-description">{step.description}</p>
