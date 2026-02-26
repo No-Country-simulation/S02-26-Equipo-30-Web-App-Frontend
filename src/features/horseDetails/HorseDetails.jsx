@@ -2,6 +2,7 @@ import React from "react";
 import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
 import HorseProfile from "./components/horseProfile/HorseProfile";
+import { Heart } from "@shared/branding/icons";
 
 export default function HorseDetails() {
     return (
@@ -17,7 +18,9 @@ export default function HorseDetails() {
                         alt="Golden Promise"
                         className="horse-image"
                     />
-                    <button className="favorite">♡</button>
+                    <button className="favorite">
+                        <Heart size={20} color="#000" />
+                    </button>
                 </div>
 
                 <div className="info-section">
