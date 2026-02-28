@@ -9,11 +9,11 @@ import Dropdown from '@components/dropdown/Dropdown';
 
 const Navbar = () => {
     const recursosItems = [
-    { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
-    { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
-    { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
-    { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
-    { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
+        { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
+        { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
+        { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
+        { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
+        { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
     const navigate = useNavigate();
@@ -49,7 +49,12 @@ const Navbar = () => {
                 />
 
                 <div className="navbar-right">
-                    <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
+                    <NavLink to="/login">
+                        <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
+                    </NavLink>
+                    <NavLink to="/registro">
+                        <Btn className="register-btn">Registrarse</Btn>
+                    </NavLink>
                 </div>
 
             </div>
