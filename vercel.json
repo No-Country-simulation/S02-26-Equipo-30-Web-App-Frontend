@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://horsetrust.codershub.top/api/:path*"
+        }
+    ]
+}
