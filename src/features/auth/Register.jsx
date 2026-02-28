@@ -39,14 +39,23 @@ const Register = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(payload),
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get('content-type');
+            let data;
+
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                throw new Error(`Error del servidor (${response.status}): ${text.substring(0, 50)}...`);
+            }
 
             if (!response.ok) {
-                throw new Error(data.message || 'Error en el registro');
+                throw new Error(data.message || `Error en el registro (${response.status})`);
             }
 
             // Success handling
