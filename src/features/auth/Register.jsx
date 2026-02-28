@@ -70,7 +70,7 @@ const Register = () => {
             localStorage.setItem('refreshToken', data.refreshToken);
 
             if (data.emailVerificationRequired) {
-                navigate('/verificar');
+                navigate('/verificar', { state: { email: formData.email } });
             } else {
                 navigate('/');
             }
