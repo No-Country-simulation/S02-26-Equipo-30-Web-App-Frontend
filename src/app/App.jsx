@@ -8,11 +8,10 @@ import Register from '@features/auth/Register.jsx';
 import Verification from '@features/auth/Verification.jsx';
 import Profile from '@features/profile/Profile.jsx';
 import EditProfile from '@features/profile-edit/EditProfile.jsx';
-import Favorites from '@/features/favorites/Favorites.jsx';
+
 import Premium from '@features/premium/Premium.jsx';
 import TrustSafety from "@/features/trustSafety/TrustSafety";
-import AboutUs from "@features/aboutUs/AboutUs.jsx";
-import HowItWorks from "@features/how-it-works/HowItWorks.jsx";
+
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -27,11 +26,10 @@ function App() {
         <Route path="/verificar" element={<Verification />} />
         <Route path="/perfil" element={<Profile />} />
         <Route path="/perfil/editar" element={<EditProfile />} />
-        <Route path="/favoritos" element={<Favorites />} />
+
         <Route path="/premium" element={<Premium />} />
         <Route path="/confianza-seguridad" element={<TrustSafety />} />
-        <Route path="/sobre-nosotros" element={<AboutUs />} />
-        <Route path="/como-funciona" element={<HowItWorks />} />
+
       </Routes>
     </PublicView>
   );
