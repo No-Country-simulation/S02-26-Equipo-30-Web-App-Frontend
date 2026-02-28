@@ -18,5 +18,13 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, './src/shared'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://horsetrust.codershub.top',
+        changeOrigin: true,
+      },
+    },
+  },
 })
 

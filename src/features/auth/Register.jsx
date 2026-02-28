@@ -35,7 +35,7 @@ const Register = () => {
         };
 
         try {
-            const response = await fetch('https://horsetrust.codershub.top/api/v1/auth/register', {
+            const response = await fetch('/api/v1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
