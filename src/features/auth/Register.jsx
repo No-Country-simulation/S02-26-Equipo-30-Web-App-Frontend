@@ -34,9 +34,7 @@ const Register = () => {
             password: formData.password
         };
 
-        const API_URL = import.meta.env.DEV
-            ? '/api/v1/auth/register'
-            : 'https://horsetrust.codershub.top/api/v1/auth/register';
+        const API_URL = '/api/v1/auth/register';
 
         try {
             const response = await fetch(API_URL, {
