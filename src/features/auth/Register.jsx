@@ -45,13 +45,18 @@ const Register = () => {
             });
 
             const contentType = response.headers.get('content-type');
+            console.log(`Response Status: ${response.status}`);
+            console.log(`Content-Type: ${contentType}`);
+
             let data;
 
             if (contentType && contentType.includes('application/json')) {
                 data = await response.json();
+                console.log('Response JSON:', data);
             } else {
                 const text = await response.text();
-                throw new Error(`Error del servidor (${response.status}): ${text.substring(0, 50)}...`);
+                console.error('Non-JSON Response Body:', text);
+                throw new Error(`Error del servidor (${response.status}): Respuesta no es JSON. Revisa la consola.`);
             }
 
             if (!response.ok) {

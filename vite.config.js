@@ -23,6 +23,10 @@ export default defineConfig({
       '/api': {
         target: 'https://horsetrust.codershub.top',
         changeOrigin: true,
+        secure: false,
+        headers: {
+          'Origin': 'https://horsetrust.vercel.app',
+        },
       },
     },
   },
