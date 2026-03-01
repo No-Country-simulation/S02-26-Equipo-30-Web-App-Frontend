@@ -11,6 +11,15 @@ import EditProfile from '@features/profile-edit/EditProfile.jsx';
 
 import Premium from '@features/premium/Premium.jsx';
 import TrustSafety from "@/features/trustSafety/TrustSafety";
+import AboutUs from '@features/aboutUs/aboutUs.jsx';
+import Favorites from '@features/favorites/Favorites.jsx';
+import HowItWorks from '@features/how-it-works/HowItWorks.jsx';
+import Pricing from '@features/pricing/Pricing.jsx';
+import Contact from '@features/contact/Contact.jsx';
+import Dashboard from '@features/dashboard/Dashboard.jsx';
+import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
+import Chat from '@features/chat/Chat.jsx';
+import HorseForm from '@features/horse-management/HorseForm.jsx';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -29,6 +38,16 @@ function App() {
 
         <Route path="/premium" element={<Premium />} />
         <Route path="/confianza-seguridad" element={<TrustSafety />} />
+        <Route path="/nosotros" element={<AboutUs />} />
+        <Route path="/favoritos" element={<Favorites />} />
+        <Route path="/como-funciona" element={<HowItWorks />} />
+        <Route path="/precios" element={<Pricing />} />
+        <Route path="/contacto" element={<Contact />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/compra" element={<PurchaseProcess />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/caballo/nuevo" element={<HorseForm />} />
+        <Route path="/caballo/editar/:id" element={<HorseForm />} />
 
       </Routes>
     </PublicView>
