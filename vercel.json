@@ -3,6 +3,10 @@
         {
             "source": "/api/:path*",
             "destination": "https://horsetrust.codershub.top/api/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
