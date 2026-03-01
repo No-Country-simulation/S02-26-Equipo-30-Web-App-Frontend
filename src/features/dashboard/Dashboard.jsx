@@ -49,6 +49,8 @@ const MessageIcon = ({ size = 18 }) => (
     </svg>
 );
 
+import horseService from '../horse-management/horseService';
+
 const Dashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -72,12 +74,31 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <button
-                            className="db-btn-add"
-                            onClick={() => navigate('/caballo/nuevo')}
-                        >
-                            <span>+</span> Agregar Caballo
-                        </button>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                            <button
+                                className="db-btn-add"
+                                style={{ background: '#6366f1' }}
+                                onClick={async () => {
+                                    try {
+                                        console.log('Fetching horses...');
+                                        const horses = await horseService.getHorses();
+                                        console.log('Horses received:', horses);
+                                        alert('Datos recibidos. Revisa la consola (F12).');
+                                    } catch (err) {
+                                        console.error('Error fetching horses:', err);
+                                        alert('Error al obtener caballos: ' + err.message);
+                                    }
+                                }}
+                            >
+                                <span>🔍</span> Test API GET
+                            </button>
+                            <button
+                                className="db-btn-add"
+                                onClick={() => navigate('/caballo/nuevo')}
+                            >
+                                <span>+</span> Agregar Caballo
+                            </button>
+                        </div>
                     </div>
 
                     <div className="db-hero-stats">
