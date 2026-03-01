@@ -1,9 +1,22 @@
+/* Profile.jsx */
 import React from 'react';
 import './Profile.css';
+import {
+    User,
+    Mail,
+    Phone,
+    Shield,
+    Info,
+    ChevronDown,
+    Star
+} from '@shared/branding/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+    const navigate = useNavigate();
+
     return (
-        <div className="profile-container">
+        <main className="profile-container">
             <header className="profile-header">
                 <h1>Mi Perfil</h1>
                 <p>Gestiona tu información personal y preferencias</p>
@@ -26,12 +39,17 @@ const Profile = () => {
                         <p className="profile-date">Miembro desde Enero 2024</p>
                     </div>
                 </div>
-                <button className="edit-profile-btn">Editar Perfil</button>
+                <button
+                    className="edit-profile-btn"
+                    onClick={() => navigate('/perfil/editar')}
+                >
+                    Editar Perfil
+                </button>
             </div>
 
             {/* Security Alert */}
             <div className="security-alert">
-                <div className="security-alert-icon">ℹ</div>
+                <div className="security-alert-icon">i</div>
                 <div className="security-alert-content">
                     <h4>Información de Seguridad</h4>
                     <p>Por razones de seguridad, tu nombre y datos de verificación no pueden ser modificados. Si necesitas actualizar esta información, contacta a nuestro equipo de soporte.</p>
@@ -80,7 +98,7 @@ const Profile = () => {
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     );
 };
 

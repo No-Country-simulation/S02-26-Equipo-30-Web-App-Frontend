@@ -15,6 +15,8 @@ import AboutUs from '@features/aboutUs/aboutUs.jsx';
 import Favorites from '@features/favorites/Favorites.jsx';
 import HowItWorks from '@features/how-it-works/HowItWorks.jsx';
 import Pricing from '@features/pricing/Pricing.jsx';
+import Contact from '@features/contact/Contact.jsx';
+import Dashboard from '@features/dashboard/Dashboard.jsx';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -37,6 +39,8 @@ function App() {
         <Route path="/favoritos" element={<Favorites />} />
         <Route path="/como-funciona" element={<HowItWorks />} />
         <Route path="/precios" element={<Pricing />} />
+        <Route path="/contacto" element={<Contact />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
       </Routes>
     </PublicView>
