@@ -17,6 +17,7 @@ import HowItWorks from '@features/how-it-works/HowItWorks.jsx';
 import Pricing from '@features/pricing/Pricing.jsx';
 import Contact from '@features/contact/Contact.jsx';
 import Dashboard from '@features/dashboard/Dashboard.jsx';
+import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/precios" element={<Pricing />} />
         <Route path="/contacto" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/compra" element={<PurchaseProcess />} />
 
       </Routes>
     </PublicView>
