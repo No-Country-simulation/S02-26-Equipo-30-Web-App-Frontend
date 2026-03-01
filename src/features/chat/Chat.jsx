@@ -1,30 +1,82 @@
 /* Chat.jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Chat.css';
-import { Search, Send, Message } from '@shared/branding/icons';
+import { Search, Send } from '@shared/branding/icons';
+import { chatService } from './chatService';
 
 const Chat = () => {
-    const [activeTab, setActiveTab] = useState(0);
-    const [message, setMessage] = useState("");
+    const [conversations, setConversations] = useState([]);
+    const [activeConversationId, setActiveConversationId] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const conversations = [
-        {
-            id: 0,
-            name: "Carlos Rodríguez",
-            subject: "Thunder Spirit",
-            lastMessage: "Buenas! ¿Te viene bien el lunes a primera hor...",
-            unread: 1,
-            avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1974&auto=format&fit=crop"
-        },
-        {
-            id: 1,
-            name: "Carlos Rodríguez",
-            subject: "Thunder Spirit",
-            lastMessage: "Buenas! ¿Te viene bien el lunes a primera...",
-            unread: 0,
-            avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1974&auto=format&fit=crop"
+    // Fetch conversations on mount
+    useEffect(() => {
+        const fetchConversations = async () => {
+            try {
+                setLoading(true);
+                const data = await chatService.getUserConversations();
+                setConversations(data);
+                // Automatically select first conversation if any
+                if (data.length > 0 && !activeConversationId) {
+                    setActiveConversationId(data[0].id);
+                }
+            } catch (err) {
+                console.error("Error fetching conversations:", err);
+                setError("No se pudieron cargar las conversaciones.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchConversations();
+    }, [activeConversationId]);
+
+    // Fetch messages when active conversation changes
+    useEffect(() => {
+        let interval;
+        if (activeConversationId) {
+            const fetchMessages = async () => {
+                try {
+                    const data = await chatService.getMessages(activeConversationId);
+                    setMessages(data);
+                } catch (err) {
+                    console.error("Error fetching messages:", err);
+                }
+            };
+
+            fetchMessages();
+            // Poll for new messages every 5 seconds
+            interval = setInterval(fetchMessages, 5000);
         }
-    ];
+        return () => clearInterval(interval);
+    }, [activeConversationId]);
+
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        if (!messageInput.trim() || !activeConversationId) return;
+
+        const text = messageInput;
+        setMessageInput(""); // Optimistic clear
+
+        try {
+            const newMessage = await chatService.sendMessage(activeConversationId, text);
+            setMessages(prev => [...prev, newMessage]);
+        } catch (err) {
+            console.error("Error sending message:", err);
+            // Revert message input on error (optional but helpful)
+            setMessageInput(text);
+            alert("No se pudo enviar el mensaje.");
+        }
+    };
+
+    const activeConversation = conversations.find(c => c.id === activeConversationId);
+
+    if (loading && conversations.length === 0) {
+        return <div className="chat-loading">Cargando chats...</div>;
+    }
 
     return (
         <main className="chat-page-container">
@@ -40,56 +92,88 @@ const Chat = () => {
                     </div>
 
                     <div className="conversations-list">
-                        {conversations.map((conv) => (
-                            <div
-                                key={conv.id}
-                                className={`conversation-item ${activeTab === conv.id ? 'active' : ''}`}
-                                onClick={() => setActiveTab(conv.id)}
-                            >
-                                <img src={conv.avatar} alt={conv.name} className="conv-avatar" />
-                                <div className="conv-info">
-                                    <div className="conv-header">
-                                        <h4>{conv.name}</h4>
-                                        {conv.unread > 0 && <span className="unread-badge">{conv.unread}</span>}
+                        {conversations.length === 0 ? (
+                            <p className="no-convs">No tienes conversaciones activas.</p>
+                        ) : (
+                            conversations.map((conv) => (
+                                <div
+                                    key={conv.id}
+                                    className={`conversation-item ${activeConversationId === conv.id ? 'active' : ''}`}
+                                    onClick={() => setActiveConversationId(conv.id)}
+                                >
+                                    <img
+                                        src={conv.participantAvatar || "https://ui-avatars.com/api/?name=" + conv.participantName}
+                                        alt={conv.participantName}
+                                        className="conv-avatar"
+                                    />
+                                    <div className="conv-info">
+                                        <div className="conv-header">
+                                            <h4>{conv.participantName}</h4>
+                                            {conv.unreadCount > 0 && <span className="unread-badge">{conv.unreadCount}</span>}
+                                        </div>
+                                        <p className="conv-subject">{conv.listingTitle}</p>
+                                        <p className="conv-last-msg">{conv.lastMessage?.text || "Inicia la conversación"}</p>
                                     </div>
-                                    <p className="conv-subject">{conv.subject}</p>
-                                    <p className="conv-last-msg">{conv.lastMessage}</p>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </aside>
 
                 {/* Main Chat Area */}
                 <section className="chat-main">
-                    <header className="active-chat-header">
-                        <img src={conversations[activeTab].avatar} alt="" className="active-avatar" />
-                        <div className="active-info">
-                            <h3>{conversations[activeTab].name}</h3>
-                            <p>Conversación sobre: {conversations[activeTab].subject}</p>
-                        </div>
-                    </header>
+                    {activeConversation ? (
+                        <>
+                            <header className="active-chat-header">
+                                <img
+                                    src={activeConversation.participantAvatar || "https://ui-avatars.com/api/?name=" + activeConversation.participantName}
+                                    alt=""
+                                    className="active-avatar"
+                                />
+                                <div className="active-info">
+                                    <h3>{activeConversation.participantName}</h3>
+                                    <p>Conversación sobre: {activeConversation.listingTitle}</p>
+                                </div>
+                            </header>
 
-                    <div className="chat-messages-area">
-                        {/* Empty for now to match screenshot */}
-                    </div>
+                            <div className="chat-messages-area">
+                                {messages.map((msg) => (
+                                    <div key={msg.id} className={`message-bubble ${msg.isFromMe ? 'sent' : 'received'}`}>
+                                        <div className="message-content">
+                                            <p>{msg.text}</p>
+                                            <span className="message-time">
+                                                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                    <footer className="chat-input-area">
-                        <div className="input-wrapper">
-                            <input
-                                type="text"
-                                placeholder="Escribe tu mensaje..."
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                            />
-                            <button className="send-btn">
-                                <Send size={20} />
-                            </button>
+                            <footer className="chat-input-area">
+                                <form className="input-wrapper" onSubmit={handleSendMessage}>
+                                    <input
+                                        type="text"
+                                        placeholder="Escribe tu mensaje..."
+                                        value={messageInput}
+                                        onChange={(e) => setMessageInput(e.target.value)}
+                                    />
+                                    <button type="submit" className="send-btn" disabled={!messageInput.trim()}>
+                                        <Send size={20} />
+                                    </button>
+                                </form>
+                                <p className="input-disclaimer">
+                                    Recuerda: Nunca compartas información financiera sensible por este medio.
+                                </p>
+                            </footer>
+                        </>
+                    ) : (
+                        <div className="no-chat-selected">
+                            <div className="no-chat-content">
+                                <h3>Selecciona una conversación</h3>
+                                <p>Elige un chat de la lista para empezar a mensajear.</p>
+                            </div>
                         </div>
-                        <p className="input-disclaimer">
-                            Recuerda: Nunca compartas información financiera sensible por este medio.
-                        </p>
-                    </footer>
+                    )}
                 </section>
             </div>
         </main>
