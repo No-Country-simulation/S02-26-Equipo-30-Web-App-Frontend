@@ -11,6 +11,10 @@ import EditProfile from '@features/profile-edit/EditProfile.jsx';
 
 import Premium from '@features/premium/Premium.jsx';
 import TrustSafety from "@/features/trustSafety/TrustSafety";
+import AboutUs from '@features/aboutUs/aboutUs.jsx';
+import Favorites from '@features/favorites/Favorites.jsx';
+import HowItWorks from '@features/how-it-works/HowItWorks.jsx';
+import Pricing from '@features/pricing/Pricing.jsx';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -29,6 +33,10 @@ function App() {
 
         <Route path="/premium" element={<Premium />} />
         <Route path="/confianza-seguridad" element={<TrustSafety />} />
+        <Route path="/nosotros" element={<AboutUs />} />
+        <Route path="/favoritos" element={<Favorites />} />
+        <Route path="/como-funciona" element={<HowItWorks />} />
+        <Route path="/precios" element={<Pricing />} />
 
       </Routes>
     </PublicView>
