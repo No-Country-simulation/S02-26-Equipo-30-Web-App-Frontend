@@ -14,11 +14,83 @@ import {
 } from '@shared/branding/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Btn from '@/shared/common/button/Btn';
+import horseService from './horseService';
 
 const HorseForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const isEdit = location.pathname.includes('editar');
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        birthDate: '2020-01-01', // Default or calculated from age
+        sex: 'STALLION',
+        breed: '',
+        heightM: 1.6,
+        weightKg: 500,
+        lengthM: 2.4,
+        maxSpeedKmh: 60,
+        temperament: 'CALM',
+        mainUse: 'RACING',
+        lineage: '',
+        careerRaces: 0,
+        daysSinceLastRace: 0,
+        birthCountry: '',
+        location: {
+            country: '',
+            region: '',
+            city: ''
+        },
+        sellerVerified: true,
+        sellerDisputes: 0,
+        sellerFlaggedFraud: false,
+        vetTotalExams: 0,
+        vetMajorIssues: 0
+    });
+
+    const handleChange = (e) => {
+        const { name, value, type } = e.target;
+
+        if (name.includes('.')) {
+            const [parent, child] = name.split('.');
+            setFormData(prev => ({
+                ...prev,
+                [parent]: {
+                    ...prev[parent],
+                    [child]: value
+                }
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: type === 'number' ? parseFloat(value) : value
+            }));
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        try {
+            if (isEdit) {
+                // await horseService.updateHorse(id, formData);
+            } else {
+                await horseService.createHorse(formData);
+            }
+            setSuccess(true);
+            setTimeout(() => navigate('/dashboard'), 2000);
+        } catch (err) {
+            setError(err.message || 'Error al procesar la solicitud');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Dashboard-like Stats (Mocked for parity with screenshot)
     const stats = [
@@ -27,6 +99,15 @@ const HorseForm = () => {
         { label: 'Vistas', value: '1247', trend: '+12% semana', icon: '👁️' },
         { label: 'Consultas', value: '38', trend: '+15% semana', icon: '💬' }
     ];
+
+    if (success) {
+        return (
+            <div className="hf-success-message" style={{ textAlign: 'center', padding: '100px' }}>
+                <h2>¡Caballo creado con éxito!</h2>
+                <p>Redirigiendo al dashboard...</p>
+            </div>
+        );
+    }
 
     return (
         <main className="hf">
@@ -82,7 +163,9 @@ const HorseForm = () => {
                         </button>
                     </header>
 
-                    <div className="hf-form-body">
+                    <form className="hf-form-body" onSubmit={handleSubmit}>
+                        {error && <div className="hf-error-alert">{error}</div>}
+
                         {/* ALERT BOX */}
                         <div className="hf-alert">
                             <Info size={18} />
@@ -99,118 +182,242 @@ const HorseForm = () => {
                             <div className="hf-grid">
                                 <div className="hf-input-group">
                                     <label>Nombre del Caballo *</label>
-                                    <input type="text" placeholder="Ej: Thunder Strike" />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Ej: Thunder Strike"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="hf-input-group">
                                     <label>Raza *</label>
-                                    <input type="text" placeholder="Ej: Dutch Warmblood" />
+                                    <input
+                                        type="text"
+                                        name="breed"
+                                        placeholder="Ej: Dutch Warmblood"
+                                        value={formData.breed}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Edad (años) *</label>
-                                    <input type="number" placeholder="8" />
+                                    <label>Fecha de Nacimiento *</label>
+                                    <input
+                                        type="date"
+                                        name="birthDate"
+                                        value={formData.birthDate}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="hf-input-group">
                                     <label>Sexo *</label>
                                     <div className="hf-select-wrap">
-                                        <select>
-                                            <option>Seleccionar sexo</option>
+                                        <select name="sex" value={formData.sex} onChange={handleChange}>
+                                            <option value="STALLION">Semental</option>
+                                            <option value="MARE">Yegua</option>
+                                            <option value="GELDING">Capón</option>
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Altura (manos) *</label>
-                                    <input type="text" placeholder="16.2 hh" />
+                                    <label>Altura (m) *</label>
+                                    <input
+                                        type="number"
+                                        name="heightM"
+                                        step="0.01"
+                                        placeholder="1.65"
+                                        value={formData.heightM}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Disciplina *</label>
+                                    <label>Peso (Kg) *</label>
+                                    <input
+                                        type="number"
+                                        name="weightKg"
+                                        step="0.1"
+                                        placeholder="500"
+                                        value={formData.weightKg}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Uso Principal *</label>
                                     <div className="hf-select-wrap">
-                                        <select>
-                                            <option>Seleccionar disciplina</option>
+                                        <select name="mainUse" value={formData.mainUse} onChange={handleChange}>
+                                            <option value="RACING">Carreras</option>
+                                            <option value="SHOW_JUMPING">Salto</option>
+                                            <option value="DRESSAGE">Doma</option>
+                                            <option value="PLEASURE">Placer</option>
+                                            <option value="BREEDING">Crianza</option>
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Precio (USD) *</label>
-                                    <input type="text" placeholder="45000" />
-                                </div>
-                                <div className="hf-input-group">
-                                    <label>Ubicación *</label>
-                                    <input type="text" placeholder="Ej: Wellington, FL" />
+                                    <label>País de Origen *</label>
+                                    <input
+                                        type="text"
+                                        name="birthCountry"
+                                        placeholder="Ej: Argentina"
+                                        value={formData.birthCountry}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                             </div>
                         </section>
 
-                        {/* SECTION 2: DESCRIPCION */}
+                        {/* SECTION 2: DETALLES TECNICOS */}
                         <section className="hf-section">
                             <div className="hf-section-num">2</div>
-                            <h3>Descripción</h3>
-                            <div className="hf-input-group full">
-                                <label>Descripción Detallada *</label>
-                                <textarea placeholder="Proporciona una descripción detallada de las características, entrenamiento y antecedentes del caballo..."></textarea>
-                                <p className="hf-hint">Mínimo 100 caracteres. Sé específico sobre logros, entrenamiento y personalidad.</p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 3: IMAGENES Y VIDEOS */}
-                        <section className="hf-section">
-                            <div className="hf-section-num">3</div>
-                            <h3>Imágenes y Videos</h3>
-                            <div className="hf-upload-area">
-                                <Upload size={32} />
-                                <p>Arrastra imágenes aquí o <span>haz clic para seleccionar</span></p>
-                                <p className="hf-hint">PNG, JPG hasta 10MB. Mínimo 5 imágenes requeridas.</p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 4: REGISTROS VETERINARIOS */}
-                        <section className="hf-section">
-                            <div className="hf-section-num">4</div>
-                            <h3>Registros Veterinarios</h3>
+                            <h3>Detalles Técnicos</h3>
                             <div className="hf-grid">
                                 <div className="hf-input-group">
-                                    <label>Última Revisión Veterinaria *</label>
-                                    <input type="text" placeholder="4 Registros Veterinarios" />
+                                    <label>Longitud (m)</label>
+                                    <input
+                                        type="number"
+                                        name="lengthM"
+                                        step="0.01"
+                                        placeholder="2.4"
+                                        value={formData.lengthM}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Vacunas al Día *</label>
-                                    <input type="text" placeholder="Rabia, Tétanos" />
+                                    <label>Velocidad Máx (Kmh)</label>
+                                    <input
+                                        type="number"
+                                        name="maxSpeedKmh"
+                                        step="0.1"
+                                        placeholder="60"
+                                        value={formData.maxSpeedKmh}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Condiciones de Salud *</label>
-                                    <input type="text" placeholder="Ninguna" />
-                                </div>
-                                <div className="hf-input-group">
-                                    <label>Nombre del Veterinario *</label>
+                                    <label>Temperamento</label>
                                     <div className="hf-select-wrap">
-                                        <select>
-                                            <option>Dr. Juan Pérez</option>
+                                        <select name="temperament" value={formData.temperament} onChange={handleChange}>
+                                            <option value="CALM">Calmado</option>
+                                            <option value="NEUTRAL">Neutral</option>
+                                            <option value="ENERGETIC">Energético</option>
+                                            <option value="FIERY">Feroz</option>
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
                                 </div>
-                                <div className="hf-input-group full">
-                                    <label>Contacto del Veterinario *</label>
-                                    <input type="text" placeholder="Correo o número" />
+                                <div className="hf-input-group">
+                                    <label>Linaje</label>
+                                    <input
+                                        type="text"
+                                        name="lineage"
+                                        placeholder="Nombre del padre/madre"
+                                        value={formData.lineage}
+                                        onChange={handleChange}
+                                    />
                                 </div>
-                                <div className="hf-input-group full">
-                                    <label>Notas Médicas Adicionales *</label>
-                                    <textarea placeholder="Proporciona información adicional sobre el historial médico del caballo"></textarea>
-                                </div>
-                            </div>
-                            <div className="hf-upload-area mini">
-                                <Upload size={24} />
-                                <p>Subir Documentos Veterinarios</p>
-                                <p className="hf-hint">PDF hasta 5MB. Incluye certificados de salud, registros de vacunación, etc.</p>
                             </div>
                         </section>
-                    </div>
 
-                    <footer className="hf-actions">
-                        <button className="hf-btn-cancel" onClick={() => navigate('/dashboard')}>Cancelar</button>
-                        <Btn className="hf-btn-submit">{isEdit ? 'Guardar Cambios' : 'Crear Listado'} →</Btn>
-                    </footer>
+                        {/* SECTION 3: UBICACION ACTUAL */}
+                        <section className="hf-section">
+                            <div className="hf-section-num">3</div>
+                            <h3>Ubicación Actual</h3>
+                            <div className="hf-grid">
+                                <div className="hf-input-group">
+                                    <label>País *</label>
+                                    <input
+                                        type="text"
+                                        name="location.country"
+                                        placeholder="País"
+                                        value={formData.location.country}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Región/Estado *</label>
+                                    <input
+                                        type="text"
+                                        name="location.region"
+                                        placeholder="Región"
+                                        value={formData.location.region}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Ciudad *</label>
+                                    <input
+                                        type="text"
+                                        name="location.city"
+                                        placeholder="Ciudad"
+                                        value={formData.location.city}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* SECTION 4: HISTORIAL Y VETERINARIA */}
+                        <section className="hf-section">
+                            <div className="hf-section-num">4</div>
+                            <h3>Historial y Veterinaria</h3>
+                            <div className="hf-grid">
+                                <div className="hf-input-group">
+                                    <label>Carreras Realizadas</label>
+                                    <input
+                                        type="number"
+                                        name="careerRaces"
+                                        value={formData.careerRaces}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Días desde última carrera</label>
+                                    <input
+                                        type="number"
+                                        name="daysSinceLastRace"
+                                        value={formData.daysSinceLastRace}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Total Exámenes Vet</label>
+                                    <input
+                                        type="number"
+                                        name="vetTotalExams"
+                                        value={formData.vetTotalExams}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Problemas Mayores Vet</label>
+                                    <input
+                                        type="number"
+                                        name="vetMajorIssues"
+                                        value={formData.vetMajorIssues}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+                        </section>
+
+                        <footer className="hf-actions">
+                            <button type="button" className="hf-btn-cancel" onClick={() => navigate('/dashboard')}>Cancelar</button>
+                            <Btn type="submit" className="hf-btn-submit" disabled={loading}>
+                                {loading ? 'Enviando...' : (isEdit ? 'Guardar Cambios' : 'Crear Listado')} →
+                            </Btn>
+                        </footer>
+                    </form>
                 </div>
             </div>
         </main>
@@ -218,3 +425,4 @@ const HorseForm = () => {
 };
 
 export default HorseForm;
+
