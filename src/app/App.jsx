@@ -18,6 +18,8 @@ import Pricing from '@features/pricing/Pricing.jsx';
 import Contact from '@features/contact/Contact.jsx';
 import Dashboard from '@features/dashboard/Dashboard.jsx';
 import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
+import Chat from '@features/chat/Chat.jsx';
+import HorseForm from '@features/horse-management/HorseForm.jsx';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -43,6 +45,9 @@ function App() {
         <Route path="/contacto" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/compra" element={<PurchaseProcess />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/caballo/nuevo" element={<HorseForm />} />
+        <Route path="/caballo/editar/:id" element={<HorseForm />} />
 
       </Routes>
     </PublicView>

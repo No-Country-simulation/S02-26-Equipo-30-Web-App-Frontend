@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MoreVertical, Eye, Edit, Trash } from "@shared/branding/icons";
 import "./HorseCard.css";
 
 export default function HorseCard(props) {
+    const navigate = useNavigate();
     // Soporta 2 formas:
     // 1) <HorseCard horse={horse} />
     // 2) <HorseCard {...horse} />
@@ -74,11 +76,17 @@ export default function HorseCard(props) {
 
                     {isMenuOpen && (
                         <div className="horse-card__dropdown">
-                            <button className="dropdown-item">
+                            <button
+                                className="dropdown-item"
+                                onClick={() => navigate('/detalle')}
+                            >
                                 <Eye size={18} />
                                 <span>Ver</span>
                             </button>
-                            <button className="dropdown-item">
+                            <button
+                                className="dropdown-item"
+                                onClick={() => navigate(`/caballo/editar/${id}`)}
+                            >
                                 <Edit size={18} />
                                 <span>Editar</span>
                             </button>

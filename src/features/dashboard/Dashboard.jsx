@@ -1,5 +1,6 @@
 /* Dashboard.jsx */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import {
     Phone,
@@ -49,6 +50,7 @@ const MessageIcon = ({ size = 18 }) => (
 );
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
 
     return (
@@ -70,7 +72,10 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="db-btn-add">
+                        <button
+                            className="db-btn-add"
+                            onClick={() => navigate('/caballo/nuevo')}
+                        >
                             <span>+</span> Agregar Caballo
                         </button>
                     </div>
