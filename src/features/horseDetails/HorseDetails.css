@@ -175,8 +175,37 @@ hr {
   color: #374151;
 }
 
+.listing-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.chat-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background-color: white !important;
+  border: 2px solid #ca8a04 !important;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ca8a04 !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.chat-btn:hover {
+  background-color: #fdf8ed !important;
+  transform: translateY(-1px);
+}
+
 .cta {
-  width: 100%;
+  flex: 2;
   padding: 16px;
   background-color: #ca8a04 !important;
   border: none;
@@ -192,4 +221,27 @@ hr {
 .cta:hover {
   background-color: #a16207 !important;
   transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .listing-card {
+    flex-direction: column;
+  }
+  
+  .image-section, .info-section {
+    width: 100%;
+  }
+
+  .info-section {
+    padding: 32px 24px;
+  }
+
+  .listing-actions {
+    flex-direction: column;
+  }
+
+  .chat-btn, .cta {
+    width: 100%;
+    flex: none;
+  }
 }

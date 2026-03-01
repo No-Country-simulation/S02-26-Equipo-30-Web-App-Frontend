@@ -2,9 +2,11 @@ import React from "react";
 import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
 import HorseProfile from "./components/horseProfile/HorseProfile";
-import { Heart } from "@shared/branding/icons";
+import { useNavigate } from "react-router-dom";
+import { Heart, Message } from "@shared/branding/icons";
 
 export default function HorseDetails() {
+    const navigate = useNavigate();
     return (
         <div className="listing-container">
             <div className="listing-card">
@@ -77,7 +79,16 @@ export default function HorseDetails() {
                         </div>
                     </div>
 
-                    <Btn className="cta">Express Purchase Interest</Btn>
+                    <div className="listing-actions">
+                        <Btn
+                            className="chat-btn"
+                            onClick={() => navigate('/chat')}
+                        >
+                            <Message size={18} />
+                            Chatear con el vendedor
+                        </Btn>
+                        <Btn className="cta">Express Purchase Interest</Btn>
+                    </div>
                 </div>
             </div>
             <HorseProfile />

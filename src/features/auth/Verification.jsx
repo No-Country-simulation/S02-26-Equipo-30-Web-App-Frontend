@@ -65,6 +65,7 @@ const Verification = () => {
             let data;
             if (contentType && contentType.includes('application/json')) {
                 data = await response.json();
+                console.log('Verification Response:', data);
             } else {
                 const text = await response.text();
                 throw new Error(`Error en el servidor (${response.status}): ${text.substring(0, 50)}`);
