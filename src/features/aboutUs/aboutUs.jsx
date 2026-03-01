@@ -1,4 +1,4 @@
-import "./AboutUs.css";
+import "./aboutUs.css";
 
 import Badge from "@components/badge/Badge";
 import Btn from "@components/button/Btn";
