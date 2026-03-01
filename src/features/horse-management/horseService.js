@@ -44,6 +44,17 @@ export const horseService = {
     },
 
     /**
+     * Get all horses
+     */
+    getHorses: async () => {
+        const response = await fetch(`${API_BASE}`, {
+            method: 'GET',
+            headers: getAuthHeaders(),
+        });
+        return handleResponse(response);
+    },
+
+    /**
      * Update an existing horse listing
      * @param {string} id - Horse UUID
      * @param {Object} horseData - Updated horse data
