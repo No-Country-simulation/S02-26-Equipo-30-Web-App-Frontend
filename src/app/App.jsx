@@ -20,6 +20,7 @@ import Dashboard from '@features/dashboard/Dashboard.jsx';
 import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
 import Chat from '@features/chat/Chat.jsx';
 import HorseForm from '@features/horse-management/HorseForm.jsx';
+import ProtectedRoute from '@/shared/common/ProtectedRoute';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -33,21 +34,21 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/verificar" element={<Verification />} />
-        <Route path="/perfil" element={<Profile />} />
-        <Route path="/perfil/editar" element={<EditProfile />} />
+        <Route path="/perfil" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/perfil/editar" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
 
         <Route path="/premium" element={<Premium />} />
         <Route path="/confianza-seguridad" element={<TrustSafety />} />
         <Route path="/nosotros" element={<AboutUs />} />
-        <Route path="/favoritos" element={<Favorites />} />
+        <Route path="/favoritos" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
         <Route path="/como-funciona" element={<HowItWorks />} />
         <Route path="/precios" element={<Pricing />} />
         <Route path="/contacto" element={<Contact />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/compra" element={<PurchaseProcess />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/caballo/nuevo" element={<HorseForm />} />
-        <Route path="/caballo/editar/:id" element={<HorseForm />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/compra" element={<ProtectedRoute><PurchaseProcess /></ProtectedRoute>} />
+        <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+        <Route path="/caballo/nuevo" element={<ProtectedRoute><HorseForm /></ProtectedRoute>} />
+        <Route path="/caballo/editar/:id" element={<ProtectedRoute><HorseForm /></ProtectedRoute>} />
 
       </Routes>
     </PublicView>
