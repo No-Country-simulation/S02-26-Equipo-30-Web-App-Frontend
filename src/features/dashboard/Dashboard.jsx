@@ -3,6 +3,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import {
+    Info,
+    Dollar,
+    Award,
+    Shield,
+    Star,
+    Support,
+    Crown,
     Search,
     ArrowRight,
     Sparkles,
