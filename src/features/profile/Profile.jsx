@@ -9,12 +9,53 @@ import {
     Info,
     ChevronDown,
     Star,
-    Bell
+    Bell,
+    Loader2
 } from '@shared/branding/icons';
 import { useNavigate } from 'react-router-dom';
+import { userService } from './userService';
+import { useState, useEffect } from 'react';
 
 const Profile = () => {
     const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const data = await userService.getCurrentUser();
+                setUserData(data);
+            } catch (err) {
+                console.error('Error fetching user data:', err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="profile-loading">
+                <Loader2 className="animate-spin" size={48} />
+                <p>Cargando perfil...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="profile-error">
+                <Info size={48} />
+                <p>Error al cargar el perfil: {error}</p>
+                <button onClick={() => window.location.reload()}>Reintentar</button>
+            </div>
+        );
+    }
 
     return (
         <main className="profile-container">
@@ -33,13 +74,13 @@ const Profile = () => {
                     />
                     <div className="profile-details">
                         <h2>
-                            Alexandra Bennett
+                            {userData?.fullName || userData?.username || 'Usuario'}
                             <span className="verified-badge">
-                                <Shield size={12} /> Verificado
+                                <Shield size={12} /> {userData?.status === 'ACTIVE' ? 'Verificado' : userData?.status}
                             </span>
                         </h2>
-                        <p className="profile-role">Comprador</p>
-                        <p className="profile-date">Miembro desde Enero 2024</p>
+                        <p className="profile-role">{userData?.role === 'ADMIN' ? 'Administrador' : 'Comprador'}</p>
+                        <p className="profile-date">Miembro desde {userData?.lastLoginAt ? new Date(userData.lastLoginAt).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) : 'Reciente'}</p>
                     </div>
                 </div>
                 <button
@@ -69,16 +110,16 @@ const Profile = () => {
                 <div className="profile-grid">
                     <div className="input-group">
                         <label>Nombre Completo</label>
-                        <div className="input-mock">Alexandra Bennett</div>
+                        <div className="input-mock">{userData?.fullName || 'No especificado'}</div>
                         <p className="input-hint">Este campo no puede ser modificado</p>
                     </div>
                     <div className="input-group">
                         <label>Email</label>
-                        <div className="input-mock">a@g.com</div>
+                        <div className="input-mock">{userData?.email}</div>
                     </div>
                     <div className="input-group">
-                        <label>Teléfono</label>
-                        <div className="input-mock">+1 (555) 123-4567</div>
+                        <label>Nombre de Usuario</label>
+                        <div className="input-mock">{userData?.username}</div>
                     </div>
                 </div>
             </section>
