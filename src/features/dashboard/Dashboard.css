@@ -537,3 +537,136 @@
     color: #94a3b8;
     margin-top: 0.2rem;
 }
+/* HORSE GRID (MY HORSES TAB) */
+.db-horse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.db-horse-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.db-horse-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+    border-color: #c5a059;
+}
+
+.db-horse-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.db-badge-row {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.db-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.db-tag-vip { background: #c5a059; color: white; }
+.db-tag-active { background: #10b981; color: white; }
+.db-tag-review { background: #f59e0b; color: white; }
+
+.db-horse-info {
+    padding: 1.5rem;
+}
+
+.db-horse-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.db-horse-header h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0c1a32;
+}
+
+.db-horse-header .price {
+    color: #c5a059;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.db-horse-meta {
+    display: flex;
+    gap: 1rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+    margin-bottom: 1.5rem;
+}
+
+.db-trust-score-mini {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
+}
+
+.db-trust-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: #94a3b8;
+}
+
+.db-trust-bar {
+    height: 4px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.db-trust-fill {
+    height: 100%;
+    background: #10b981;
+}
+
+.db-no-horses {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    color: #64748b;
+}
+
+.db-no-horses span {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.db-no-horses h3 {
+    color: #0c1a32;
+    margin-bottom: 0.5rem;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

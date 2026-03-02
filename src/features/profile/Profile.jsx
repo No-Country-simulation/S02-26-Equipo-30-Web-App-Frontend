@@ -22,6 +22,21 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const handleDeleteAccount = async () => {
+        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Esta acción no se puede deshacer.');
+        if (!confirmed) return;
+
+        try {
+            await userService.deleteCurrentUser();
+            alert('Tu cuenta ha sido eliminada correctamente.');
+            localStorage.removeItem('token');
+            navigate('/');
+        } catch (err) {
+            console.error('Error deleting account:', err);
+            alert(`Error al eliminar la cuenta: ${err.message}`);
+        }
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -168,7 +183,7 @@ const Profile = () => {
                         </ul>
                     </div>
 
-                    <button className="delete-account-btn">
+                    <button className="delete-account-btn" onClick={handleDeleteAccount}>
                         Eliminar mi cuenta permanentemente
                     </button>
                 </div>

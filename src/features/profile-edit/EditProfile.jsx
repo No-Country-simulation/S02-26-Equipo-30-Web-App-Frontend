@@ -23,6 +23,11 @@ const EditProfile = () => {
         email: '',
         phone: '' // Although not in PUT, kept for UI
     });
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -54,16 +59,36 @@ const EditProfile = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handlePasswordChangeInput = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleSave = async (e) => {
         e.preventDefault();
         setSaving(true);
         setError(null);
         try {
-            // Only sending what the API expects for PUT /me
+            // Update Profile Info
             await userService.updateCurrentUser({
                 fullName: formData.fullName,
                 email: formData.email
             });
+
+            // Update Password if fields are filled
+            if (passwordData.currentPassword || passwordData.newPassword) {
+                if (passwordData.newPassword !== passwordData.confirmPassword) {
+                    throw new Error('Las contraseñas nuevas no coinciden');
+                }
+                if (passwordData.newPassword.length < 8) {
+                    throw new Error('La nueva contraseña debe tener al least 8 caracteres');
+                }
+                await userService.updatePassword({
+                    currentPassword: passwordData.currentPassword,
+                    newPassword: passwordData.newPassword
+                });
+            }
+
             alert('Cambios guardados correctamente');
             navigate('/perfil');
         } catch (err) {
@@ -164,16 +189,37 @@ const EditProfile = () => {
                     </div>
                     <div className="ep-input-group" style={{ maxWidth: '480px' }}>
                         <label>Contraseña Actual</label>
-                        <input type="password" className="ep-input" placeholder="Ingresa tu contraseña actual" />
+                        <input
+                            type="password"
+                            name="currentPassword"
+                            className="ep-input"
+                            placeholder="Ingresa tu contraseña actual"
+                            value={passwordData.currentPassword}
+                            onChange={handlePasswordChangeInput}
+                        />
                     </div>
                     <div className="ep-grid">
                         <div className="ep-input-group">
                             <label>Nueva Contraseña</label>
-                            <input type="password" className="ep-input" placeholder="Mínimo 8 caracteres" />
+                            <input
+                                type="password"
+                                name="newPassword"
+                                className="ep-input"
+                                placeholder="Mínimo 8 caracteres"
+                                value={passwordData.newPassword}
+                                onChange={handlePasswordChangeInput}
+                            />
                         </div>
                         <div className="ep-input-group">
                             <label>Confirmar Contraseña</label>
-                            <input type="password" className="ep-input" placeholder="Repite la nueva contraseña" />
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                className="ep-input"
+                                placeholder="Repite la nueva contraseña"
+                                value={passwordData.confirmPassword}
+                                onChange={handlePasswordChangeInput}
+                            />
                         </div>
                     </div>
                 </section>

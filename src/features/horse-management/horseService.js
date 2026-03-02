@@ -66,6 +66,17 @@ export const horseService = {
             body: JSON.stringify(horseData),
         });
         return handleResponse(response);
+    },
+
+    /**
+     * Get horses listed by the currently authenticated user
+     */
+    getUserHorses: async () => {
+        const response = await fetch(`${API_BASE}/me`, {
+            method: 'GET',
+            headers: getAuthHeaders(),
+        });
+        return handleResponse(response);
     }
 };
 
