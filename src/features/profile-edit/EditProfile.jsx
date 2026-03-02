@@ -10,7 +10,7 @@ import {
     Info,
     Shield,
     ChevronDown,
-    Loader2
+    Sparkles
 } from '@shared/branding/icons';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -77,7 +77,7 @@ const EditProfile = () => {
     if (loading) {
         return (
             <div className="profile-loading">
-                <Loader2 className="animate-spin" size={48} />
+                <Sparkles className="animate-spin" size={48} />
                 <p>Cargando datos...</p>
             </div>
         );

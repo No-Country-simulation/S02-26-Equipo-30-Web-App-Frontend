@@ -10,7 +10,7 @@ import {
     ChevronDown,
     Star,
     Bell,
-    Loader2
+    Sparkles
 } from '@shared/branding/icons';
 import { useNavigate } from 'react-router-dom';
 import { userService } from './userService';
@@ -41,7 +41,7 @@ const Profile = () => {
     if (loading) {
         return (
             <div className="profile-loading">
-                <Loader2 className="animate-spin" size={48} />
+                <Sparkles className="animate-spin" size={48} />
                 <p>Cargando perfil...</p>
             </div>
         );
