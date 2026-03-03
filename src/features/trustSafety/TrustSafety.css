@@ -16,10 +16,12 @@
 
 /* HERO */
 .ts-hero {
-  position: relative;
-  overflow: hidden;
   color: #fff;
-  background: linear-gradient(135deg, #0b1f3b 0%, #0b1f3b 45%, #1a2f4d 100%);
+  padding: 84px 0 76px;
+  background:
+    radial-gradient(1100px 520px at 50% 38%, rgba(33, 72, 110, 0.55) 0%, rgba(11, 35, 64, 0) 60%),
+    radial-gradient(900px 520px at 50% 35%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #0b2340 0%, #071a2f 100%);
 }
 
 .ts-hero__inner {
@@ -59,7 +61,7 @@
 .ts-hero__blob--teal {
   bottom: 20%;
   right: 20%;
-  background: #108981;
+  background: #C9A24D;
 }
 
 .ts-badge {
@@ -124,7 +126,7 @@
   background: #c9a24d !important;
   color: #ffffff !important;
   border: none !important;
-  box-shadow: 0 18px 40px rgba(201, 162, 77, 0.30);
+  box-shadow: 0 12px 26px rgba(201, 162, 77, 0.22);
 }
 
 .ts-btn--primary:hover {
@@ -145,8 +147,8 @@
 
 .ts-btn--outlineDark {
   background: transparent !important;
-  color: #0b1f3b !important;
-  border: 2px solid #0b1f3b !important;
+  color: #0b2340 !important;
+  border: 2px solid rgba(11, 35, 64, 0.25) !important;
 }
 
 .ts-btn--outlineDark:hover {

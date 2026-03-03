@@ -64,21 +64,25 @@ export default function AboutUs() {
       title: "Verificación Real, No Promesas",
       desc: "Cada caballo es examinado por veterinarios certificados independientes. No confiamos en la palabra del vendedor, verificamos todo personalmente.",
       icon: <Shield size={28} />,
+      tone: "teal",
     },
     {
       title: "Garantía de 30 Días",
-      desc: "La única plataforma que ofrece devolución sin preguntas. Si no estás satisfecho, recuperas el 100% de tu inversión.",
+      desc: "La plataforma que ofrece devolución sin preguntas. Si no estás satisfecho, recuperas el 100% de tu inversión.",
       icon: <Heart size={28} />,
+      tone: "gold",
     },
     {
       title: "Soporte Especializado 24/7",
       desc: "No solo respondemos preguntas, te asesoramos. Nuestro equipo de expertos ecuestres está disponible en todo momento.",
       icon: <Support size={28} />,
+      tone: "teal",
     },
     {
       title: "Transparencia Total",
       desc: "Historial médico completo, videos sin editar, y puntuación de credibilidad del vendedor visible para todos.",
       icon: <Sparkles size={28} />,
+      tone: "gold",
     },
   ];
 
@@ -147,7 +151,7 @@ export default function AboutUs() {
         <div className="about-container">
           <div className="about-story">
             <div className="about-story__copy">
-              <p className="about-kicker">NUESTRA HISTORIA</p>
+              <p className="about-kicker about-kicker--gold">NUESTRA HISTORIA</p>
               <h2 className="about-h2">
                 De un Problema Personal <span>a una Solución Global</span>
               </h2>
@@ -270,7 +274,9 @@ export default function AboutUs() {
           <div className="about-why">
             {why.map((w) => (
               <article key={w.title} className="about-whyCard">
-                <div className="about-whyCard__icon">{w.icon}</div>
+                <div className={`about-whyCard__icon about-whyCard__icon--${w.tone}`}>
+                  {w.icon}
+                </div>
                 <div>
                   <h3 className="about-whyCard__title">{w.title}</h3>
                   <p className="about-whyCard__desc">{w.desc}</p>
@@ -291,15 +297,12 @@ export default function AboutUs() {
             </p>
 
             <div className="about-cta__actions">
-              <Btn
-                className="about-btn about-btn--primary"
-                onClick={() => navigate("/explorar")}
-              >
+              <Btn className="about-btn about-btn--primary" onClick={() => navigate("/explorar")}>
                 Explorar Caballos <ArrowRight size={18} />
               </Btn>
 
               <IconBtn
-                className="about-btn about-btn--outline"
+                className="about-btn about-btn--outlineDark"
                 icon={<User size={18} />}
                 onClick={() => navigate("/contacto")}
               >

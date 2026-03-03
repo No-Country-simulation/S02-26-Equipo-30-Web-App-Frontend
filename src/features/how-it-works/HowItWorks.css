@@ -12,10 +12,12 @@
 
 /* HERO */
 .hiw-hero {
-  position: relative;
-  overflow: hidden;
   color: #fff;
-  background: linear-gradient(135deg, #0b1f3b 0%, #0b1f3b 45%, #1a2f4d 100%);
+  padding: 84px 0 76px;
+  background:
+    radial-gradient(1100px 520px at 50% 38%, rgba(33, 72, 110, 0.55) 0%, rgba(11, 35, 64, 0) 60%),
+    radial-gradient(900px 520px at 50% 35%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #0b2340 0%, #071a2f 100%);
 }
 
 .hiw-hero__glow {
@@ -50,14 +52,14 @@
 }
 
 .hiw-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(201, 162, 77, 0.2);
-  border: 1px solid rgba(201, 162, 77, 0.4);
-  color: #c9a24d;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 14px !important;
+  border-radius: 999px !important;
+  background: C9A24D !important;
+  border: 1px solid C9A24D !important;
+  color: #C9A24D !important;
   margin-bottom: 18px;
   font-weight: 700;
 }
