@@ -8,7 +8,7 @@
     height: fit-content;
     position: sticky;
     top: 24px;
-    font-family: 'Inter', sans-serif;
+    font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
 .filter-sidebar-title {
@@ -43,7 +43,7 @@
     background: #f8fafc;
     outline: none;
     transition: border-color 0.2s;
-    font-family: 'Inter', sans-serif;
+    font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     box-sizing: border-box;
 }
 

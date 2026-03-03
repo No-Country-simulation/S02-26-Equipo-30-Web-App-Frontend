@@ -1,7 +1,8 @@
 .explore-page {
     min-height: 100vh;
     background: #f8fafc;
-    font-family: 'Inter', sans-serif;
+    font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    
 }
 
 .explore-body {

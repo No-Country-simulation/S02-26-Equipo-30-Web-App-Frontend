@@ -26,13 +26,6 @@ const DisciplineTabs = ({ activeTab, onTabChange, verified, onVerifiedChange, pr
                     <Shield size={14} />
                     Verificados
                 </button>
-                <button
-                    className={`quick-filter-chip premium-chip ${premium ? 'active' : ''}`}
-                    onClick={() => onPremiumChange(!premium)}
-                >
-                    <Crown size={14} />
-                    Premium
-                </button>
             </div>
         </div>
     );
