@@ -22,35 +22,38 @@ import Chat from '@features/chat/Chat.jsx';
 import HorseForm from '@features/horse-management/HorseForm.jsx';
 
 import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '../shared/context/AuthContext';
 
 function App() {
   return (
-    <PublicView>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/explorar" element={<Explore />} />
-        <Route path="/detalle" element={<HorseDetails />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Register />} />
-        <Route path="/verificar" element={<Verification />} />
-        <Route path="/perfil" element={<Profile />} />
-        <Route path="/perfil/editar" element={<EditProfile />} />
+    <AuthProvider>
+      <PublicView>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/explorar" element={<Explore />} />
+          <Route path="/detalle" element={<HorseDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Register />} />
+          <Route path="/verificar" element={<Verification />} />
+          <Route path="/perfil" element={<Profile />} />
+          <Route path="/perfil/editar" element={<EditProfile />} />
 
-        <Route path="/premium" element={<Premium />} />
-        <Route path="/confianza-seguridad" element={<TrustSafety />} />
-        <Route path="/nosotros" element={<AboutUs />} />
-        <Route path="/favoritos" element={<Favorites />} />
-        <Route path="/como-funciona" element={<HowItWorks />} />
-        <Route path="/precios" element={<Pricing />} />
-        <Route path="/contacto" element={<Contact />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/compra" element={<PurchaseProcess />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/caballo/nuevo" element={<HorseForm />} />
-        <Route path="/caballo/editar/:id" element={<HorseForm />} />
+          <Route path="/premium" element={<Premium />} />
+          <Route path="/confianza-seguridad" element={<TrustSafety />} />
+          <Route path="/nosotros" element={<AboutUs />} />
+          <Route path="/favoritos" element={<Favorites />} />
+          <Route path="/como-funciona" element={<HowItWorks />} />
+          <Route path="/precios" element={<Pricing />} />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/compra" element={<PurchaseProcess />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/caballo/nuevo" element={<HorseForm />} />
+          <Route path="/caballo/editar/:id" element={<HorseForm />} />
 
-      </Routes>
-    </PublicView>
+        </Routes>
+      </PublicView>
+    </AuthProvider>
   );
 }
 

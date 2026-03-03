@@ -9,7 +9,7 @@ const FeaturedHorses = () => {
         {
             id: 1,
             name: "Midnight Star",
-            price: "53.778",
+            price: "53778",
             breed: "Andalusian",
             tags: ["11 years", "18.0 hh", "Hunter"],
             location: "Aiken, SC",
@@ -21,7 +21,7 @@ const FeaturedHorses = () => {
         {
             id: 2,
             name: "Royal Symphony",
-            price: "79.286",
+            price: "79286",
             breed: "Trakehner",
             tags: ["8 years", "16.2 hh", "Show Jumping"],
             location: "Charleston, SC",
@@ -33,7 +33,7 @@ const FeaturedHorses = () => {
         {
             id: 3,
             name: "Copper Sunset",
-            price: "65.067",
+            price: "65067",
             breed: "Trakehner",
             tags: ["14 years", "15.2 hh", "Show Jumping"],
             location: "Ocala, FL",
@@ -45,7 +45,7 @@ const FeaturedHorses = () => {
         {
             id: 4,
             name: "Silver Cloud",
-            price: "67.369",
+            price: "67369",
             breed: "Dutch Warmblood",
             tags: ["4 years", "17.0 hh", "Cutting"],
             location: "Saratoga Springs, NY",
@@ -57,7 +57,7 @@ const FeaturedHorses = () => {
         {
             id: 5,
             name: "Golden Promise",
-            price: "81.501",
+            price: "81501",
             breed: "Arabian",
             tags: ["7 years", "15.1 hh", "Dressage"],
             location: "Lexington, KY",
@@ -69,7 +69,7 @@ const FeaturedHorses = () => {
         {
             id: 6,
             name: "Eclipse",
-            price: "53.027",
+            price: "53027",
             breed: "Westphalian",
             tags: ["6 years", "17.2 hh", "Endurance"],
             location: "Charleston, SC",
@@ -85,7 +85,7 @@ const FeaturedHorses = () => {
             <div className="section-container">
                 <header className="featured-header">
                     <div className="header-left">
-                        <Badge className="featured-badge">
+                        <Badge >
                             DESTACADOS
                         </Badge>
                         <h2 className="featured-title">
@@ -101,7 +101,7 @@ const FeaturedHorses = () => {
 
                 <div className="featured-grid">
                     {featuredHorses.map(horse => (
-                        <HorseCard key={horse.id} {...horse} />
+                        <HorseCard key={horse.id} horse={horse} showMenu={false} />
                     ))}
                 </div>
             </div>
