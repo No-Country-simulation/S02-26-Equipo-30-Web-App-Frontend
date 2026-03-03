@@ -74,6 +74,49 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    margin-left: 1rem;
+}
+
+.nav-icon-btn {
+    background-color: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.nav-icon-btn:hover {
+    background-color: #2d3748 !important;
+}
+
+.user-menu-container {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.divider {
+    width: 1px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 0.5rem;
+}
+
+.user-profile-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.user-profile-link:hover {
+    opacity: 0.8;
+}
+
+.user-name {
+    white-space: nowrap;
 }
 
 .user-profile {
@@ -87,11 +130,13 @@
 .logout-icon {
     cursor: pointer;
     opacity: 0.8;
-    transition: opacity 0.3s;
+    transition: transform 0.2s, opacity 0.2s;
+    color: #ffffff;
 }
 
 .logout-icon:hover {
     opacity: 1;
+    transform: scale(1.1);
 }
 .premium-btn{
     background-color: #B8914A !important;

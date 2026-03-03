@@ -32,3 +32,5 @@ export { default as Upload } from './Upload';
 export { default as FileText } from './FileText';
 export { default as Plus } from './Plus';
 export { default as ShoppingCart } from './ShoppingCart';
+export { default as LayoutDashboard } from './LayoutDashboard';
+export { default as LogOut } from './LogOut';
