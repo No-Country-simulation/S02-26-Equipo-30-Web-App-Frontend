@@ -6,10 +6,8 @@ import { userService } from "./userService";
 
 const MOCK_USER = {
   fullName: "María Zapata",
-  username: "mariaz",
   email: "maria@email.com",
   phone: "+34 600 123 456",
-  role: "BUYER",
   status: "ACTIVE",
   lastLoginAt: "2024-01-10",
 };
@@ -27,7 +25,7 @@ const Profile = () => {
         setUserData(data);
         setError(null);
       } catch (err) {
-        // ✅ Para poder maquetar aunque falle el backend:
+        //  Para poder maquetar aunque falle el backend:
         setUserData(MOCK_USER);
         setError(null);
       } finally {
