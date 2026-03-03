@@ -27,17 +27,6 @@
   pointer-events: none;
 }
 
-.hiw-hero__blob {
-  position: absolute;
-  width: 384px;
-  height: 384px;
-  border-radius: 999px;
-  background: #c9a24d;
-  filter: blur(60px);
-}
-
-.hiw-hero__blob--1 { top: 20%; left: 20%; }
-.hiw-hero__blob--2 { bottom: 20%; right: 20%; }
 
 .hiw-hero__inner {
   position: relative;

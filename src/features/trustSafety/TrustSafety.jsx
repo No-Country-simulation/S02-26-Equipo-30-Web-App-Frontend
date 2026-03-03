@@ -133,7 +133,7 @@ export default function TrustSafety() {
 
         <div className="ts-container ts-hero__inner">
           <div className="ts-hero__content">
-            <Badge className="ts-badge" icon={Shield}>
+            <Badge className="ts-badge">
               Tu Seguridad es Nuestra Prioridad
             </Badge>
 

@@ -43,14 +43,7 @@
   pointer-events: none;
 }
 
-.ts-hero__blob {
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  border-radius: 999px;
-  filter: blur(60px);
-  background: #c9a24d;
-}
+
 
 .ts-hero__blob--gold {
   top: 20%;
