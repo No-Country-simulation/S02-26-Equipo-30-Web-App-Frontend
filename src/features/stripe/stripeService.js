@@ -1,6 +1,6 @@
 import apiClient from '@shared/api/apiClient';
 
-const API_BASE = 'https://horsetrust.codershub.top/stripe';
+const API_BASE = '/stripe';
 
 export const stripeService = {
     /**
