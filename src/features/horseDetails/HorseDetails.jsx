@@ -21,6 +21,10 @@ export default function HorseDetails() {
                 setLoading(true);
                 const response = await horseService.getHorseById(id);
                 setHorse(response.data);
+
+                // TEST: Hacer un GET a /api/v1/horses y loguearlo
+                const allHorsesResponse = await horseService.getHorses();
+                console.log("=== GET /api/v1/horses RES ===", allHorsesResponse);
             } catch (err) {
                 console.error("Error fetching horse details:", err);
                 setError("No se pudo cargar la información del caballo.");
