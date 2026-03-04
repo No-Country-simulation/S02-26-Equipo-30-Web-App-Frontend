@@ -5,6 +5,7 @@ import Explore from '@features/explore/Explore.jsx';
 import HorseDetails from '@features/horseDetails/HorseDetails.jsx';
 import Premium from '@features/premium/Premium.jsx';
 import { Routes, Route } from 'react-router-dom';
+import PaymentPage from "../features/paymentService/PaymentPage.jsx";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/explorar" element={<Explore />} />
         <Route path="/detalle" element={<HorseDetails />} />
         <Route path="/premium" element={<Premium />} />
-
+        <Route path="/payment" element={<PaymentPage />} />
       </Routes>
     </PublicView>
   );
