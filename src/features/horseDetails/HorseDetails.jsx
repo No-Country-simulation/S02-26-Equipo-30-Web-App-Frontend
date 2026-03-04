@@ -23,43 +23,22 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Fetch listing data using horseID as identifier from public explore endpoint
-                const res = await exploreService.getListingByHorseId(id);
-                // If the search returns a list, find the specific horse that matches the UUID in the URL
-                // Find the specific horse by searching multiple possible ID fields in the content or response
-                const findHorse = (data, targetId) => {
-                    if (!data) return null;
-
-                    const isMatch = (h) =>
-                        h && (h.id === targetId ||
-                            h.horseId === targetId ||
-                            h.horse?.id === targetId ||
-                            h.listingId === targetId ||
-                            h.id?.toString() === targetId?.toString() ||
-                            h.listingId?.toString() === targetId?.toString()); // Safety for string/num mismatches
-
-                    // 1. Check if the response itself is the horse
-                    if (isMatch(data)) return data;
-                    if (isMatch(data.data)) return data.data;
-
-                    // 2. Check in content or arrays
-                    const items = data.content || (Array.isArray(data) ? data : []);
-                    return items.find(isMatch);
-                };
-
-                const horseData = findHorse(res, id);
-
+                // Fetch horse data directly using the new endpoint
+                const res = await horseService.getHorseById(id);
+                const horseData = res.data || res;
 
                 if (horseData) {
                     console.log("=== Horse Data Loaded Successfully ===", horseData);
 
-                    // The API now returns listingId directly
+                    // The API returns listingId directly
                     setListingId(horseData.listingId);
 
                     // Map data to ensure backward compatibility with UI if needed
+                    // Preference is given to 'name' as per the latest schema
                     const finalHorse = {
                         ...horseData,
                         id: horseData.id || id,
+                        name: horseData.name || horseData.horseName,
                         listingId: horseData.listingId
                     };
 
