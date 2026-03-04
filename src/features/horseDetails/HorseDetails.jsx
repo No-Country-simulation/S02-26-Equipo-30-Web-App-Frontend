@@ -146,7 +146,7 @@ export default function HorseDetails() {
                         <span className="badge score">Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</span>
                     </div>
                     <img
-                        src={horse.imageUrl || getHorsePlaceholder(horse.id, 1200)}
+                        src={horse.imageUrl || getHorsePlaceholder(horse.id)}
                         alt={horse.horseName || horse.name}
                         className="horse-image"
                     />

@@ -1,31 +1,34 @@
 /**
- * Utility to provide diversified horse placeholder images.
- * Uses a curated list of high-quality Unsplash images.
+ * Utility to provide diversified horse placeholder images using local assets.
  */
 
+import horse1 from "@/shared/common/img/david-dibert-Huza8QOO3tc-unsplash.jpg";
+import horse2 from "@/shared/common/img/guillermo-mota-ax2WNRH_bec-unsplash.jpg";
+import horse3 from "@/shared/common/img/helena-lopes-7FC4WpyYcfQ-unsplash.jpg";
+import horse4 from "@/shared/common/img/helena-lopes-bunLmHpu1hg-unsplash.jpg";
+import horse5 from "@/shared/common/img/helena-lopes-lIeqGEdvex0-unsplash.jpg";
+import horse6 from "@/shared/common/img/luisa-peter-7Xp9wDCxivc-unsplash.jpg";
+import horse7 from "@/shared/common/img/mahmoud-ayad-cwoXqhi3Prc-unsplash.jpg";
+import horse8 from "@/shared/common/img/pieter-van-noorden-cjSUZMA2iW8-unsplash.jpg";
+
 const HORSE_IMAGES = [
-    "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a", // White horse
-    "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd", // Brown horse
-    "https://images.unsplash.com/photo-1598974357801-cbca100e65d3", // Horse in field
-    "https://images.unsplash.com/photo-1518467166778-b88f373ffec7", // Majestic horse
-    "https://images.unsplash.com/photo-1534447677768-be436bb09401", // Horse silhouette
-    "https://images.unsplash.com/photo-1453227588063-bb302b62f50b", // Close up
-    "https://images.unsplash.com/photo-1524388658899-54b7ad17fa69", // Black horse
-    "https://images.unsplash.com/photo-1516298299344-c7113f01c70a", // Group of horses
-    "https://images.unsplash.com/photo-1536214018742-993d03d748FA", // Running horse
-    "https://images.unsplash.com/photo-1493191042658-8aa00e72618a", // Golden hour horse
-    "https://images.unsplash.com/photo-1510672981848-a1c4f1cb58f1", // Arctic horse
-    "https://images.unsplash.com/photo-1505244510004-20fe652566b6", // Equestrian
+    horse1,
+    horse2,
+    horse3,
+    horse4,
+    horse5,
+    horse6,
+    horse7,
+    horse8,
 ];
 
 /**
- * Returns a consistent placeholder image for a given ID.
+ * Returns a consistent placeholder image for a given ID using local assets.
  * @param {string|number} id - The horse or listing ID.
- * @param {number} width - Desired width.
- * @returns {string} - Unsplash image URL.
+ * @returns {string} - Local image path/URL.
  */
-export const getHorsePlaceholder = (id, width = 800) => {
-    if (!id) return `${HORSE_IMAGES[0]}?q=80&w=${width}&auto=format&fit=crop`;
+export const getHorsePlaceholder = (id) => {
+    if (!id) return HORSE_IMAGES[0];
 
     // Hash the ID to get a stable index
     const idString = id.toString();
@@ -36,5 +39,5 @@ export const getHorsePlaceholder = (id, width = 800) => {
     }
 
     const index = Math.abs(hash) % HORSE_IMAGES.length;
-    return `${HORSE_IMAGES[index]}?q=80&w=${width}&auto=format&fit=crop`;
+    return HORSE_IMAGES[index];
 };
