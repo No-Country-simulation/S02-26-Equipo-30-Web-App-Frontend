@@ -1,5 +1,5 @@
 /* HorseForm.jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HorseForm.css';
 import {
     ArrowRight,
@@ -355,7 +355,7 @@ const HorseForm = () => {
                             <h3>Detalles Técnicos</h3>
                             <div className="hf-grid">
                                 <div className="hf-input-group">
-                                    <label>Longitud (m)</label>
+                                    <label>Longitud (m) *</label>
                                     <input
                                         type="number"
                                         name="lengthM"
@@ -363,10 +363,11 @@ const HorseForm = () => {
                                         placeholder="2.4"
                                         value={formData.lengthM}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Velocidad Máx (Kmh)</label>
+                                    <label>Velocidad Máx (Kmh) *</label>
                                     <input
                                         type="number"
                                         name="maxSpeedKmh"
@@ -374,12 +375,13 @@ const HorseForm = () => {
                                         placeholder="60"
                                         value={formData.maxSpeedKmh}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Temperamento</label>
+                                    <label>Temperamento *</label>
                                     <div className="hf-select-wrap">
-                                        <select name="temperament" value={formData.temperament} onChange={handleChange}>
+                                        <select name="temperament" value={formData.temperament} onChange={handleChange} required>
                                             <option value="CALM">Calmado</option>
                                             <option value="NEUTRAL">Neutral</option>
                                             <option value="ENERGETIC">Energético</option>
@@ -389,13 +391,14 @@ const HorseForm = () => {
                                     </div>
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Linaje</label>
+                                    <label>Linaje *</label>
                                     <input
                                         type="text"
                                         name="lineage"
                                         placeholder="Nombre del padre/madre"
                                         value={formData.lineage}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                             </div>
@@ -448,21 +451,23 @@ const HorseForm = () => {
                             <h3>Historial y Veterinaria</h3>
                             <div className="hf-grid">
                                 <div className="hf-input-group">
-                                    <label>Carreras Realizadas</label>
+                                    <label>Carreras Realizadas *</label>
                                     <input
                                         type="number"
                                         name="careerRaces"
                                         value={formData.careerRaces}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="hf-input-group">
-                                    <label>Días desde última carrera</label>
+                                    <label>Días desde última carrera *</label>
                                     <input
                                         type="number"
                                         name="daysSinceLastRace"
                                         value={formData.daysSinceLastRace}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="hf-input-group">
@@ -492,14 +497,13 @@ const HorseForm = () => {
                             <h3>Precio y Multimedia</h3>
                             <div className="hf-grid">
                                 <div className="hf-input-group">
-                                    <label>Precio (USD) *</label>
+                                    <label>Precio (USD)</label>
                                     <input
                                         type="number"
                                         name="price"
                                         placeholder="Ej: 45000"
                                         value={formData.price}
                                         onChange={handleChange}
-                                        required
                                     />
                                 </div>
                                 <div className="hf-input-group">
