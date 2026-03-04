@@ -27,8 +27,10 @@ const Explore = () => {
             try {
                 setLoading(true);
                 const data = await exploreService.getListings();
-                // La API devuelve un objeto con 'content' que es el array de caballos
-                setHorses(data?.content || []);
+                console.log('Explore RAW data:', data);
+                const content = data?.content || [];
+                console.log('Explore CONTENT (listings):', content);
+                setHorses(content);
                 setLoading(false);
             } catch (err) {
                 console.error("Error loading listings:", err);
