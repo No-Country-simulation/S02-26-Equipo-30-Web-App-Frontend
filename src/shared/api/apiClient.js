@@ -44,6 +44,13 @@ const handleResponse = async (response) => {
  */
 const request = async (url, options = {}) => {
     const isFormData = options.body instanceof FormData;
+    let body = options.body;
+
+    // Automatically stringify body if it's a plain object and not FormData
+    if (body && typeof body === 'object' && !isFormData) {
+        body = JSON.stringify(body);
+    }
+
     const headers = {
         ...getAuthHeaders(isFormData),
         ...(options.headers || {}),
@@ -52,6 +59,7 @@ const request = async (url, options = {}) => {
     const config = {
         ...options,
         headers,
+        body,
     };
 
     try {
