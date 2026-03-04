@@ -21,26 +21,35 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Intentamos obtener el anuncio directamente usando el ID de la URL (que ahora es listingId)
+                // Buscamos el anuncio en /explore donde el horseId coincida con el ID de la URL
                 let match = null;
                 try {
-                    const res = await exploreService.getListingById(id);
-                    match = res.data || res;
-                } catch (e) {
-                    console.warn("Listing not found by ID, trying filter logic...", e);
+                    // Intentamos filtrar directamente por el ID recibido
                     const response = await exploreService.getListingByHorseId(id);
                     const listings = response.data?.content || response.content || [];
+
                     match = listings.find(l =>
-                        l.listingId === id ||
-                        l.id === id ||
                         l.horseId === id ||
-                        l.horse?.id === id
+                        l.horse?.id === id ||
+                        l.listingId === id ||
+                        l.id === id
                     );
+
+                    if (match) {
+                        console.log("=== Match found in explore listings ===", match);
+                    } else {
+                        // Fallback: intentar por ID directo de anuncio
+                        const res = await exploreService.getListingById(id);
+                        match = res.data || res;
+                    }
+                } catch (e) {
+                    console.warn("Error searching for listing in explore:", e);
                 }
 
                 if (match && (match.listingId || match.id)) {
-                    console.log("=== Listing Data Found ===", match);
-                    setListingId(match.listingId || match.id);
+                    const lId = match.listingId || match.id;
+                    console.log("=== Listing found. listingId for purchase:", lId);
+                    setListingId(lId);
 
                     // Mapeamos los datos del caballo
                     const horseData = match.horse || match;
@@ -48,16 +57,16 @@ export default function HorseDetails() {
                         ...horseData,
                         id: horseData.id || horseData.horseId,
                         price: match.price || horseData.price,
-                        listingId: match.listingId || match.id
+                        listingId: lId
                     };
-                    console.log("=== Horse Data Loaded (from Listing) ===", finalHorse);
+                    console.log("=== Final Horse Data Loaded ===", finalHorse);
                     setHorse(finalHorse);
                 } else {
-                    // Fallback: Si no lo encuentra como listing, intentamos directo por caballo
+                    // Si nada funciona, intentamos directo por el endpoint de caballos
                     const res = await horseService.getHorseById(id);
                     const data = res.data || res;
                     const finalHorse = data.horse || data;
-                    console.log("=== Horse Data Loaded (from Fallback) ===", finalHorse);
+                    console.log("=== Fallback: Horse loaded directly ===", finalHorse);
                     setHorse(finalHorse);
                 }
             } catch (err) {
