@@ -17,7 +17,7 @@ export default function HorseProfile({ horse }) {
                 <div className="card">
                     <div className="card-header">
                         <Shield size={20} color="#ca8a04" />
-                        <h2>Veterinary Records</h2>
+                        <h2>Registros Veterinarios</h2>
                     </div>
                     <div className="card-content">
                         {isLoggedIn ? (
@@ -32,9 +32,9 @@ export default function HorseProfile({ horse }) {
                         ) : (
                             <div className="locked-state">
                                 <div className="lock-icon">🔒</div>
-                                <p className="locked-title">Full veterinary records available to registered users</p>
-                                <p className="locked-desc">Sign in to view complete medical history and exam results</p>
-                                <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
+                                <p className="locked-title">Registros veterinarios completos disponibles para usuarios registrados</p>
+                                <p className="locked-desc">Inicia sesión para ver el historial médico completo y los resultados de los exámenes.</p>
+                                <button className="sign-in-btn" onClick={handleLogin}>Iniciar Sesión para Ver</button>
                             </div>
                         )}
                     </div>
@@ -44,7 +44,7 @@ export default function HorseProfile({ horse }) {
                 <div className="card">
                     <div className="card-header">
                         <Sparkles size={20} color="#ca8a04" />
-                        <h2>Performance & Trust</h2>
+                        <h2>Rendimiento y Confianza</h2>
                     </div>
                     <div className="card-content">
                         {isLoggedIn ? (
@@ -64,9 +64,9 @@ export default function HorseProfile({ horse }) {
                         ) : (
                             <div className="locked-state">
                                 <div className="lock-icon">🔒</div>
-                                <p className="locked-title">Detailed trust analysis available</p>
-                                <p className="locked-desc">View verified performance metrics and trust scores</p>
-                                <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
+                                <p className="locked-title">Análisis de confianza detallado disponible</p>
+                                <p className="locked-desc">Visualiza métricas de rendimiento verificadas y puntajes de confianza.</p>
+                                <button className="sign-in-btn" onClick={handleLogin}>Iniciar Sesión para Ver</button>
                             </div>
                         )}
                     </div>
@@ -78,7 +78,7 @@ export default function HorseProfile({ horse }) {
             <div className="card history-card">
                 <div className="card-header">
                     <Award size={20} color="#ca8a04" />
-                    <h2>Complete History & Background</h2>
+                    <h2>Historial Completo y Antecedentes</h2>
                 </div>
                 <div className="card-content">
                     {isLoggedIn ? (
@@ -95,9 +95,9 @@ export default function HorseProfile({ horse }) {
                     ) : (
                         <div className="locked-state">
                             <div className="lock-icon">🔒</div>
-                            <p className="locked-title">Detailed ownership and competition history</p>
-                            <p className="locked-desc">Access complete background, training timeline, and seller credentials</p>
-                            <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
+                            <p className="locked-title">Historial detallado de propiedad y competencia</p>
+                            <p className="locked-desc">Accede al trasfondo completo, cronograma de entrenamiento y credenciales del vendedor.</p>
+                            <button className="sign-in-btn" onClick={handleLogin}>Iniciar Sesión para Ver</button>
                         </div>
                     )}
                 </div>

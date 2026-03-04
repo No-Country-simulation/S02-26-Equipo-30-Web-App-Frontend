@@ -428,7 +428,7 @@ const Dashboard = () => {
                                             </div>
                                             <div className="db-horse-info">
                                                 <div className="db-horse-header">
-                                                    <h4>{horse.name}</h4>
+                                                    <h4>{horse.horseName || horse.name || "Caballo"}</h4>
                                                     <span className="price">${horse.price?.toLocaleString()}</span>
                                                 </div>
                                                 <div className="db-horse-meta">

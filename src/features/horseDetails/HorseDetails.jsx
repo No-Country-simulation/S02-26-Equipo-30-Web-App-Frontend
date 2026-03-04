@@ -25,8 +25,9 @@ export default function HorseDetails() {
             try {
                 setLoading(true);
                 const response = await horseService.getHorseById(id);
-                // La API devuelve el objeto caballo directamente, no anidado en '.data'
-                setHorse(response.data || response);
+                // La API suele devolver el objeto caballo directamente, o anidado en 'data' o 'horse'
+                const data = response.data || response;
+                setHorse(data.horse || data);
             } catch (err) {
                 console.error("Error fetching horse details:", err);
                 setError("No se pudo cargar la información del caballo.");
@@ -86,6 +87,15 @@ export default function HorseDetails() {
         }
     };
 
+    const translateSex = (sex) => {
+        const mapping = {
+            'STALLION': 'Semental',
+            'MARE': 'Yegua',
+            'GELDING': 'Castrado'
+        };
+        return mapping[sex?.toUpperCase()] || sex;
+    };
+
     return (
         <div className="listing-container">
             <div className="listing-card">
@@ -96,7 +106,7 @@ export default function HorseDetails() {
                     </div>
                     <img
                         src={horse.imageUrl || "https://picsum.photos/900/700?random=horse"}
-                        alt={horse.name}
+                        alt={horse.horseName || horse.name}
                         className="horse-image"
                     />
                     <button className="favorite">
@@ -106,8 +116,8 @@ export default function HorseDetails() {
 
                 <div className="info-section">
                     <div className="title-header">
-                        <h1 className="title">{horse.name}</h1>
-                        <span className={`sex-badge ${horse.sex?.toLowerCase()}`}>{horse.sex}</span>
+                        <h1 className="title">{horse.horseName || horse.name}</h1>
+                        <span className={`sex-badge ${horse.sex?.toLowerCase()}`}>{translateSex(horse.sex)}</span>
                     </div>
                     <p className="subtitle">{horse.breed}</p>
                     <h2 className="price">{horse.price ? `$${horse.price.toLocaleString()}` : "Contactar para precio"}</h2>
@@ -153,8 +163,8 @@ export default function HorseDetails() {
                         <div className="detail-item">
                             <Info size={18} className="icon" />
                             <div>
-                                <p className="label">Uso Principal</p>
-                                <p>{horse.mainUse}</p>
+                                <p className="label">País de Origen</p>
+                                <p>{horse.birthCountry || horse.location?.country || "N/A"}</p>
                             </div>
                         </div>
                     </div>
@@ -164,7 +174,7 @@ export default function HorseDetails() {
                     <div className="description">
                         <h3>Descripción y Temperamento</h3>
                         <p>
-                            {horse.name} es un ejemplar de temperamento <strong>{horse.temperament}</strong>.
+                            {horse.horseName || horse.name} es un ejemplar de temperamento <strong>{horse.temperament}</strong>.
                             Ideal para <strong>{horse.mainUse}</strong>.
                         </p>
                         <div className="extra-stats">
