@@ -1,4 +1,4 @@
-import "./howItWorks.css";
+import "./HowItWorks.css";
 import { useNavigate } from "react-router-dom";
 
 import Badge from "@components/badge/Badge";
