@@ -6,7 +6,7 @@ import "./HorseCard.css";
 
 export default function HorseCard(props) {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, isAuthenticated } = useAuth();
     // Soporta el nuevo esquema: { id, price, isVip, horse: { ... } }
     // O el antiguo por compatibilidad: { id, price, name, etc }
     const listing = props;
@@ -94,42 +94,33 @@ export default function HorseCard(props) {
                     style={{ cursor: 'pointer' }}
                 />
 
-                <div className="horse-card__actions-container" ref={menuRef}>
-                    <button
-                        className={`horse-card__action-btn ${isMenuOpen ? 'active' : ''}`}
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        aria-label="Acciones"
-                    >
-                        <MoreVertical size={20} />
-                    </button>
+                {(isAuthenticated && (horseData.ownerId === user?.id || horseData.sellerId === user?.id || props.sellerId === user?.id || props.ownerId === user?.id)) && (
+                    <div className="horse-card__actions-container" ref={menuRef}>
+                        <button
+                            className={`horse-card__action-btn ${isMenuOpen ? 'active' : ''}`}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Acciones"
+                        >
+                            <MoreVertical size={20} />
+                        </button>
 
-                    {isMenuOpen && (
-                        <div className="horse-card__dropdown">
-                            <button
-                                className="dropdown-item"
-                                onClick={() => navigate(`/detalle/${id}`)}
-                            >
-                                <Eye size={18} />
-                                <span>Ver</span>
-                            </button>
-                            {(horseData.ownerId === user?.id || horseData.sellerId === user?.id || props.sellerId === user?.id || props.ownerId === user?.id) && (
-                                <>
-                                    <button
-                                        className="dropdown-item"
-                                        onClick={() => navigate(`/caballo/editar/${id}`)}
-                                    >
-                                        <Edit size={18} />
-                                        <span>Editar</span>
-                                    </button>
-                                    <button className="dropdown-item delete">
-                                        <Trash size={18} />
-                                        <span>Eliminar</span>
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    )}
-                </div>
+                        {isMenuOpen && (
+                            <div className="horse-card__dropdown">
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => navigate(`/caballo/editar/${id}`)}
+                                >
+                                    <Edit size={18} />
+                                    <span>Editar</span>
+                                </button>
+                                <button className="dropdown-item delete">
+                                    <Trash size={18} />
+                                    <span>Eliminar</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {(isVip || isFeatured) && (
                     <div className="horse-card__badges">
