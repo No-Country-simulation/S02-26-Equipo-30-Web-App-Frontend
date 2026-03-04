@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info } from "@shared/branding/icons";
 import { horseService } from "@features/horse-management/horseService";
 import { stripeService } from "@features/stripe/stripeService";
-import { exploreService } from "@features/explore/exploreService";
 
 export default function HorseDetails() {
     const { id } = useParams();
@@ -21,53 +20,26 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Buscamos el anuncio en /explore donde el horseId coincida con el ID de la URL
-                let match = null;
-                try {
-                    // Intentamos filtrar directamente por el ID recibido
-                    const response = await exploreService.getListingByHorseId(id);
-                    const listings = response.data?.content || response.content || [];
+                // Fetch horse data directly
+                const res = await horseService.getHorseById(id);
+                const horseData = res.data || res;
 
-                    match = listings.find(l =>
-                        l.horseId === id ||
-                        l.horse?.id === id ||
-                        l.listingId === id ||
-                        l.id === id
-                    );
+                if (horseData) {
+                    console.log("=== Horse Data Loaded Successfully ===", horseData);
 
-                    if (match) {
-                        console.log("=== Match found in explore listings ===", match);
-                    } else {
-                        // Fallback: intentar por ID directo de anuncio
-                        const res = await exploreService.getListingById(id);
-                        match = res.data || res;
-                    }
-                } catch (e) {
-                    console.warn("Error searching for listing in explore:", e);
-                }
+                    // The API now returns listingId directly
+                    setListingId(horseData.listingId);
 
-                if (match && (match.listingId || match.id)) {
-                    const lId = match.listingId || match.id;
-                    console.log("=== Listing found. listingId for purchase:", lId);
-                    setListingId(lId);
-
-                    // Mapeamos los datos del caballo
-                    const horseData = match.horse || match;
+                    // Map data to ensure backward compatibility with UI if needed
                     const finalHorse = {
                         ...horseData,
-                        id: horseData.id || horseData.horseId,
-                        price: match.price || horseData.price,
-                        listingId: lId
+                        id: horseData.id || id,
+                        listingId: horseData.listingId
                     };
-                    console.log("=== Final Horse Data Loaded ===", finalHorse);
+
                     setHorse(finalHorse);
                 } else {
-                    // Si nada funciona, intentamos directo por el endpoint de caballos
-                    const res = await horseService.getHorseById(id);
-                    const data = res.data || res;
-                    const finalHorse = data.horse || data;
-                    console.log("=== Fallback: Horse loaded directly ===", finalHorse);
-                    setHorse(finalHorse);
+                    throw new Error("Horse not found");
                 }
             } catch (err) {
                 console.error("Error fetching horse details:", err);
