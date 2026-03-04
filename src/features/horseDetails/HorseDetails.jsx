@@ -3,7 +3,8 @@ import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
 import HorseProfile from "./components/horseProfile/HorseProfile";
 import { useNavigate, useParams } from "react-router-dom";
-import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info } from "@shared/branding/icons";
+import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info, Lock } from "@shared/branding/icons";
+import { useAuth } from "@shared/context/AuthContext";
 import { horseService } from "@features/horse-management/horseService";
 import { stripeService } from "@features/stripe/stripeService";
 
@@ -15,6 +16,7 @@ export default function HorseDetails() {
     const [error, setError] = useState(null);
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [listingId, setListingId] = useState(null);
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -124,7 +126,7 @@ export default function HorseDetails() {
                         <span className="badge score">Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</span>
                     </div>
                     <img
-                        src={horse.imageUrl || "https://picsum.photos/900/700?random=horse"}
+                        src={horse.imageUrl || `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=1200&auto=format&fit=crop&random=${horse.id}`}
                         alt={horse.horseName || horse.name}
                         className="horse-image"
                     />
@@ -189,27 +191,41 @@ export default function HorseDetails() {
                     </div>
 
                     <hr />
-
                     <div className="description">
                         <h3>Descripción y Temperamento</h3>
                         <p>
                             {horse.horseName || horse.name} es un ejemplar de temperamento <strong>{horse.temperament}</strong>.
                             Ideal para <strong>{horse.mainUse}</strong>.
                         </p>
-                        <div className="extra-stats">
-                            <p><strong>Linaje:</strong> {horse.lineage || "No especificado"}</p>
-                            <p><strong>Carreras realizadas:</strong> {horse.careerRaces}</p>
-                            <p><strong>Días desde última carrera:</strong> {horse.daysSinceLastRace}</p>
-                        </div>
+
+                        {isAuthenticated ? (
+                            <div className="extra-stats">
+                                <p><strong>Linaje:</strong> {horse.lineage || "No especificado"}</p>
+                                <p><strong>Carreras realizadas:</strong> {horse.careerRaces}</p>
+                                <p><strong>Días desde última carrera:</strong> {horse.daysSinceLastRace}</p>
+                            </div>
+                        ) : (
+                            <div className="locked-inline-info">
+                                <Lock size={14} />
+                                <span>Inicia sesión para ver linaje y estadísticas de carrera</span>
+                            </div>
+                        )}
                     </div>
 
                     <div className="vet-summary">
                         <h3>Estado Veterinario</h3>
-                        <div className="vet-stats">
-                            <p><span>Exámenes totales:</span> {horse.vetTotalExams}</p>
-                            <p><span>Problemas mayores:</span> {horse.vetMajorIssues}</p>
-                            <p><span>Estado de puntaje:</span> <span className={`status-${horse.trustScoreStatus?.toLowerCase()}`}>{horse.trustScoreStatus}</span></p>
-                        </div>
+                        {isAuthenticated ? (
+                            <div className="vet-stats">
+                                <p><span>Exámenes totales:</span> {horse.vetTotalExams}</p>
+                                <p><span>Problemas mayores:</span> {horse.vetMajorIssues}</p>
+                                <p><span>Estado de puntaje:</span> <span className={`status-${horse.trustScoreStatus?.toLowerCase()}`}>{horse.trustScoreStatus}</span></p>
+                            </div>
+                        ) : (
+                            <div className="locked-inline-info">
+                                <Lock size={14} />
+                                <span>Información veterinaria detallada protegida</span>
+                            </div>
+                        )}
                     </div>
 
                     <div className="listing-actions">

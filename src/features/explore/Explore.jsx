@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ExploreHeader from './components/ExploreHeader/ExploreHeader';
 import DisciplineTabs from './components/DisciplineTabs/DisciplineTabs';
 import FilterSidebar from './components/FilterSidebar/FilterSidebar';
@@ -8,15 +9,16 @@ import { horseService } from '@features/horse-management/horseService';
 import './Explore.css';
 
 const Explore = () => {
+    const [searchParams] = useSearchParams();
     const [horses, setHorses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(searchParams.get('keyword') || '');
     const [activeTab, setActiveTab] = useState('Todos');
     const [verified, setVerified] = useState(false);
-    const [premium, setPremium] = useState(false);
+    const [premium, setPremium] = useState(searchParams.get('premium') === 'true');
     const [filters, setFilters] = useState({
-        discipline: '',
+        discipline: searchParams.get('discipline') || '',
         breed: '',
         location: '',
         priceMin: '',
@@ -60,15 +62,13 @@ const Explore = () => {
     useEffect(() => {
         loadListings(0, true);
         setPage(0);
-    }, [activeTab, filters, search]); // Reiniciar cuando cambien los filtros o la búsqueda
+    }, [activeTab, filters, search, premium]); // Reiniciar cuando cambien los filtros o la búsqueda
 
     const handleLoadMore = () => {
         const nextPage = page + 1;
         setPage(nextPage);
         loadListings(nextPage);
     };
-
-
 
     const filtered = useMemo(() => {
         return horses.filter((listing) => {
@@ -106,7 +106,7 @@ const Explore = () => {
 
             return true;
         });
-    }, [horses, activeTab, verified, premium, filters]);
+    }, [horses, activeTab, verified, premium, filters, search]);
 
     return (
         <div className="explore-page">

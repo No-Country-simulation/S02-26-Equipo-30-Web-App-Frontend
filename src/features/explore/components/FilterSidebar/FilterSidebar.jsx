@@ -1,7 +1,7 @@
 import React from 'react';
 import './FilterSidebar.css';
 
-const DISCIPLINES = ['', 'Barrel Racing', 'Cutting', 'Dressage', 'Endurance', 'Hunter', 'Show Jumping'];
+const DISCIPLINES = ['', 'Barrel Racing', 'Cutting', 'Dressage', 'Endurance', 'Hunter', 'Show Jumping', 'Western'];
 const BREEDS = ['', 'Andalusian', 'Arabian', 'Dutch Warmblood', 'Morgan', 'Trakehner', 'Westphalian'];
 
 const FilterSidebar = ({ filters, onFilterChange }) => {

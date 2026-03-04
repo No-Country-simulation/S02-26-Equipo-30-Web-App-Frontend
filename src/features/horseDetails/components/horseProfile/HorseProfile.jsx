@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./HorseProfile.css";
 import { Shield, Sparkles, Award } from "@shared/branding/icons";
+import { useAuth } from "@shared/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function HorseProfile({ horse }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
-    const handleLogin = () => setIsLoggedIn(true);
+    const handleLogin = () => navigate("/login");
 
     if (!horse) return null;
 
@@ -20,7 +23,7 @@ export default function HorseProfile({ horse }) {
                         <h2>Registros Veterinarios</h2>
                     </div>
                     <div className="card-content">
-                        {isLoggedIn ? (
+                        {isAuthenticated ? (
                             <div className="logged-in-content">
                                 <p className="font-medium">Exámenes realizados: {horse.vetTotalExams}</p>
                                 <p>Problemas mayores detectados: {horse.vetMajorIssues}</p>
@@ -47,7 +50,7 @@ export default function HorseProfile({ horse }) {
                         <h2>Rendimiento y Confianza</h2>
                     </div>
                     <div className="card-content">
-                        {isLoggedIn ? (
+                        {isAuthenticated ? (
                             <div className="logged-in-content space-y-2">
                                 <div className="trust-meter">
                                     <p>Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</p>
@@ -81,7 +84,7 @@ export default function HorseProfile({ horse }) {
                     <h2>Historial Completo y Antecedentes</h2>
                 </div>
                 <div className="card-content">
-                    {isLoggedIn ? (
+                    {isAuthenticated ? (
                         <div className="logged-in-content space-y-2">
                             <p><strong>Linaje:</strong> {horse.lineage}</p>
                             <p><strong>Carreras realizadas:</strong> {horse.careerRaces}</p>

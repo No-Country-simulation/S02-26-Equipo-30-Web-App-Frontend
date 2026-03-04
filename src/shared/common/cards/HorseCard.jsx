@@ -13,7 +13,8 @@ export default function HorseCard(props) {
     const menuRef = useRef(null);
 
     // Placeholder image for horses without one
-    const HORSE_PLACEHOLDER = "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop";
+    // Usamos una URL de Unsplash con el término 'horse' y 'random' para mayor variedad
+    const getHorsePlaceholder = (horseId) => `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop&random=${horseId}`;
 
     // Cálculo de edad
     const calculateAge = (birthDate) => {
@@ -28,7 +29,7 @@ export default function HorseCard(props) {
     // Mapeo de campos del objeto Horse (desde /api/v1/listings/explore)
     const {
         name = props.horseName || props.name || "Caballo en Venta",
-        image = props.coverImageUrl || props.image || HORSE_PLACEHOLDER,
+        image = props.coverImageUrl || props.image || null,
         breed = props.breed || "",
         birthDate = props.birthDate || "",
         heightM = props.heightM || 0,
@@ -54,7 +55,7 @@ export default function HorseCard(props) {
         }
     }, [id, props]);
 
-    const displayImage = image && image !== "string" ? image : HORSE_PLACEHOLDER;
+    const displayImage = image && image !== "string" ? image : getHorsePlaceholder(id);
     const age = ageYears ? `${ageYears} años` : calculateAge(birthDate);
     const height = heightM ? `${heightM}m` : "";
     const discipline = mainUse;
