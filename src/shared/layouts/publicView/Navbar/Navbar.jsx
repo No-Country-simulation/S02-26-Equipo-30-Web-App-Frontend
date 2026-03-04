@@ -3,7 +3,7 @@ import logo from '@shared/branding/logo_218_64.png';
 import Btn from '@components/button/Btn.jsx';
 import IconBtn from '@components/button/IconBtn.jsx';
 import { NavLink, useNavigate } from "react-router-dom";
-import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut } from '@shared/branding/icons/index.js';
+import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut, Dashboard } from '@shared/branding/icons/index.js';
 
 import Dropdown from '@components/dropdown/Dropdown.jsx';
 import { useAuth } from '@shared/context/AuthContext.jsx';
@@ -42,45 +42,56 @@ const Navbar = () => {
                     <Btn>Explorar</Btn>
                 </NavLink>
 
-                {!isAuthenticated && (
-                    <Dropdown
-                        trigger={
-                            <Btn className="dropdown-btn-trigger">
-                                Recursos
-                                <ChevronDown size={16} style={{ marginLeft: '6px' }} />
-                            </Btn>
-                        }
-                        items={recursosItems}
-                    />
-                )}
+                <Dropdown
+                    trigger={
+                        <Btn className="dropdown-btn-trigger">
+                            Recursos
+                            <ChevronDown size={16} style={{ marginLeft: '6px' }} />
+                        </Btn>
+                    }
+                    items={recursosItems}
+                />
             </div>
 
             <div className="navbar-right">
                 {isAuthenticated ? (
                     <div className="auth-nav-items">
-                        <NavLink to="/favoritos">
-                            <IconBtn icon={<Heart size={18} />} title="Favoritos" />
+                        <NavLink to="/favoritos" className="nav-icon-link">
+                            <Btn className="nav-icon-btn">
+                                <Heart size={18} />
+                                <span>Favoritos</span>
+                            </Btn>
                         </NavLink>
-                        <NavLink to="/chat">
-                            <IconBtn icon={<Message size={18} />} title="Mensajes" />
+                        <NavLink to="/dashboard" className="nav-icon-link">
+                            <Btn className="nav-icon-btn">
+                                <Dashboard size={18} />
+                                <span>Dashboard</span>
+                            </Btn>
                         </NavLink>
-                        <Dropdown
-                            trigger={
-                                <div className="user-profile-trigger">
-                                    <div className="user-avatar">
-                                        <User size={20} />
-                                    </div>
-                                    <span className="user-name">{user?.name || 'Mi Cuenta'}</span>
-                                    <ChevronDown size={14} />
-                                </div>
-                            }
-                            items={profileItems}
+
+                        <div className="nav-separator"></div>
+
+                        <NavLink to="/perfil" className="profile-nav-link">
+                            <div className="user-profile-btn">
+                                <User size={18} />
+                                <span className="user-name">{user?.name || 'Mi Perfil'}</span>
+                            </div>
+                        </NavLink>
+
+                        <IconBtn
+                            icon={<LogOut size={18} />}
+                            title="Cerrar Sesión"
+                            onClick={logout}
+                            className="logout-icon-btn"
                         />
                     </div>
                 ) : (
                     <>
                         <NavLink to="/login">
-                            <Btn className='line-btn'>Ingresar</Btn>
+                            <Btn className='line-btn'>
+                                <User size={18} style={{ marginRight: '8px' }} />
+                                Ingresar
+                            </Btn>
                         </NavLink>
                         <NavLink to="/registro">
                             <Btn className='primary-btn'>Registrarse</Btn>

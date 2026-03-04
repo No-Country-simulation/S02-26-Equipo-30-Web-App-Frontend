@@ -93,9 +93,9 @@ const FeaturedHorses = () => {
                         </h2>
                     </div>
                     <div className="header-right">
-                        <button className="view-all-btn">
-                            Ver Todos (200) <ArrowRight size={18} />
-                        </button>
+                        <Link to="/explorar" className="view-all-btn">
+                            Ver Todos <ArrowRight size={18} />
+                        </Link>
                     </div>
                 </header>
 

@@ -310,18 +310,6 @@ export default function Home() {
             {/* DESTACADOS */}
             <section className="home-section home-section--alt">
                 <div className="home-container">
-                    <div className="home-head home-head--row">
-                        <div>
-                            <p className="home-kicker">DESTACADOS</p>
-                            <h2 className="home-h2">
-                                Caballos que <span>Marcan la Diferencia</span>
-                            </h2>
-                        </div>
-
-                        <Link to="/explorar" className="home-btn home-btn--outlineDark">
-                            Ver todos <ArrowRight size={18} />
-                        </Link>
-                    </div>
                     <FeaturedHorses />
                 </div>
             </section>
@@ -368,6 +356,6 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-        </main>
+        </main >
     );
 }
