@@ -1,10 +1,7 @@
 import React from 'react';
 import './FilterSidebar.css';
 
-const DISCIPLINES = ['', 'Barrel Racing', 'Cutting', 'Dressage', 'Endurance', 'Hunter', 'Show Jumping', 'Western'];
-const BREEDS = ['', 'Andalusian', 'Arabian', 'Dutch Warmblood', 'Morgan', 'Trakehner', 'Westphalian'];
-
-const FilterSidebar = ({ filters, onFilterChange }) => {
+const FilterSidebar = ({ filters, onFilterChange, availableDisciplines = [], availableBreeds = [] }) => {
     const handleChange = (key, value) => {
         onFilterChange({ ...filters, [key]: value });
     };
@@ -20,7 +17,7 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     value={filters.discipline}
                     onChange={(e) => handleChange('discipline', e.target.value)}
                 >
-                    {DISCIPLINES.map((d) => (
+                    {availableDisciplines.map((d) => (
                         <option key={d} value={d}>{d || 'Todas'}</option>
                     ))}
                 </select>
@@ -33,7 +30,7 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     value={filters.breed}
                     onChange={(e) => handleChange('breed', e.target.value)}
                 >
-                    {BREEDS.map((b) => (
+                    {availableBreeds.map((b) => (
                         <option key={b} value={b}>{b || 'Todas'}</option>
                     ))}
                 </select>

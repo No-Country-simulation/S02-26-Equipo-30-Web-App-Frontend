@@ -25,6 +25,9 @@ const Explore = () => {
         priceMax: '',
     });
 
+    const [availableDisciplines, setAvailableDisciplines] = useState([]);
+    const [availableBreeds, setAvailableBreeds] = useState([]);
+
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
 
@@ -40,6 +43,14 @@ const Explore = () => {
 
             if (isInitial) {
                 setHorses(content);
+
+                // Extract dynamic filters from the first 50 results
+                const first50 = content.slice(0, 50);
+                const disciplines = [...new Set(first50.map(item => (item.horse?.mainUse || item.horse?.discipline || item.mainUse || item.discipline)).filter(Boolean))].sort();
+                const breeds = [...new Set(first50.map(item => (item.horse?.breed || item.breed)).filter(Boolean))].sort();
+
+                setAvailableDisciplines(['', ...disciplines]);
+                setAvailableBreeds(['', ...breeds]);
             } else {
                 setHorses(prev => [...prev, ...content]);
             }
@@ -112,7 +123,12 @@ const Explore = () => {
         <div className="explore-page">
             <ExploreHeader searchValue={search} onSearchChange={setSearch} />
             <div className="explore-body">
-                <FilterSidebar filters={filters} onFilterChange={setFilters} />
+                <FilterSidebar
+                    filters={filters}
+                    onFilterChange={setFilters}
+                    availableDisciplines={availableDisciplines}
+                    availableBreeds={availableBreeds}
+                />
                 <main className="explore-main">
                     <DisciplineTabs
                         activeTab={activeTab}
