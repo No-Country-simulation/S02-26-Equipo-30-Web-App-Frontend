@@ -314,7 +314,7 @@
 
 .fav-btn--gold{
   background: var(--gold);
-  color: var(--navy);
+  color: white;
   border-color: rgba(0,0,0,0.06);
 }
 
