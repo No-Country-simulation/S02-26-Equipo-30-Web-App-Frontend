@@ -18,12 +18,35 @@ export default function HorseDetails() {
     const [listingId, setListingId] = useState(null);
 
     useEffect(() => {
-        const fetchHorse = async () => {
+        const fetchAllData = async () => {
             try {
                 setLoading(true);
-                const response = await horseService.getHorseById(id);
-                const data = response.data || response;
-                setHorse(data.horse || data);
+                // Intentamos obtener el anuncio directamente que contiene el caballo
+                // Usamos el ID de la URL que puede ser horseId o listingId
+                const response = await exploreService.getListingByHorseId(id);
+
+                // Si la respuesta es una lista (por ser un filtro), tomamos el primero
+                const listings = response.data?.content || response.content || [];
+                const match = listings.find(l => l.horseId === id || l.listingId === id || l.id === id) || listings[0];
+
+                if (match) {
+                    console.log("=== Horse/Listing Data Found ===", match);
+                    setListingId(match.listingId || match.id);
+
+                    // Mapeamos los datos del anuncio al estado del caballo
+                    // Combinamos los datos del caballo interno con los del anuncio (precio, etc)
+                    const horseData = match.horse || match;
+                    setHorse({
+                        ...horseData,
+                        price: match.price || horseData.price,
+                        listingId: match.listingId || match.id
+                    });
+                } else {
+                    // Fallback: Si no lo encuentra en explore, intentamos directo por caballo
+                    const res = await horseService.getHorseById(id);
+                    const data = res.data || res;
+                    setHorse(data.horse || data);
+                }
             } catch (err) {
                 console.error("Error fetching horse details:", err);
                 setError("No se pudo cargar la información del caballo.");
@@ -33,34 +56,9 @@ export default function HorseDetails() {
         };
 
         if (id) {
-            fetchHorse();
+            fetchAllData();
         }
     }, [id]);
-
-    useEffect(() => {
-        const fetchListingInfo = async () => {
-            try {
-                // Buscamos en el explore el anuncio que corresponda a este caballo para obtener el listingId y el precio
-                const data = await exploreService.getListings(0, 100);
-                const content = data?.content || [];
-                const match = content.find(l => l.horseId === id || l.listingId === id || l.id === id);
-                if (match) {
-                    console.log("=== match found in Explore ===", match);
-                    setListingId(match.listingId || match.id);
-                    // Si el anuncio tiene precio y el caballo no, lo actualizamos para mostrarlo en la UI
-                    if (match.price && horse && !horse.price) {
-                        setHorse(prev => ({ ...prev, price: match.price }));
-                    }
-                }
-            } catch (err) {
-                console.error("Error searching for listing info:", err);
-            }
-        };
-
-        if (id && horse) {
-            fetchListingInfo();
-        }
-    }, [id, horse]);
 
     if (loading) {
         return <div className="listing-container loading">Cargando detalles del caballo...</div>;
