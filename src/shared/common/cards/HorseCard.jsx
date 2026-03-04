@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@shared/context/AuthContext";
-import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown, Heart } from "@shared/branding/icons";
-import { favoritesService } from "@features/favorites/favoritesService";
+import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown } from "@shared/branding/icons";
 import "./HorseCard.css";
 
 export default function HorseCard(props) {
@@ -13,8 +12,6 @@ export default function HorseCard(props) {
     const listing = props;
     const horseData = props.horse ?? props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(props.isFavorite || false);
-    const [isFavLoading, setIsFavLoading] = useState(false);
     const menuRef = useRef(null);
 
     // Placeholder image for horses without one
@@ -153,30 +150,6 @@ export default function HorseCard(props) {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M8 5v14l11-7z" />
                     </svg>
-                </button>
-
-                <button
-                    className={`horse-card__fav-btn ${isFavorite ? 'is-favorite' : ''}`}
-                    onClick={async (e) => {
-                        e.stopPropagation();
-                        if (!isAuthenticated) {
-                            navigate('/login');
-                            return;
-                        }
-                        try {
-                            setIsFavLoading(true);
-                            await favoritesService.toggleFavorite(id);
-                            setIsFavorite(!isFavorite);
-                        } catch (err) {
-                            console.error("Error toggling favorite:", err);
-                        } finally {
-                            setIsFavLoading(false);
-                        }
-                    }}
-                    disabled={isFavLoading}
-                    aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-                >
-                    <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
                 </button>
             </div>
 
