@@ -17,6 +17,7 @@ export default function HorseDetails() {
     const [error, setError] = useState(null);
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [listingId, setListingId] = useState(null);
+    const [isOwner, setIsOwner] = useState(false);
     const { isAuthenticated, user } = useAuth();
 
     useEffect(() => {
@@ -32,6 +33,17 @@ export default function HorseDetails() {
 
                     // The API returns listingId directly
                     setListingId(horseData.listingId);
+
+                    // Ownership check using secondary endpoint if authenticated
+                    if (isAuthenticated) {
+                        try {
+                            const myHorses = await horseService.getUserHorses();
+                            const ownsIt = myHorses.some(h => h.id === horseData.id || h.id === id);
+                            setIsOwner(ownsIt);
+                        } catch (err) {
+                            console.error("Error checking horse ownership:", err);
+                        }
+                    }
 
                     // Map data to ensure backward compatibility with UI if needed
                     // Preference is given to 'name' as per the latest schema
@@ -232,7 +244,7 @@ export default function HorseDetails() {
                     </div>
 
                     <div className="listing-actions">
-                        {(isAuthenticated && user?.id && (horse.ownerId === user.id || horse.sellerId === user.id)) ? (
+                        {(isAuthenticated && (isOwner || (user?.id && (horse.ownerId === user.id || horse.sellerId === user.id)))) ? (
                             <Btn
                                 className="edit-btn"
                                 onClick={() => navigate(`/caballo/editar/${horse.id}`)}
