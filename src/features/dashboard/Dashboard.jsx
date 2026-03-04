@@ -64,8 +64,10 @@ const Dashboard = () => {
         if (window.confirm(`¿Estás seguro de que deseas eliminar a "${name}"? Esta acción no se puede deshacer.`)) {
             try {
                 await horseService.deleteHorse(id);
-                // Refresh list
-                fetchUserHorses();
+                // Optimistic local update: filter out the deleted horse immediately
+                setUserHorses(prev => prev.filter(h => h.id !== id));
+                // Optional: Refresh from server to sync other possible changes
+                // fetchUserHorses(); 
             } catch (err) {
                 console.error('Error deleting horse:', err);
                 alert('No se pudo eliminar el caballo. Por favor intenta de nuevo.');
