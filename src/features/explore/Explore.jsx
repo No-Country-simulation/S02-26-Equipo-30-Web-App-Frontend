@@ -29,7 +29,8 @@ const Explore = () => {
     const loadListings = async (pageNum, isInitial = false) => {
         try {
             if (isInitial) setLoading(true);
-            const data = await exploreService.getListings(pageNum);
+            // Pasamos el término de búsqueda como 'keyword' a la API
+            const data = await exploreService.getListings(pageNum, 10, search);
             console.log(`Explore RAW data (page ${pageNum}):`, data);
 
             const content = data?.content || [];
@@ -59,7 +60,7 @@ const Explore = () => {
     useEffect(() => {
         loadListings(0, true);
         setPage(0);
-    }, [activeTab, filters, search]); // Reiniciar cuando cambien los filtros
+    }, [activeTab, filters, search]); // Reiniciar cuando cambien los filtros o la búsqueda
 
     const handleLoadMore = () => {
         const nextPage = page + 1;
@@ -71,14 +72,11 @@ const Explore = () => {
 
     const filtered = useMemo(() => {
         return horses.filter((listing) => {
-            // El objeto real del caballo puede venir anidado en 'horse'
             const h = listing.horse ?? listing;
 
-            const name = h.horseName || h.name || 'Caballo Sin Nombre';
             const breed = h.breed || '';
             const discipline = h.mainUse || h.discipline || '';
 
-            // Si location es objeto, unir campos para la búsqueda
             const locText = typeof h.location === 'object'
                 ? `${h.location?.city || ''} ${h.location?.region || ''} ${h.location?.country || ''}`.toLowerCase()
                 : String(h.location || '').toLowerCase();
@@ -86,10 +84,7 @@ const Explore = () => {
             const price = Number(listing.price) || 0;
             const trustScore = Number(h.trustScore) > 1 ? Number(h.trustScore) : (Number(h.trustScore) * 100);
 
-            if (search && !name.toLowerCase().includes(search.toLowerCase()) &&
-                !breed.toLowerCase().includes(search.toLowerCase()) &&
-                !discipline.toLowerCase().includes(search.toLowerCase())) return false;
-
+            // Quitamos la lógica de search de aquí porque ya lo filtra la API
             if (activeTab !== 'Todos' && discipline !== activeTab) return false;
             if (verified && trustScore < 90) return false;
             if (premium && !listing.isVip) return false;
@@ -102,7 +97,7 @@ const Explore = () => {
 
             return true;
         });
-    }, [horses, search, activeTab, verified, premium, filters]);
+    }, [horses, activeTab, verified, premium, filters]);
 
     return (
         <div className="explore-page">
