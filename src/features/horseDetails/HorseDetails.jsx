@@ -243,7 +243,7 @@ export default function HorseDetails() {
                     <div className="listing-actions">
                         <Btn
                             className="chat-btn"
-                            onClick={() => navigate(`/chat?horseId=${horse.id}`)}
+                            onClick={() => navigate(`/chat?listingId=${horse.listingId}`)}
                         >
                             <Message size={18} />
                             Chatear con el vendedor

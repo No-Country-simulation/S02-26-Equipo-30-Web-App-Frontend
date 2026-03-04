@@ -92,6 +92,7 @@ export const apiClient = {
     get: (url, options) => request(url, { ...options, method: 'GET' }),
     post: (url, body, options) => request(url, { ...options, method: 'POST', body }),
     put: (url, body, options) => request(url, { ...options, method: 'PUT', body }),
+    patch: (url, body, options) => request(url, { ...options, method: 'PATCH', body }),
     delete: (url, options) => request(url, { ...options, method: 'DELETE' }),
 };
 
