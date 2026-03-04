@@ -39,12 +39,18 @@ export default function HorseCard(props) {
     } = horseData;
 
     // Campos del Listing
+    const id = listing.listingId || listing.id || "";
     const {
-        id = listing.id || "",
         price = listing.price || "Consultar",
         isVip = listing.isVip || false,
         isFeatured = listing.isFeatured || false,
     } = listing;
+
+    useEffect(() => {
+        if (!id) {
+            console.warn("HorseCard: No ID found for listing:", listing);
+        }
+    }, [id, listing]);
 
     const displayImage = image && image !== "string" ? image : HORSE_PLACEHOLDER;
     const age = calculateAge(birthDate);

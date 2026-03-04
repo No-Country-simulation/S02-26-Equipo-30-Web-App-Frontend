@@ -413,7 +413,7 @@ const Dashboard = () => {
                                         <div
                                             key={horse.id}
                                             className="db-horse-card"
-                                            onClick={() => navigate('/detalle')}
+                                            onClick={() => navigate(`/detalle/${horse.id}`)}
                                         >
                                             <div
                                                 className="db-horse-img"

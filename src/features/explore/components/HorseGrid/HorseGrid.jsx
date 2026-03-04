@@ -8,7 +8,7 @@ const HorseGrid = ({ horses, totalCount }) => {
             <p className="horse-grid-count">{totalCount} Caballos</p>
             <div className="horse-grid">
                 {horses.map((horse) => (
-                    <HorseCard key={horse.id} {...horse} />
+                    <HorseCard key={horse.listingId || horse.id} {...horse} />
                 ))}
             </div>
         </div>
