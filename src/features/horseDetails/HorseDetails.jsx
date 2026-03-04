@@ -28,18 +28,26 @@ export default function HorseDetails() {
                 // If the search returns a list, find the specific horse that matches the UUID in the URL
                 // Find the specific horse by searching multiple possible ID fields in the content or response
                 const findHorse = (data, targetId) => {
-                    const items = data?.content || (Array.isArray(data) ? data : (data?.data ? [data.data] : []));
-                    if (!items.length && data?.id === targetId) return data;
+                    if (!data) return null;
 
-                    return items.find(h =>
-                        h.id === targetId ||
-                        h.horseId === targetId ||
-                        h.horse?.id === targetId ||
-                        h.listingId === targetId
-                    );
+                    const isMatch = (h) =>
+                        h && (h.id === targetId ||
+                            h.horseId === targetId ||
+                            h.horse?.id === targetId ||
+                            h.listingId === targetId ||
+                            h.id?.toString() === targetId?.toString() ||
+                            h.listingId?.toString() === targetId?.toString()); // Safety for string/num mismatches
+
+                    // 1. Check if the response itself is the horse
+                    if (isMatch(data)) return data;
+                    if (isMatch(data.data)) return data.data;
+
+                    // 2. Check in content or arrays
+                    const items = data.content || (Array.isArray(data) ? data : []);
+                    return items.find(isMatch);
                 };
 
-                const horseData = findHorse(res, id) || (res.id === id ? res : null) || (res.data?.id === id ? res.data : null);
+                const horseData = findHorse(res, id);
 
 
                 if (horseData) {
