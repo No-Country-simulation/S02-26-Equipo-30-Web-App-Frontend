@@ -9,6 +9,7 @@ import { horseService } from "@features/horse-management/horseService";
 import { exploreService } from "@features/explore/exploreService";
 import { stripeService } from "@features/stripe/stripeService";
 import { favoritesService } from "@features/favorites/favoritesService";
+import { getHorsePlaceholder } from "@/shared/utils/placeholders";
 
 export default function HorseDetails() {
     const { id } = useParams();
@@ -145,7 +146,7 @@ export default function HorseDetails() {
                         <span className="badge score">Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</span>
                     </div>
                     <img
-                        src={horse.imageUrl || `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=1200&auto=format&fit=crop&random=${horse.id}`}
+                        src={horse.imageUrl || getHorsePlaceholder(horse.id, 1200)}
                         alt={horse.horseName || horse.name}
                         className="horse-image"
                     />

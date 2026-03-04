@@ -130,11 +130,6 @@ export default function Favorites() {
         fetchFavorites();
     }, [isAuthenticated]);
 
-    const avgPrice = useMemo(() => {
-        if (!savedHorses.length) return 0;
-        const total = savedHorses.reduce((sum, h) => sum + Number(h.price || 0), 0);
-        return Math.round(total / savedHorses.length);
-    }, [savedHorses]);
 
     const avgTrust = useMemo(() => {
         if (!savedHorses.length) return 0;
@@ -153,7 +148,7 @@ export default function Favorites() {
                     <div className="fav-hero__top">
                         <div className="fav-hero__left">
                             <div>
-                                <h1 className="fav-hero__title">Bienvenido, {user?.name || "Usuario"}</h1>
+                                <h1 className="fav-hero__title">Bienvenido, {user?.fullName || user?.name || "Usuario"}</h1>
                                 <p className="fav-hero__subtitle">Tu colección ecuestre personalizada</p>
                             </div>
                         </div>
@@ -170,10 +165,6 @@ export default function Favorites() {
                         <div className="fav-stat">
                             <p className="fav-stat__label">Guardados</p>
                             <p className="fav-stat__value">{savedHorses.length}</p>
-                        </div>
-                        <div className="fav-stat">
-                            <p className="fav-stat__label">Precio Promedio</p>
-                            <p className="fav-stat__value">${(avgPrice / 1000).toFixed(0)}k</p>
                         </div>
                         <div className="fav-stat">
                             <p className="fav-stat__label">Trust Score</p>

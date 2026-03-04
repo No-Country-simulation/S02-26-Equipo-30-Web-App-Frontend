@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@shared/context/AuthContext";
 import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown } from "@shared/branding/icons";
+import { getHorsePlaceholder } from "@/shared/utils/placeholders";
 import "./HorseCard.css";
 
 export default function HorseCard(props) {
@@ -14,9 +15,6 @@ export default function HorseCard(props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
-    // Placeholder image for horses without one
-    // Usamos una URL de Unsplash con el término 'horse' y 'random' para mayor variedad
-    const getHorsePlaceholder = (horseId) => `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop&random=${horseId}`;
 
     // Cálculo de edad
     const calculateAge = (birthDate) => {
@@ -28,28 +26,28 @@ export default function HorseCard(props) {
         return `${age} años`;
     };
 
-    // Mapeo de campos del objeto Horse (desde /api/v1/listings/explore)
+    // Mapeo de campos del objeto Horse (desde /api/v1/listings/explore o favoritos)
     const {
-        name = props.horseName || props.name || "Caballo en Venta",
-        image = props.coverImageUrl || props.image || null,
-        breed = props.breed || "",
-        birthDate = props.birthDate || "",
-        heightM = props.heightM || 0,
-        mainUse = props.discipline || "",
-        tags = props.tags || [],
-        trustScore = props.trustScore || 50,
-        ageYears = props.ageYears || "",
-    } = props;
+        name = horseData.horseName || horseData.name || "Caballo en Venta",
+        image = horseData.coverImageUrl || horseData.image || null,
+        breed = horseData.breed || "",
+        birthDate = horseData.birthDate || "",
+        heightM = horseData.heightM || 0,
+        mainUse = horseData.discipline || horseData.mainUse || "",
+        tags = horseData.tags || [],
+        trustScore = horseData.trustScore || 50,
+        ageYears = horseData.ageYears || "",
+    } = horseData;
 
     // Campos del Listing / Horse
     // Priorizamos el ID del caballo (UUID) si está disponible en horseData o props
     const id = horseData.id || horseData.horseId || props.horseId || props.listingId || props.id || "";
     const listingId = props.listingId || props.id || "";
-    const {
-        price = props.price || "Consultar",
-        isVip = props.vip || props.isVip || false,
-        isFeatured = props.isFeatured || false,
-    } = props;
+
+    // Extraemos precio y flags de horseData o props
+    const price = horseData.price || props.price || "Consultar";
+    const isVip = horseData.isVip || horseData.vip || props.isVip || props.vip || false;
+    const isFeatured = horseData.isFeatured || props.isFeatured || false;
 
     useEffect(() => {
         if (!id) {
