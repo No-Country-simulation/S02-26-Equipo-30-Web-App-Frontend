@@ -34,3 +34,6 @@ export { default as Plus } from './Plus';
 export { default as ShoppingCart } from './ShoppingCart';
 export { default as LogOut } from './LogOut';
 export { default as Dashboard } from './Dashboard';
+export { default as Ruler } from './Ruler';
+export { default as Weight } from './Weight';
+export { default as Gauge } from './Gauge';
