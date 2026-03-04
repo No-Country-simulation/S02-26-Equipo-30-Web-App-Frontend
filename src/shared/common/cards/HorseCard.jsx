@@ -94,40 +94,45 @@ export default function HorseCard(props) {
                     style={{ cursor: 'pointer' }}
                 />
 
-                {(isAuthenticated && (horseData.ownerId === user?.id || horseData.sellerId === user?.id || props.sellerId === user?.id || props.ownerId === user?.id)) && (
-                    <div className="horse-card__actions-container" ref={menuRef}>
-                        <button
-                            className={`horse-card__action-btn ${isMenuOpen ? 'active' : ''}`}
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            aria-label="Acciones"
-                        >
-                            <MoreVertical size={20} />
-                        </button>
+                {(isAuthenticated && user?.id && (
+                    (horseData.ownerId === user.id && horseData.ownerId !== undefined) ||
+                    (horseData.sellerId === user.id && horseData.sellerId !== undefined) ||
+                    (props.sellerId === user.id && props.sellerId !== undefined) ||
+                    (props.ownerId === user.id && props.ownerId !== undefined)
+                )) && (
+                        <div className="horse-card__actions-container" ref={menuRef}>
+                            <button
+                                className={`horse-card__action-btn ${isMenuOpen ? 'active' : ''}`}
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                aria-label="Acciones"
+                            >
+                                <MoreVertical size={20} />
+                            </button>
 
-                        {isMenuOpen && (
-                            <div className="horse-card__dropdown">
-                                <button
-                                    className="dropdown-item"
-                                    onClick={() => navigate(`/detalle/${id}`)}
-                                >
-                                    <Eye size={18} />
-                                    <span>Ver</span>
-                                </button>
-                                <button
-                                    className="dropdown-item"
-                                    onClick={() => navigate(`/caballo/editar/${id}`)}
-                                >
-                                    <Edit size={18} />
-                                    <span>Editar</span>
-                                </button>
-                                <button className="dropdown-item delete">
-                                    <Trash size={18} />
-                                    <span>Eliminar</span>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                )}
+                            {isMenuOpen && (
+                                <div className="horse-card__dropdown">
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => navigate(`/detalle/${id}`)}
+                                    >
+                                        <Eye size={18} />
+                                        <span>Ver</span>
+                                    </button>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => navigate(`/caballo/editar/${id}`)}
+                                    >
+                                        <Edit size={18} />
+                                        <span>Editar</span>
+                                    </button>
+                                    <button className="dropdown-item delete">
+                                        <Trash size={18} />
+                                        <span>Eliminar</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                 {(isVip || isFeatured) && (
                     <div className="horse-card__badges">

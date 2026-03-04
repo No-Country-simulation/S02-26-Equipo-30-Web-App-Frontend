@@ -232,7 +232,7 @@ export default function HorseDetails() {
                     </div>
 
                     <div className="listing-actions">
-                        {horse.ownerId === user?.id || horse.sellerId === user?.id ? (
+                        {(isAuthenticated && user?.id && (horse.ownerId === user.id || horse.sellerId === user.id)) ? (
                             <Btn
                                 className="edit-btn"
                                 onClick={() => navigate(`/caballo/editar/${horse.id}`)}
