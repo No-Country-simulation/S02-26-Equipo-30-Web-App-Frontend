@@ -45,7 +45,7 @@ const Explore = () => {
 
     useEffect(() => {
         const fetchSpecificHorse = async () => {
-            const horseId = "e10b3b7d-1b33-41f2-a5d2-14ccc6eaff9f";
+            const horseId = "e1b1d465-e95a-4de9-9516-bc7a74dc1444";
             try {
                 const data = await horseService.getHorseById(horseId);
                 console.log('--- DATA FOR UUID: ' + horseId + ' ---');
