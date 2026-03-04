@@ -41,6 +41,23 @@ export const horseService = {
      */
     getHorseById: async (id) => {
         return apiClient.get(`${API_BASE}/${id}`);
+    },
+
+    /**
+     * Delete a horse listing
+     * @param {string} id - Horse UUID
+     */
+    deleteHorse: async (id) => {
+        return apiClient.delete(`${API_BASE}/${id}`);
+    },
+
+    /**
+     * Partially update a horse listing
+     * @param {string} id - Horse UUID
+     * @param {Object} horseData - Partial horse data
+     */
+    patchHorse: async (id, horseData) => {
+        return apiClient.patch(`${API_BASE}/${id}`, horseData);
     }
 };
 

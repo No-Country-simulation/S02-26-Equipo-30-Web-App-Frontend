@@ -12,12 +12,13 @@ import {
     Shield,
     ShoppingCart
 } from '@shared/branding/icons';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import Btn from '@/shared/common/button/Btn';
 import horseService from './horseService';
 
 const HorseForm = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const location = useLocation();
     const isEdit = location.pathname.includes('editar');
 
@@ -55,6 +56,51 @@ const HorseForm = () => {
         price: ''
     });
 
+    useEffect(() => {
+        if (isEdit && id) {
+            const fetchHorse = async () => {
+                setLoading(true);
+                try {
+                    const res = await horseService.getHorseById(id);
+                    const data = res.data || res;
+                    setFormData({
+                        name: data.name || '',
+                        birthDate: data.birthDate || '2020-01-01',
+                        sex: data.sex || 'STALLION',
+                        breed: data.breed || '',
+                        heightM: data.heightM || 1.6,
+                        weightKg: data.weightKg || 500,
+                        lengthM: data.lengthM || 2.4,
+                        maxSpeedKmh: data.maxSpeedKmh || 60,
+                        temperament: data.temperament || 'CALM',
+                        mainUse: data.mainUse || 'RACING',
+                        lineage: data.lineage || '',
+                        careerRaces: data.careerRaces || 0,
+                        daysSinceLastRace: data.daysSinceLastRace || 0,
+                        birthCountry: data.birthCountry || '',
+                        location: {
+                            country: data.location?.country || '',
+                            region: data.location?.region || '',
+                            city: data.location?.city || ''
+                        },
+                        sellerVerified: data.sellerVerified ?? true,
+                        sellerDisputes: data.sellerDisputes || 0,
+                        sellerFlaggedFraud: data.sellerFlaggedFraud ?? false,
+                        vetTotalExams: data.vetTotalExams || 0,
+                        vetMajorIssues: data.vetMajorIssues || 0,
+                        price: data.price || ''
+                    });
+                } catch (err) {
+                    console.error('Error fetching horse for edit:', err);
+                    setError('No se pudo cargar la información del caballo.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchHorse();
+        }
+    }, [isEdit, id]);
+
     const handleChange = (e) => {
         const { name, value, type } = e.target;
 
@@ -82,9 +128,9 @@ const HorseForm = () => {
 
         try {
             if (isEdit) {
-                // For edit, we might still send JSON if media is handled elsewhere,
-                // but let's stick to the requested creation logic for now.
-                // await horseService.updateHorse(id, formData);
+                // For PATCH, we send the fields that changed or just the whole formData as JSON
+                // The user specifically asked for PATCH /api/v1/horses/{id}
+                await horseService.patchHorse(id, formData);
             } else {
                 const horseDataPayload = { ...formData };
                 const price = horseDataPayload.price;

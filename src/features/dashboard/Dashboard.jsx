@@ -13,6 +13,9 @@ import {
     Search,
     ArrowRight,
     Sparkles,
+    MoreVertical,
+    Edit,
+    Trash,
     // Loader2
 } from '@shared/branding/icons';
 
@@ -55,6 +58,20 @@ const Dashboard = () => {
     const [userHorses, setUserHorses] = useState([]);
     const [loadingHorses, setLoadingHorses] = useState(false);
     const [errorHorses, setErrorHorses] = useState(null);
+    const [menuOpenId, setMenuOpenId] = useState(null);
+
+    const handleDeleteHorse = async (id, name) => {
+        if (window.confirm(`¿Estás seguro de que deseas eliminar a "${name}"? Esta acción no se puede deshacer.`)) {
+            try {
+                await horseService.deleteHorse(id);
+                // Refresh list
+                fetchUserHorses();
+            } catch (err) {
+                console.error('Error deleting horse:', err);
+                alert('No se pudo eliminar el caballo. Por favor intenta de nuevo.');
+            }
+        }
+    };
 
     const fetchUserHorses = async () => {
         setLoadingHorses(true);
@@ -68,6 +85,18 @@ const Dashboard = () => {
         } finally {
             setLoadingHorses(false);
         }
+    };
+
+    const calculateAge = (birthDate) => {
+        if (!birthDate) return "N/A";
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
     };
 
     useEffect(() => {
@@ -381,11 +410,15 @@ const Dashboard = () => {
                                         <div
                                             key={horse.id}
                                             className="db-horse-card"
-                                            onClick={() => navigate(`/detalle/${horse.id}`)}
+                                            onClick={(e) => {
+                                                // Prevent navigation if clicking on action menu
+                                                if (e.target.closest('.db-horse-actions')) return;
+                                                navigate(`/detalle/${horse.id}`);
+                                            }}
                                         >
                                             <div
                                                 className="db-horse-img"
-                                                style={{ backgroundImage: `url(${horse.images?.[0] || 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop'})` }}
+                                                style={{ backgroundImage: `url(${horse.imageUrl || horse.images?.[0] || `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=1200&auto=format&fit=crop&random=${horse.id}`})` }}
                                             >
                                                 <div className="db-badge-row">
                                                     {horse.isVip && <span className="db-tag db-tag-vip">VIP</span>}
@@ -393,22 +426,59 @@ const Dashboard = () => {
                                                         {horse.status || 'Activo'}
                                                     </span>
                                                 </div>
+
+                                                {/* ACTIONS MENU */}
+                                                <div className="db-horse-actions">
+                                                    <button
+                                                        className="db-action-trigger"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setMenuOpenId(menuOpenId === horse.id ? null : horse.id);
+                                                        }}
+                                                    >
+                                                        <MoreVertical size={18} />
+                                                    </button>
+
+                                                    {menuOpenId === horse.id && (
+                                                        <div className="db-actions-dropdown">
+                                                            <button
+                                                                className="db-action-item"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    navigate(`/caballo/editar/${horse.id}`);
+                                                                }}
+                                                            >
+                                                                <Edit size={14} /> Editar
+                                                            </button>
+                                                            <button
+                                                                className="db-action-item delete"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDeleteHorse(horse.id, horse.name || horse.horseName);
+                                                                    setMenuOpenId(null);
+                                                                }}
+                                                            >
+                                                                <Trash size={14} /> Eliminar
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                             <div className="db-horse-info">
                                                 <div className="db-horse-header">
-                                                    <h4>{horse.horseName || horse.name || "Caballo"}</h4>
-                                                    <span className="price">${horse.price?.toLocaleString()}</span>
+                                                    <h4>{horse.name || horse.horseName || "Caballo"}</h4>
+                                                    <span className="price">{horse.price ? `$${horse.price.toLocaleString()}` : "Contactar"}</span>
                                                 </div>
                                                 <div className="db-horse-meta">
-                                                    <span>{horse.age} años</span> • <span>{horse.height} hh</span> • <span>{horse.breed}</span>
+                                                    <span>{calculateAge(horse.birthDate) || horse.age || "N/A"} años</span> • <span>{horse.heightM || horse.height || "N/A"} m</span> • <span>{horse.breed}</span>
                                                 </div>
                                                 <div className="db-trust-score-mini">
                                                     <div className="db-trust-row">
                                                         <span>Trust Score</span>
-                                                        <span>{horse.trustScore || 95}/100</span>
+                                                        <span>{Math.round((horse.trustScore || 0.95) * 100)}/100</span>
                                                     </div>
                                                     <div className="db-trust-bar">
-                                                        <div className="db-trust-fill" style={{ width: `${horse.trustScore || 95}%` }}></div>
+                                                        <div className="db-trust-fill" style={{ width: `${(horse.trustScore || 0.95) * 100}%` }}></div>
                                                     </div>
                                                 </div>
                                             </div>
