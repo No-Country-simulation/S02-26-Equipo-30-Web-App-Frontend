@@ -4,6 +4,7 @@ import DisciplineTabs from './components/DisciplineTabs/DisciplineTabs';
 import FilterSidebar from './components/FilterSidebar/FilterSidebar';
 import HorseGrid from './components/HorseGrid/HorseGrid';
 import { exploreService } from './exploreService';
+import { horseService } from '@features/horse-management/horseService';
 import './Explore.css';
 
 const Explore = () => {
@@ -40,6 +41,22 @@ const Explore = () => {
         };
 
         loadListings();
+    }, []);
+
+    useEffect(() => {
+        const fetchSpecificHorse = async () => {
+            const horseId = 'b72e5d9c-922c-469a-b1aa-f93f6f610e48';
+            try {
+                const data = await horseService.getHorseById(horseId);
+                console.log('--- DATA FOR UUID: ' + horseId + ' ---');
+                console.log(data);
+                console.log('------------------------------------------');
+            } catch (err) {
+                console.error(`Error fetching horse ${horseId}:`, err);
+            }
+        };
+
+        fetchSpecificHorse();
     }, []);
 
     const filtered = useMemo(() => {
