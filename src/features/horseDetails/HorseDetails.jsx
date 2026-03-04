@@ -25,7 +25,8 @@ export default function HorseDetails() {
             try {
                 setLoading(true);
                 const response = await horseService.getHorseById(id);
-                setHorse(response.data);
+                // La API devuelve el objeto caballo directamente, no anidado en '.data'
+                setHorse(response.data || response);
             } catch (err) {
                 console.error("Error fetching horse details:", err);
                 setError("No se pudo cargar la información del caballo.");
