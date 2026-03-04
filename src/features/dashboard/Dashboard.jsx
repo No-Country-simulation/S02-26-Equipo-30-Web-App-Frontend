@@ -410,7 +410,11 @@ const Dashboard = () => {
                                     </div>
                                 ) : userHorses.length > 0 ? (
                                     userHorses.map(horse => (
-                                        <div key={horse.id} className="db-horse-card">
+                                        <div
+                                            key={horse.id}
+                                            className="db-horse-card"
+                                            onClick={() => navigate('/detalle')}
+                                        >
                                             <div
                                                 className="db-horse-img"
                                                 style={{ backgroundImage: `url(${horse.images?.[0] || 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop'})` }}
