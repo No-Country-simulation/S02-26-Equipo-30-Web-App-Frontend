@@ -24,6 +24,7 @@ const HorseForm = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({});
     const [success, setSuccess] = useState(false);
     const [mediaFiles, setMediaFiles] = useState([]);
     const [documentFiles, setDocumentFiles] = useState([]);
@@ -101,8 +102,40 @@ const HorseForm = () => {
         }
     }, [isEdit, id]);
 
+    const validateForm = () => {
+        const newErrors = {};
+        const requiredFields = [
+            'name', 'breed', 'birthDate', 'heightM', 'weightKg', 'mainUse',
+            'birthCountry', 'lengthM', 'maxSpeedKmh', 'temperament', 'lineage',
+            'careerRaces', 'daysSinceLastRace'
+        ];
+
+        requiredFields.forEach(field => {
+            if (!formData[field] && formData[field] !== 0) {
+                newErrors[field] = 'Este campo es obligatorio';
+            }
+        });
+
+        // Nested location fields
+        if (!formData.location.country) newErrors['location.country'] = 'El país es obligatorio';
+        if (!formData.location.region) newErrors['location.region'] = 'La región es obligatoria';
+        if (!formData.location.city) newErrors['location.city'] = 'La ciudad es obligatoria';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleChange = (e) => {
         const { name, value, type } = e.target;
+
+        // Clear error when user changes the value
+        if (errors[name]) {
+            setErrors(prev => {
+                const updated = { ...prev };
+                delete updated[name];
+                return updated;
+            });
+        }
 
         if (name.includes('.')) {
             const [parent, child] = name.split('.');
@@ -116,13 +149,20 @@ const HorseForm = () => {
         } else {
             setFormData(prev => ({
                 ...prev,
-                [name]: type === 'number' ? parseFloat(value) : value
+                [name]: type === 'number' ? (value === '' ? '' : parseFloat(value)) : value
             }));
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            setError('Por favor revisa los campos marcados en rojo.');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
@@ -255,7 +295,7 @@ const HorseForm = () => {
                             <div className="hf-section-num">1</div>
                             <h3>Información Básica</h3>
                             <div className="hf-grid">
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.name ? 'error' : ''}`}>
                                     <label>Nombre del Caballo *</label>
                                     <input
                                         type="text"
@@ -263,10 +303,10 @@ const HorseForm = () => {
                                         placeholder="Ej: Thunder Strike"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.name && <span className="hf-error-msg">{errors.name}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.breed ? 'error' : ''}`}>
                                     <label>Raza *</label>
                                     <input
                                         type="text"
@@ -274,20 +314,20 @@ const HorseForm = () => {
                                         placeholder="Ej: Dutch Warmblood"
                                         value={formData.breed}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.breed && <span className="hf-error-msg">{errors.breed}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.birthDate ? 'error' : ''}`}>
                                     <label>Fecha de Nacimiento *</label>
                                     <input
                                         type="date"
                                         name="birthDate"
                                         value={formData.birthDate}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.birthDate && <span className="hf-error-msg">{errors.birthDate}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.sex ? 'error' : ''}`}>
                                     <label>Sexo *</label>
                                     <div className="hf-select-wrap">
                                         <select name="sex" value={formData.sex} onChange={handleChange}>
@@ -297,8 +337,9 @@ const HorseForm = () => {
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
+                                    {errors.sex && <span className="hf-error-msg">{errors.sex}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.heightM ? 'error' : ''}`}>
                                     <label>Altura (m) *</label>
                                     <input
                                         type="number"
@@ -307,10 +348,10 @@ const HorseForm = () => {
                                         placeholder="1.65"
                                         value={formData.heightM}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.heightM && <span className="hf-error-msg">{errors.heightM}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.weightKg ? 'error' : ''}`}>
                                     <label>Peso (Kg) *</label>
                                     <input
                                         type="number"
@@ -319,10 +360,10 @@ const HorseForm = () => {
                                         placeholder="500"
                                         value={formData.weightKg}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.weightKg && <span className="hf-error-msg">{errors.weightKg}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.mainUse ? 'error' : ''}`}>
                                     <label>Uso Principal *</label>
                                     <div className="hf-select-wrap">
                                         <select name="mainUse" value={formData.mainUse} onChange={handleChange}>
@@ -334,8 +375,9 @@ const HorseForm = () => {
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
+                                    {errors.mainUse && <span className="hf-error-msg">{errors.mainUse}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.birthCountry ? 'error' : ''}`}>
                                     <label>País de Origen *</label>
                                     <input
                                         type="text"
@@ -343,8 +385,8 @@ const HorseForm = () => {
                                         placeholder="Ej: Argentina"
                                         value={formData.birthCountry}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.birthCountry && <span className="hf-error-msg">{errors.birthCountry}</span>}
                                 </div>
                             </div>
                         </section>
@@ -354,7 +396,7 @@ const HorseForm = () => {
                             <div className="hf-section-num">2</div>
                             <h3>Detalles Técnicos</h3>
                             <div className="hf-grid">
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.lengthM ? 'error' : ''}`}>
                                     <label>Longitud (m) *</label>
                                     <input
                                         type="number"
@@ -363,10 +405,10 @@ const HorseForm = () => {
                                         placeholder="2.4"
                                         value={formData.lengthM}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.lengthM && <span className="hf-error-msg">{errors.lengthM}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.maxSpeedKmh ? 'error' : ''}`}>
                                     <label>Velocidad Máx (Kmh) *</label>
                                     <input
                                         type="number"
@@ -375,13 +417,13 @@ const HorseForm = () => {
                                         placeholder="60"
                                         value={formData.maxSpeedKmh}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.maxSpeedKmh && <span className="hf-error-msg">{errors.maxSpeedKmh}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.temperament ? 'error' : ''}`}>
                                     <label>Temperamento *</label>
                                     <div className="hf-select-wrap">
-                                        <select name="temperament" value={formData.temperament} onChange={handleChange} required>
+                                        <select name="temperament" value={formData.temperament} onChange={handleChange}>
                                             <option value="CALM">Calmado</option>
                                             <option value="NEUTRAL">Neutral</option>
                                             <option value="ENERGETIC">Energético</option>
@@ -389,8 +431,9 @@ const HorseForm = () => {
                                         </select>
                                         <ChevronDown size={16} />
                                     </div>
+                                    {errors.temperament && <span className="hf-error-msg">{errors.temperament}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.lineage ? 'error' : ''}`}>
                                     <label>Linaje *</label>
                                     <input
                                         type="text"
@@ -398,8 +441,8 @@ const HorseForm = () => {
                                         placeholder="Nombre del padre/madre"
                                         value={formData.lineage}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.lineage && <span className="hf-error-msg">{errors.lineage}</span>}
                                 </div>
                             </div>
                         </section>
@@ -409,7 +452,7 @@ const HorseForm = () => {
                             <div className="hf-section-num">3</div>
                             <h3>Ubicación Actual</h3>
                             <div className="hf-grid">
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors['location.country'] ? 'error' : ''}`}>
                                     <label>País *</label>
                                     <input
                                         type="text"
@@ -417,10 +460,10 @@ const HorseForm = () => {
                                         placeholder="País"
                                         value={formData.location.country}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors['location.country'] && <span className="hf-error-msg">{errors['location.country']}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors['location.region'] ? 'error' : ''}`}>
                                     <label>Región/Estado *</label>
                                     <input
                                         type="text"
@@ -428,10 +471,10 @@ const HorseForm = () => {
                                         placeholder="Región"
                                         value={formData.location.region}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors['location.region'] && <span className="hf-error-msg">{errors['location.region']}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors['location.city'] ? 'error' : ''}`}>
                                     <label>Ciudad *</label>
                                     <input
                                         type="text"
@@ -439,8 +482,8 @@ const HorseForm = () => {
                                         placeholder="Ciudad"
                                         value={formData.location.city}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors['location.city'] && <span className="hf-error-msg">{errors['location.city']}</span>}
                                 </div>
                             </div>
                         </section>
@@ -450,25 +493,25 @@ const HorseForm = () => {
                             <div className="hf-section-num">4</div>
                             <h3>Historial y Veterinaria</h3>
                             <div className="hf-grid">
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.careerRaces ? 'error' : ''}`}>
                                     <label>Carreras Realizadas *</label>
                                     <input
                                         type="number"
                                         name="careerRaces"
                                         value={formData.careerRaces}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.careerRaces && <span className="hf-error-msg">{errors.careerRaces}</span>}
                                 </div>
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.daysSinceLastRace ? 'error' : ''}`}>
                                     <label>Días desde última carrera *</label>
                                     <input
                                         type="number"
                                         name="daysSinceLastRace"
                                         value={formData.daysSinceLastRace}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {errors.daysSinceLastRace && <span className="hf-error-msg">{errors.daysSinceLastRace}</span>}
                                 </div>
                                 <div className="hf-input-group">
                                     <label>Total Exámenes Vet</label>
@@ -496,7 +539,7 @@ const HorseForm = () => {
                             <div className="hf-section-num">5</div>
                             <h3>Precio y Multimedia</h3>
                             <div className="hf-grid">
-                                <div className="hf-input-group">
+                                <div className={`hf-input-group ${errors.price ? 'error' : ''}`}>
                                     <label>Precio (USD)</label>
                                     <input
                                         type="number"
@@ -505,6 +548,7 @@ const HorseForm = () => {
                                         value={formData.price}
                                         onChange={handleChange}
                                     />
+                                    {errors.price && <span className="hf-error-msg">{errors.price}</span>}
                                 </div>
                                 <div className="hf-input-group">
                                     <label>Imágenes y Videos</label>
