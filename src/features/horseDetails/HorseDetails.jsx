@@ -5,6 +5,7 @@ import HorseProfile from "./components/horseProfile/HorseProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info } from "@shared/branding/icons";
 import { horseService } from "@features/horse-management/horseService";
+import { stripeService } from "@features/stripe/stripeService";
 
 export default function HorseDetails() {
     const { id } = useParams();
@@ -12,6 +13,7 @@ export default function HorseDetails() {
     const [horse, setHorse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     useEffect(() => {
         const fetchHorse = async () => {
@@ -56,6 +58,24 @@ export default function HorseDetails() {
             age--;
         }
         return `${age} años`;
+    };
+
+    const handleInterestClick = async () => {
+        try {
+            setIsCheckingOut(true);
+            const response = await stripeService.createCheckoutSession([id]);
+
+            if (response && response.url) {
+                window.location.href = response.url;
+            } else {
+                throw new Error("No se recibió una URL de redirección válida.");
+            }
+        } catch (err) {
+            console.error("Error initiating checkout:", err);
+            alert("Hubo un problema al iniciar el proceso de interés. Por favor, intenta de nuevo.");
+        } finally {
+            setIsCheckingOut(false);
+        }
     };
 
     return (
@@ -163,7 +183,13 @@ export default function HorseDetails() {
                             <Message size={18} />
                             Chatear con el vendedor
                         </Btn>
-                        <Btn className="cta">Expresar Interés de Compra</Btn>
+                        <Btn
+                            className="cta"
+                            onClick={handleInterestClick}
+                            disabled={isCheckingOut}
+                        >
+                            {isCheckingOut ? "Procesando..." : "Expresar Interés de Compra"}
+                        </Btn>
                     </div>
                 </div>
             </div>
