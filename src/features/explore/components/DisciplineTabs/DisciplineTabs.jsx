@@ -2,17 +2,29 @@ import React from 'react';
 import { Shield, Crown } from '@shared/branding/icons';
 import './DisciplineTabs.css';
 
-const DISCIPLINES = ['Todos', 'Barrel Racing', 'Cutting', 'Dressage', 'Endurance'];
+const DisciplineTabs = ({
+    activeTab,
+    onTabChange,
+    verified,
+    onVerifiedChange,
+    premium,
+    onPremiumChange,
+    disciplines = []
+}) => {
+    // If we have dynamic disciplines, ensure 'Todos' is used for the empty value
+    // availableDisciplines coming from Explore should contain ['', 'Discipline1', ...]
+    const displayDisciplines = disciplines.length > 0
+        ? disciplines.map(d => d === '' ? 'Todos' : d)
+        : ['Todos'];
 
-const DisciplineTabs = ({ activeTab, onTabChange, verified, onVerifiedChange, premium, onPremiumChange }) => {
     return (
         <div className="discipline-tabs-bar">
             <div className="discipline-tabs">
-                {DISCIPLINES.map((tab) => (
+                {displayDisciplines.map((tab) => (
                     <button
                         key={tab}
-                        className={`discipline-tab ${activeTab === tab ? 'active' : ''}`}
-                        onClick={() => onTabChange(tab)}
+                        className={`discipline-tab ${(activeTab === tab || (activeTab === '' && tab === 'Todos')) ? 'active' : ''}`}
+                        onClick={() => onTabChange(tab === 'Todos' ? 'Todos' : tab)}
                     >
                         {tab}
                     </button>

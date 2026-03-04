@@ -18,24 +18,24 @@ export default function Home() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
     const [discipline, setDiscipline] = useState("all");
+    const [availableDisciplines, setAvailableDisciplines] = useState([
+        { value: "all", label: "Todas las Disciplinas" }
+    ]);
 
     useEffect(() => {
-        exploreService.getListings()
-            .then(res => console.log("=== GET /api/v1/listings/explore RES ===", res))
+        exploreService.getListings(0, 50)
+            .then(res => {
+                const content = res?.content || [];
+                const uniqueDisciplines = [...new Set(content.map(item =>
+                    (item.horse?.mainUse || item.horse?.discipline || item.mainUse || item.discipline)
+                ).filter(Boolean))].sort();
+
+                const formatted = uniqueDisciplines.map(d => ({ value: d, label: d }));
+                setAvailableDisciplines([{ value: "all", label: "Todas las Disciplinas" }, ...formatted]);
+            })
             .catch(err => console.error("Error fetching listings (explore) on Home:", err));
     }, []);
 
-    const disciplines = useMemo(
-        () => [
-            { value: "all", label: "Todas las Disciplinas" },
-            { value: "Show Jumping", label: "Salto" },
-            { value: "Dressage", label: "Doma Clásica" },
-            { value: "Eventing", label: "Concurso Completo" },
-            { value: "Western", label: "Western" },
-            { value: "Trail", label: "Paseo y Recreo" },
-        ],
-        []
-    );
 
     const featured = useMemo(
         () => [
@@ -159,7 +159,7 @@ export default function Home() {
                                             onChange={(e) => setDiscipline(e.target.value)}
                                         >
                                             <span className="home-select__arrow">▾</span>
-                                            {disciplines.map((d) => (
+                                            {availableDisciplines.map((d) => (
                                                 <option key={d.value} value={d.value}>
                                                     {d.label}
                                                 </option>
@@ -175,18 +175,11 @@ export default function Home() {
                                 <div className="home-searchCard__quick">
                                     <p className="home-searchCard__quickLabel">BÚSQUEDAS POPULARES:</p>
                                     <div className="home-chips">
-                                        <button type="button" className="home-chip" onClick={() => setDiscipline("Show Jumping")}>
-                                            Salto
-                                        </button>
-                                        <button type="button" className="home-chip" onClick={() => setDiscipline("Dressage")}>
-                                            Doma
-                                        </button>
-                                        <button type="button" className="home-chip" onClick={() => setDiscipline("Trail")}>
-                                            Paseo
-                                        </button>
-                                        <button type="button" className="home-chip" onClick={() => setDiscipline("Western")}>
-                                            Western
-                                        </button>
+                                        {availableDisciplines.filter(d => d.value !== 'all').slice(0, 4).map(d => (
+                                            <button key={d.value} type="button" className="home-chip" onClick={() => setDiscipline(d.value)}>
+                                                {d.label}
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

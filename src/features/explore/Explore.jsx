@@ -137,6 +137,7 @@ const Explore = () => {
                         onVerifiedChange={setVerified}
                         premium={premium}
                         onPremiumChange={setPremium}
+                        disciplines={availableDisciplines}
                     />
 
                     {loading && horses.length === 0 ? (
