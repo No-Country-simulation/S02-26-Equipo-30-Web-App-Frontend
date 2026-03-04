@@ -39,7 +39,7 @@ export default function HorseCard(props) {
     } = props;
 
     // Campos del Listing / Horse
-    const id = props.horseId || props.listingId || props.id || "";
+    const id = horseData.horseId || props.horseId || props.listingId || props.id || "";
     const listingId = props.listingId || props.id || "";
     const {
         price = props.price || "Consultar",
