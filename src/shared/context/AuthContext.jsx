@@ -49,8 +49,25 @@ export const AuthProvider = ({ children }) => {
             console.warn('AuthContext: Auth error detected, logging out...');
             logout();
 
-            // Redirect to login if not already there
-            if (location.pathname !== '/login' && location.pathname !== '/registro') {
+            // Rutas que no deben forzar redirección al login
+            const PUBLIC_ROUTES = [
+                '/',
+                '/explorar',
+                '/detalle',
+                '/como-funciona',
+                '/sobre-nosotros',
+                '/contacto',
+                '/confianza-seguridad',
+                '/verificar'
+            ];
+
+            const isPublicRoute = PUBLIC_ROUTES.some(path => {
+                if (path === '/') return location.pathname === '/';
+                return location.pathname.startsWith(path);
+            });
+
+            // Redirect to login if not a public route and not already there
+            if (!isPublicRoute && location.pathname !== '/login' && location.pathname !== '/registro') {
                 navigate('/login', { state: { from: location } });
             }
         };

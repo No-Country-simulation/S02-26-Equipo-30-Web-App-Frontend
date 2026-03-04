@@ -27,7 +27,7 @@ export default function HorseCard(props) {
 
     // Mapeo de campos del objeto Horse
     const {
-        name = horseData.name || "Caballo en Venta",
+        name = horseData.horseName || horseData.name || "Caballo en Venta",
         image = HORSE_PLACEHOLDER,
         breed = horseData.breed || "",
         birthDate = "",

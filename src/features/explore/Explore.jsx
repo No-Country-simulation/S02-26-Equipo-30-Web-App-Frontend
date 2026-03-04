@@ -64,7 +64,7 @@ const Explore = () => {
             // El objeto real del caballo puede venir anidado en 'horse'
             const h = listing.horse ?? listing;
 
-            const name = h.name || 'Caballo Sin Nombre';
+            const name = h.horseName || h.name || 'Caballo Sin Nombre';
             const breed = h.breed || '';
             const discipline = h.mainUse || h.discipline || '';
 
