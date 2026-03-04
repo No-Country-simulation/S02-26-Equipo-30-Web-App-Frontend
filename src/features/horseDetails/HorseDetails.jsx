@@ -44,17 +44,21 @@ export default function HorseDetails() {
 
                     // Mapeamos los datos del caballo
                     const horseData = match.horse || match;
-                    setHorse({
+                    const finalHorse = {
                         ...horseData,
-                        id: horseData.id || horseData.horseId, // Aseguramos que tenga un id para el chat
+                        id: horseData.id || horseData.horseId,
                         price: match.price || horseData.price,
                         listingId: match.listingId || match.id
-                    });
+                    };
+                    console.log("=== Horse Data Loaded (from Listing) ===", finalHorse);
+                    setHorse(finalHorse);
                 } else {
                     // Fallback: Si no lo encuentra como listing, intentamos directo por caballo
                     const res = await horseService.getHorseById(id);
                     const data = res.data || res;
-                    setHorse(data.horse || data);
+                    const finalHorse = data.horse || data;
+                    console.log("=== Horse Data Loaded (from Fallback) ===", finalHorse);
+                    setHorse(finalHorse);
                 }
             } catch (err) {
                 console.error("Error fetching horse details:", err);
