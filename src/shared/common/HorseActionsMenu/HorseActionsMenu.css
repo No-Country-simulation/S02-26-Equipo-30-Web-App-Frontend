@@ -1,0 +1,27 @@
+.ham{
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 4; /* por encima de la img y badges */
+}
+
+/* Botón dorado */
+.ham__btn{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #C9A24D;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0B1F3B;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.ham__btn:hover{
+  background: #B8914A;
+  transform: translateY(-1px);
+}

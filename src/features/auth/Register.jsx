@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@shared/context/AuthContext';
 import './Register.css';
 
 const Register = () => {
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -66,8 +68,12 @@ const Register = () => {
             }
 
             // Success handling
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            const userData = {
+                fullName: formData.fullName,
+                email: formData.email
+            };
+            login(userData, data.token);
+            if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
 
             if (data.emailVerificationRequired) {
                 navigate('/verificar', { state: { email: formData.email } });

@@ -1,20 +1,20 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-/**
- * A wrapper component for routes that require authentication.
- * If no token is found in localStorage, it redirects to the login page.
- */
 const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem('token');
-    const location = useLocation();
+    const { isAuthenticated, loading } = useAuth();
 
-    if (!token) {
-        // Redirect them to the /login page, but save the current location they were
-        // trying to go to when they were redirected. This allows us to send them
-        // along to that page after they login, which is a nicer user experience
-        // than dropping them off on the home page.
-        return <Navigate to="/login" state={{ from: location }} replace />;
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
     }
 
     return children;
