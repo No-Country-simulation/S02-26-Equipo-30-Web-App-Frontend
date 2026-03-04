@@ -26,7 +26,20 @@ export default function HorseDetails() {
                 // Fetch listing data using horseID as identifier from public explore endpoint
                 const res = await exploreService.getListingByHorseId(id);
                 // If the search returns a list, find the specific horse that matches the UUID in the URL
-                const horseData = res.content?.find(h => (h.id === id || h.horseId === id)) || res.content?.[0] || res.data || res;
+                // Find the specific horse by searching multiple possible ID fields in the content or response
+                const findHorse = (data, targetId) => {
+                    const items = data?.content || (Array.isArray(data) ? data : (data?.data ? [data.data] : []));
+                    if (!items.length && data?.id === targetId) return data;
+
+                    return items.find(h =>
+                        h.id === targetId ||
+                        h.horseId === targetId ||
+                        h.horse?.id === targetId ||
+                        h.listingId === targetId
+                    );
+                };
+
+                const horseData = findHorse(res, id) || (res.id === id ? res : null) || (res.data?.id === id ? res.data : null);
 
 
                 if (horseData) {
