@@ -70,7 +70,15 @@ const request = async (url, options = {}) => {
                 headers: publicHeaders,
             });
 
+            if (!publicResponse.ok && (publicResponse.status === 403 || publicResponse.status === 401)) {
+                window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: publicResponse.status } }));
+            }
+
             return await handleResponse(publicResponse);
+        }
+
+        if (!response.ok && (response.status === 403 || response.status === 401)) {
+            window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: response.status } }));
         }
 
         return await handleResponse(response);

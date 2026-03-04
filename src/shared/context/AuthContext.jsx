@@ -40,6 +40,16 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    useEffect(() => {
+        const handleAuthError = () => {
+            console.warn('AuthContext: Auth error detected, logging out...');
+            logout();
+        };
+
+        window.addEventListener('auth-error', handleAuthError);
+        return () => window.removeEventListener('auth-error', handleAuthError);
+    }, []);
+
     return (
         <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, loading }}>
             {children}
