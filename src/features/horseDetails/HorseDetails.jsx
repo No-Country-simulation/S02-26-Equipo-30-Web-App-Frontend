@@ -23,10 +23,11 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Fetch horse data from public explore endpoint
+                // Fetch listing data using horseID as identifier from public explore endpoint
                 const res = await exploreService.getListingByHorseId(id);
-                // Handle content array if it's a search result or direct object
-                const horseData = res.content?.[0] || res.data || res;
+                // If the search returns a list, find the specific horse that matches the UUID in the URL
+                const horseData = res.content?.find(h => (h.id === id || h.horseId === id)) || res.content?.[0] || res.data || res;
+
 
                 if (horseData) {
                     console.log("=== Horse Data Loaded Successfully ===", horseData);

@@ -108,6 +108,13 @@ export default function HorseCard(props) {
                             <div className="horse-card__dropdown">
                                 <button
                                     className="dropdown-item"
+                                    onClick={() => navigate(`/detalle/${id}`)}
+                                >
+                                    <Eye size={18} />
+                                    <span>Ver</span>
+                                </button>
+                                <button
+                                    className="dropdown-item"
                                     onClick={() => navigate(`/caballo/editar/${id}`)}
                                 >
                                     <Edit size={18} />
