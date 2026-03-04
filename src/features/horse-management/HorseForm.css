@@ -384,3 +384,47 @@
         gap: 1rem;
     }
 }
+
+/* FILE UPLOAD SPECIALS */
+.hf-file-dropzone {
+    background: #f8fafc;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    text-align: center;
+}
+
+.hf-file-dropzone:hover {
+    border-color: #ca8a04;
+    background: #fcf9f1;
+}
+
+.hf-file-dropzone svg {
+    color: #94a3b8;
+}
+
+.hf-file-dropzone span {
+    font-size: 0.875rem;
+    color: #475569;
+}
+
+.hf-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.hf-file-list {
+    font-size: 0.75rem;
+    color: #ca8a04;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}

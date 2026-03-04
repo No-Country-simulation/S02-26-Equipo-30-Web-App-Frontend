@@ -11,6 +11,14 @@ const getAuthHeaders = () => {
     };
 };
 
+const getAuthHeadersRaw = () => {
+    const token = localStorage.getItem('token');
+    return {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+};
+
 const handleResponse = async (response) => {
     const contentType = response.headers.get('content-type');
     let data = null;
@@ -35,10 +43,11 @@ export const horseService = {
      * @param {Object} horseData - Horse data following the API schema
      */
     createHorse: async (horseData) => {
+        const isFormData = horseData instanceof FormData;
         const response = await fetch(`${API_BASE}`, {
             method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(horseData),
+            headers: isFormData ? getAuthHeadersRaw() : getAuthHeaders(),
+            body: isFormData ? horseData : JSON.stringify(horseData),
         });
         return handleResponse(response);
     },

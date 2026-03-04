@@ -24,6 +24,8 @@ const HorseForm = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [mediaFiles, setMediaFiles] = useState([]);
+    const [documentFiles, setDocumentFiles] = useState([]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -49,7 +51,8 @@ const HorseForm = () => {
         sellerDisputes: 0,
         sellerFlaggedFraud: false,
         vetTotalExams: 0,
-        vetMajorIssues: 0
+        vetMajorIssues: 0,
+        price: ''
     });
 
     const handleChange = (e) => {
@@ -79,9 +82,35 @@ const HorseForm = () => {
 
         try {
             if (isEdit) {
+                // For edit, we might still send JSON if media is handled elsewhere,
+                // but let's stick to the requested creation logic for now.
                 // await horseService.updateHorse(id, formData);
             } else {
-                await horseService.createHorse(formData);
+                const horseDataPayload = { ...formData };
+                const price = horseDataPayload.price;
+                delete horseDataPayload.price;
+
+                const data = new FormData();
+
+                // metadata as blob
+                data.append(
+                    "horse",
+                    new Blob([JSON.stringify(horseDataPayload)], { type: "application/json" })
+                );
+
+                data.append("price", price);
+
+                // Imagen/video
+                for (const file of mediaFiles) {
+                    data.append("mediaFiles", file);
+                }
+
+                // PDFs/documentos
+                for (const file of documentFiles) {
+                    data.append("documentFiles", file);
+                }
+
+                await horseService.createHorse(data);
             }
             setSuccess(true);
             setTimeout(() => navigate('/dashboard'), 2000);
@@ -407,6 +436,63 @@ const HorseForm = () => {
                                         value={formData.vetMajorIssues}
                                         onChange={handleChange}
                                     />
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* SECTION 5: PRECIO Y MULTIMEDIA */}
+                        <section className="hf-section">
+                            <div className="hf-section-num">5</div>
+                            <h3>Precio y Multimedia</h3>
+                            <div className="hf-grid">
+                                <div className="hf-input-group">
+                                    <label>Precio (USD) *</label>
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        placeholder="Ej: 45000"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Imágenes y Videos</label>
+                                    <div className="hf-file-dropzone">
+                                        <Upload size={20} />
+                                        <span>Seleccionar archivos multimedia</span>
+                                        <input
+                                            type="file"
+                                            multiple
+                                            accept="image/*,video/*"
+                                            onChange={(e) => setMediaFiles(Array.from(e.target.files))}
+                                            className="hf-file-input"
+                                        />
+                                    </div>
+                                    {mediaFiles.length > 0 && (
+                                        <div className="hf-file-list">
+                                            {mediaFiles.length} archivos seleccionados
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="hf-input-group">
+                                    <label>Documentos PDF</label>
+                                    <div className="hf-file-dropzone">
+                                        <FileText size={20} />
+                                        <span>Seleccionar documentos</span>
+                                        <input
+                                            type="file"
+                                            multiple
+                                            accept=".pdf"
+                                            onChange={(e) => setDocumentFiles(Array.from(e.target.files))}
+                                            className="hf-file-input"
+                                        />
+                                    </div>
+                                    {documentFiles.length > 0 && (
+                                        <div className="hf-file-list">
+                                            {documentFiles.length} documentos seleccionados
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </section>
