@@ -1,20 +1,18 @@
 /* Profile.jsx */
-import React from 'react';
-import './Profile.css';
-import {
-    User,
-    Mail,
-    Phone,
-    Shield,
-    Info,
-    ChevronDown,
-    Star,
-    Bell,
-    Sparkles
-} from '@shared/branding/icons';
-import { useNavigate } from 'react-router-dom';
-import { userService } from './userService';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import "./Profile.css";
+import { useNavigate } from "react-router-dom";
+import { userService } from "./userService";
+
+const MOCK_USER = {
+    fullName: "María Zapata",
+    username: "mariaz",
+    email: "maria@email.com",
+    phone: "+34 600 123 456",
+    role: "BUYER",
+    status: "ACTIVE",
+    lastLoginAt: "2024-01-10",
+};
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -22,29 +20,16 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const handleDeleteAccount = async () => {
-        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Esta acción no se puede deshacer.');
-        if (!confirmed) return;
-
-        try {
-            await userService.deleteCurrentUser();
-            alert('Tu cuenta ha sido eliminada correctamente.');
-            localStorage.removeItem('token');
-            navigate('/');
-        } catch (err) {
-            console.error('Error deleting account:', err);
-            alert(`Error al eliminar la cuenta: ${err.message}`);
-        }
-    };
-
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const data = await userService.getCurrentUser();
                 setUserData(data);
+                setError(null);
             } catch (err) {
-                console.error('Error fetching user data:', err);
-                setError(err.message);
+                // ✅ Para poder maquetar aunque falle el backend:
+                setUserData(MOCK_USER);
+                setError(null);
             } finally {
                 setLoading(false);
             }
@@ -55,139 +40,180 @@ const Profile = () => {
 
     if (loading) {
         return (
-            <div className="profile-loading">
-                <Sparkles className="animate-spin" size={48} />
-                <p>Cargando perfil...</p>
-            </div>
+            <main className="profile">
+                <div className="profile__wrapper">
+                    <div className="profile-loading">Cargando perfil...</div>
+                </div>
+            </main>
         );
     }
 
     if (error) {
         return (
-            <div className="profile-error">
-                <Info size={48} />
-                <p>Error al cargar el perfil: {error}</p>
-                <button onClick={() => window.location.reload()}>Reintentar</button>
-            </div>
+            <main className="profile">
+                <div className="profile__wrapper">
+                    <div className="profile-error">
+                        <p>Error al cargar el perfil: {error}</p>
+                        <button onClick={() => window.location.reload()}>Reintentar</button>
+                    </div>
+                </div>
+            </main>
         );
     }
 
+    const memberSince = userData?.lastLoginAt
+        ? new Date(userData.lastLoginAt).toLocaleDateString("es-ES", {
+            month: "long",
+            year: "numeric",
+        })
+        : "Reciente";
+
     return (
-        <main className="profile-container">
-            <header className="profile-header">
-                <h1>Mi Perfil</h1>
-                <p>Gestiona tu información personal y preferencias</p>
-            </header>
+        <main className="profile">
+            <div className="profile__wrapper">
+                {/* Header */}
+                <header className="profile__header">
+                    <h1>Mi Perfil</h1>
+                    <p>Gestiona tu información personal y preferencias</p>
+                </header>
 
-            {/* Profile Main Card */}
-            <div className="profile-card">
-                <div className="profile-info-main">
-                    <img
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop"
-                        alt="Profile Avatar"
-                        className="profile-avatar"
-                    />
-                    <div className="profile-details">
-                        <h2>
-                            {userData?.fullName || userData?.username || 'Usuario'}
-                            <span className="verified-badge">
-                                <Shield size={12} /> {userData?.status === 'ACTIVE' ? 'Verificado' : userData?.status}
-                            </span>
-                        </h2>
-                        <p className="profile-role">{userData?.role === 'ADMIN' ? 'Administrador' : 'Comprador'}</p>
-                        <p className="profile-date">Miembro desde {userData?.lastLoginAt ? new Date(userData.lastLoginAt).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) : 'Reciente'}</p>
+                {/* Main Profile Card */}
+                <div className="profile-card">
+                    {/* Banner */}
+                    <div className="profile-card__banner">
+                        <div className="profile-card__content">
+                            <div className="profile-card__avatarWrapper">
+                                <img
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop"
+                                    alt="Profile Avatar"
+                                    className="profile-card__avatar"
+                                />
+                            </div>
+
+                            <div className="profile-card__info">
+                                <div className="profile-card__nameRow">
+                                    <h2>{userData?.fullName || userData?.username || "Usuario"}</h2>
+                                    <span className="profile-card__verified">Verificado</span>
+                                </div>
+
+                                <p className="profile-card__role">
+                                    {userData?.role === "ADMIN" ? "Administrador" : "Comprador"}
+                                </p>
+                                <p className="profile-card__date">Miembro desde {memberSince}</p>
+                            </div>
+
+                            <button
+                                className="profile-card__editBtn"
+                                onClick={() => navigate("/perfil/editar")}
+                            >
+                                Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Security notice */}
+                    <div className="profile-card__alert">
+                        <div>
+                            <h4>Información de Seguridad</h4>
+                            <p>
+                                Por razones de seguridad, tu nombre y datos de verificación no pueden
+                                ser modificados. Si necesitas actualizar esta información, contacta a
+                                soporte.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <button
-                    className="edit-profile-btn"
-                    onClick={() => navigate('/perfil/editar')}
-                >
-                    Editar Perfil
-                </button>
+
+                {/* Contact Info */}
+                <section className="profile-section">
+                    <div className="profile-section__title">Información de Contacto</div>
+
+                    <div className="profile-grid">
+                        <div className="profile-field">
+                            <label>Nombre Completo</label>
+                            <div className="profile-field__value">
+                                {userData?.fullName || "No especificado"}
+                            </div>
+                        </div>
+
+                        <div className="profile-field">
+                            <label>Email</label>
+                            <div className="profile-field__value">
+                                {userData?.email || "No especificado"}
+                            </div>
+                        </div>
+
+                        <div className="profile-field">
+                            <label>Teléfono</label>
+                            <div className="profile-field__value">
+                                {userData?.phone || "No especificado"}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Notification Preferences */}
+                <section className="profile-section">
+                    <div className="profile-section__title">Preferencias de Notificaciones</div>
+
+                    <div className="profile-prefs">
+                        <div className="profile-prefCard">
+                            <div className="profile-prefCard__head">
+                                <span className="profile-prefCard__title">Notificaciones por Email</span>
+                            </div>
+                            <p className="profile-prefCard__text">
+                                Recibe actualizaciones sobre tus caballos guardados y nuevos listados
+                            </p>
+                        </div>
+
+                        <div className="profile-prefCard">
+                            <div className="profile-prefCard__head">
+                                <span className="profile-prefCard__title">Notificaciones por SMS</span>
+                            </div>
+                            <p className="profile-prefCard__text">
+                                Alertas importantes sobre tus transacciones y comunicaciones
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Delete Account */}
+                <section className="profile-section">
+                    <div className="profile-section__title">Eliminar Cuenta</div>
+
+                    <div className="profile-delete">
+                        <p className="profile-delete__desc">
+                            Una vez que elimines tu cuenta, no hay vuelta atrás. Asegúrate de que
+                            realmente deseas hacer esto.
+                        </p>
+
+                        <div className="profile-delete__warningBox">
+                            <p className="profile-delete__warningTitle">
+                                Advertencia: Esta acción es permanente
+                            </p>
+                            <ul className="profile-delete__list">
+                                <li>Todos tus listados de caballos serán eliminados permanentemente</li>
+                                <li>Perderás acceso a tu historial de transacciones y mensajes</li>
+                                <li>Tu suscripción Premium será cancelada sin reembolso</li>
+                                <li>Tus datos personales serán eliminados de nuestros servidores</li>
+                                <li>No podrás recuperar tu cuenta ni crear una nueva con el mismo email</li>
+                            </ul>
+                        </div>
+
+                        <button
+                            className="profile-delete__btn"
+                            onClick={() => {
+                                const ok = window.confirm(
+                                    "¿Seguro que quieres eliminar tu cuenta? Esta acción es permanente."
+                                );
+                                if (ok) console.log("Eliminar cuenta (pendiente backend)");
+                            }}
+                        >
+                            Eliminar mi cuenta permanentemente
+                        </button>
+                    </div>
+                </section>
             </div>
-
-            {/* Security Alert */}
-            <div className="security-alert">
-                <div className="security-alert-icon">
-                    <Info size={16} />
-                </div>
-                <div className="security-alert-content">
-                    <h4>Información de Seguridad</h4>
-                    <p>Por razones de seguridad, tu nombre y datos de verificación no pueden ser modificados. Si necesitas actualizar esta información, contacta a nuestro equipo de soporte.</p>
-                </div>
-            </div>
-
-            {/* Contact Information */}
-            <section className="profile-section">
-                <div className="section-title">
-                    <User size={20} /> Información de Contacto
-                </div>
-                <div className="profile-grid">
-                    <div className="input-group">
-                        <label>Nombre Completo</label>
-                        <div className="input-mock">{userData?.fullName || 'No especificado'}</div>
-                        <p className="input-hint">Este campo no puede ser modificado</p>
-                    </div>
-                    <div className="input-group">
-                        <label>Email</label>
-                        <div className="input-mock">{userData?.email}</div>
-                    </div>
-                    <div className="input-group">
-                        <label>Nombre de Usuario</label>
-                        <div className="input-mock">{userData?.username}</div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Notification Preferences */}
-            <section className="profile-section">
-                <div className="section-title">
-                    <Bell size={20} /> Preferencias de Notificaciones
-                </div>
-                <div className="pref-card">
-                    <div className="pref-icon">
-                        <Mail size={20} />
-                    </div>
-                    <div className="pref-content">
-                        <h4>Notificaciones por Email</h4>
-                        <p>Recibe actualizaciones sobre tus caballos guardados y nuevos listados</p>
-                    </div>
-                </div>
-                <div className="pref-card">
-                    <div className="pref-icon">
-                        <Phone size={20} />
-                    </div>
-                    <div className="pref-content">
-                        <h4>Notificaciones por SMS</h4>
-                        <p>Alertas importantes sobre tus transacciones y comunicaciones</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Delete Account Section */}
-            <section className="profile-section delete-account">
-                <div className="delete-card">
-                    <div className="delete-header">
-                        <h3>Eliminar Cuenta</h3>
-                        <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Asegúrate de que realmente deseas hacer esto.</p>
-                    </div>
-
-                    <div className="delete-warning-box">
-                        <p className="warning-title">Advertencia: Esta acción es permanente</p>
-                        <ul>
-                            <li>Todos tus listados de caballos serán eliminados permanentemente</li>
-                            <li>Perderás acceso a tu historial de transacciones y mensajes</li>
-                            <li>Tu suscripción Premium será cancelada sin reembolso</li>
-                            <li>Tus datos personales serán eliminados de nuestros servidores</li>
-                            <li>No podrás recuperar tu cuenta ni crear una nueva con el mismo email</li>
-                        </ul>
-                    </div>
-
-                    <button className="delete-account-btn" onClick={handleDeleteAccount}>
-                        Eliminar mi cuenta permanentemente
-                    </button>
-                </div>
-            </section>
         </main>
     );
 };

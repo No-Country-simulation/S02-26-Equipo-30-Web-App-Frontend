@@ -1,6 +1,8 @@
 /* Contact.jsx */
 import React from 'react';
 import './Contact.css';
+import Badge from "@components/badge/Badge";
+
 import {
     Phone,
     Mail,
@@ -34,7 +36,9 @@ const Contact = () => {
             <section className="contact-hero">
                 <div className="contact-container">
                     <div className="contact-hero__inner">
-                        <span className="contact-hero__badge">Estamos Aquí para Ayudarte</span>
+                        <Badge className="ts-badge">
+                            Tu Seguridad es Nuestra Prioridad
+                        </Badge>
                         <h1 className="contact-hero__title">Contáctanos</h1>
                         <p className="contact-hero__subtitle">
                             Nuestro equipo de expertos está disponible 24/7 para resolver cualquier duda
@@ -120,13 +124,6 @@ const Contact = () => {
                             <p className="hours-response">Respuesta promedio: 15 minutos</p>
                         </div>
 
-                        <div className="contact-card faq-card">
-                            <h2 className="contact-card__title">¿Tienes una pregunta rápida?</h2>
-                            <p className="faq-card__text">
-                                Consulta nuestras preguntas frecuentes, probablemente ya tenemos la respuesta.
-                            </p>
-                            <button className="faq-btn">Ver FAQ</button>
-                        </div>
                     </aside>
 
                     {/* RIGHT COLUMN - FORM */}
