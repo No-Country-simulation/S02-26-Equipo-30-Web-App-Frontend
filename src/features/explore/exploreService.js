@@ -1,6 +1,6 @@
 import apiClient from '@shared/api/apiClient';
 
-const API_BASE = '/api/v1/listings';
+const API_BASE = '/api/v1/listings/explore';
 
 export const exploreService = {
     getListings: async (page = 0, size = 10) => {

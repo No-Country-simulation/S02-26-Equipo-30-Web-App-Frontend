@@ -21,8 +21,8 @@ export default function Home() {
 
     useEffect(() => {
         exploreService.getListings()
-            .then(res => console.log("=== GET /api/v1/listings RES ===", res))
-            .catch(err => console.error("Error fetching listings on Home:", err));
+            .then(res => console.log("=== GET /api/v1/listings/explore RES ===", res))
+            .catch(err => console.error("Error fetching listings (explore) on Home:", err));
     }, []);
 
     const disciplines = useMemo(
