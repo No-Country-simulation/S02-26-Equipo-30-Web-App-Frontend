@@ -86,7 +86,7 @@ export default function HorseCard(props) {
                     className="horse-card__img"
                     src={displayImage}
                     alt={name}
-                    onClick={() => navigate(`/detalle/${id || 'e1b1d465-e95a-4de9-9516-bc7a74dc1444'}`)}
+                    onClick={() => navigate(`/detalle/e1b1d465-e95a-4de9-9516-bc7a74dc1444`)}
                     style={{ cursor: 'pointer' }}
                 />
 
@@ -103,7 +103,7 @@ export default function HorseCard(props) {
                         <div className="horse-card__dropdown">
                             <button
                                 className="dropdown-item"
-                                onClick={() => navigate(`/detalle/${id || 'e1b1d465-e95a-4de9-9516-bc7a74dc1444'}`)}
+                                onClick={() => navigate(`/detalle/e1b1d465-e95a-4de9-9516-bc7a74dc1444`)}
                             >
                                 <Eye size={18} />
                                 <span>Ver</span>
