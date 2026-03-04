@@ -10,7 +10,7 @@ import { useAuth } from '@shared/context/AuthContext.jsx';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, user, logout } = useAuth();
 
     const recursosItems = [
         { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
@@ -19,11 +19,17 @@ const Navbar = () => {
         { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
+    const profileItems = [
+        { label: "Mi Perfil", icon: <User size={16} />, onClick: () => navigate("/perfil") },
+        { label: "Mis Favoritos", icon: <Heart size={16} />, onClick: () => navigate("/favoritos") },
+        { label: "Dashboard", icon: <Message size={16} />, onClick: () => navigate("/dashboard") },
+        { label: "Cerrar Sesión", icon: <LogOut size={16} />, onClick: logout, className: 'logout-item' },
+    ];
+
     const goHome = () => navigate("/");
-    const goExplore = () => { window.location.hash = '#/explorar'; };
 
     return (
-        <nav className="navbar-container">
+        <nav className={`navbar-container ${isAuthenticated ? 'auth' : ''}`}>
             <div className="navbar-left">
                 <img src={logo} alt="HorseTrust Logo" className="navbar-logo" onClick={goHome} style={{ cursor: 'pointer' }} />
             </div>
@@ -36,41 +42,51 @@ const Navbar = () => {
                     <Btn>Explorar</Btn>
                 </NavLink>
 
-                <Dropdown
-                    trigger={
-                        <Btn className="dropdown-btn-trigger">
-                            Recursos
-                            <ChevronDown size={16} style={{ marginLeft: '6px' }} />
-                        </Btn>
-                    }
-                    items={recursosItems}
-                />
-
-                <div className="navbar-right">
-                    {isAuthenticated ? (
-                        <>
-                            <NavLink to="/favoritos">
-                                <IconBtn icon={<Heart size={16} />}>Favoritos</IconBtn>
-                            </NavLink>
-                            <NavLink to="/chat">
-                                <IconBtn icon={<Message size={16} />}>Mensajes</IconBtn>
-                            </NavLink>
-                            <NavLink to="/dashboard">
-                                <Btn>Dashboard</Btn>
-                            </NavLink>
-                            <Btn className="logout-btn" onClick={logout}>
-                                Salir
+                {!isAuthenticated && (
+                    <Dropdown
+                        trigger={
+                            <Btn className="dropdown-btn-trigger">
+                                Recursos
+                                <ChevronDown size={16} style={{ marginLeft: '6px' }} />
                             </Btn>
-                        </>
-                    ) : (
-                        <>
-                            <NavLink to="/login">
-                                <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
-                            </NavLink>
+                        }
+                        items={recursosItems}
+                    />
+                )}
+            </div>
 
-                        </>
-                    )}
-                </div>
+            <div className="navbar-right">
+                {isAuthenticated ? (
+                    <div className="auth-nav-items">
+                        <NavLink to="/favoritos">
+                            <IconBtn icon={<Heart size={18} />} title="Favoritos" />
+                        </NavLink>
+                        <NavLink to="/chat">
+                            <IconBtn icon={<Message size={18} />} title="Mensajes" />
+                        </NavLink>
+                        <Dropdown
+                            trigger={
+                                <div className="user-profile-trigger">
+                                    <div className="user-avatar">
+                                        <User size={20} />
+                                    </div>
+                                    <span className="user-name">{user?.name || 'Mi Cuenta'}</span>
+                                    <ChevronDown size={14} />
+                                </div>
+                            }
+                            items={profileItems}
+                        />
+                    </div>
+                ) : (
+                    <>
+                        <NavLink to="/login">
+                            <Btn className='line-btn'>Ingresar</Btn>
+                        </NavLink>
+                        <NavLink to="/registro">
+                            <Btn className='primary-btn'>Registrarse</Btn>
+                        </NavLink>
+                    </>
+                )}
             </div>
         </nav>
     );
