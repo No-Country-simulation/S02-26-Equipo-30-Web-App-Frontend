@@ -6,7 +6,7 @@ export const exploreService = {
     getListings: async (page = 0, size = 100, keyword = '') => {
         let url = `${API_BASE}?page=${page}&size=${size}`;
         if (keyword) {
-            url += `&keyword=${encodeURIComponent(keyword)}`;
+            url += `&keyword=${encodeURIComponent(keyword)}&search=${encodeURIComponent(keyword)}`;
         }
         return apiClient.get(url);
     },

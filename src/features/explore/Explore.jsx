@@ -84,7 +84,16 @@ const Explore = () => {
             const price = Number(listing.price) || 0;
             const trustScore = Number(h.trustScore) > 1 ? Number(h.trustScore) : (Number(h.trustScore) * 100);
 
-            // Quitamos la lógica de search de aquí porque ya lo filtra la API
+            // Si la API no filtra por keyword, filtramos localmente como respaldo
+            const searchLower = search.toLowerCase();
+            const matchesSearch = !search ||
+                h.name?.toLowerCase().includes(searchLower) ||
+                h.horseName?.toLowerCase().includes(searchLower) ||
+                breed.toLowerCase().includes(searchLower) ||
+                discipline.toLowerCase().includes(searchLower);
+
+            if (!matchesSearch) return false;
+
             if (activeTab !== 'Todos' && discipline !== activeTab) return false;
             if (verified && trustScore < 90) return false;
             if (premium && !listing.isVip) return false;
