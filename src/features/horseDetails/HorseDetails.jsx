@@ -69,7 +69,9 @@ export default function HorseDetails() {
     const handleInterestClick = async () => {
         try {
             setIsCheckingOut(true);
-            const response = await stripeService.createCheckoutSession([id]);
+            // TEST: Usamos el listingId específico para Stripe
+            const listingId = "e10b3b7d-1b33-41f2-a5d2-14ccc6eaff9f";
+            const response = await stripeService.createCheckoutSession([listingId]);
 
             if (response && response.url) {
                 window.location.href = response.url;
