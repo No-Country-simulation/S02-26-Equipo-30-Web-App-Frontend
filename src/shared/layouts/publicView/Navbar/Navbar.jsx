@@ -45,34 +45,32 @@ const Navbar = () => {
                     }
                     items={recursosItems}
                 />
-            </div>
 
-            <div className="navbar-right">
-                {isAuthenticated ? (
-                    <>
-                        <NavLink to="/favoritos">
-                            <IconBtn icon={<Heart size={16} />}>Favoritos</IconBtn>
-                        </NavLink>
-                        <NavLink to="/chat">
-                            <IconBtn icon={<Message size={16} />}>Mensajes</IconBtn>
-                        </NavLink>
-                        <NavLink to="/dashboard">
-                            <Btn>Dashboard</Btn>
-                        </NavLink>
-                        <Btn className="logout-btn" onClick={logout}>
-                            Salir
-                        </Btn>
-                    </>
-                ) : (
-                    <>
-                        <NavLink to="/login">
-                            <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
-                        </NavLink>
-                        <NavLink to="/registro">
-                            <Btn className="register-btn">Registrarse</Btn>
-                        </NavLink>
-                    </>
-                )}
+                <div className="navbar-right">
+                    {isAuthenticated ? (
+                        <>
+                            <NavLink to="/favoritos">
+                                <IconBtn icon={<Heart size={16} />}>Favoritos</IconBtn>
+                            </NavLink>
+                            <NavLink to="/chat">
+                                <IconBtn icon={<Message size={16} />}>Mensajes</IconBtn>
+                            </NavLink>
+                            <NavLink to="/dashboard">
+                                <Btn>Dashboard</Btn>
+                            </NavLink>
+                            <Btn className="logout-btn" onClick={logout}>
+                                Salir
+                            </Btn>
+                        </>
+                    ) : (
+                        <>
+                            <NavLink to="/login">
+                                <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
+                            </NavLink>
+
+                        </>
+                    )}
+                </div>
             </div>
         </nav>
     );
