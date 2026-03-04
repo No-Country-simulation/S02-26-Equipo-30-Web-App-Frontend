@@ -21,34 +21,37 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Intentamos obtener el anuncio directamente que contiene el caballo
-                // Usamos el ID de la URL que puede ser horseId o listingId
-                const response = await exploreService.getListingByHorseId(id);
+                // Intentamos obtener el anuncio directamente usando el ID de la URL (que ahora es listingId)
+                let match = null;
+                try {
+                    const res = await exploreService.getListingById(id);
+                    match = res.data || res;
+                } catch (e) {
+                    console.warn("Listing not found by ID, trying filter logic...", e);
+                    const response = await exploreService.getListingByHorseId(id);
+                    const listings = response.data?.content || response.content || [];
+                    match = listings.find(l =>
+                        l.listingId === id ||
+                        l.id === id ||
+                        l.horseId === id ||
+                        l.horse?.id === id
+                    );
+                }
 
-                // Si la respuesta es una lista (por ser un filtro), buscamos la coincidencia exacta
-                const listings = response.data?.content || response.content || [];
-                const match = listings.find(l =>
-                    l.horseId === id ||
-                    l.listingId === id ||
-                    l.id === id ||
-                    l.horse?.id === id ||
-                    l.horse?.horseId === id
-                );
-
-                if (match) {
-                    console.log("=== Horse/Listing Data Found ===", match);
+                if (match && (match.listingId || match.id)) {
+                    console.log("=== Listing Data Found ===", match);
                     setListingId(match.listingId || match.id);
 
-                    // Mapeamos los datos del anuncio al estado del caballo
-                    // Combinamos los datos del caballo interno con los del anuncio (precio, etc)
+                    // Mapeamos los datos del caballo
                     const horseData = match.horse || match;
                     setHorse({
                         ...horseData,
+                        id: horseData.id || horseData.horseId, // Aseguramos que tenga un id para el chat
                         price: match.price || horseData.price,
                         listingId: match.listingId || match.id
                     });
                 } else {
-                    // Fallback: Si no lo encuentra en explore, intentamos directo por caballo
+                    // Fallback: Si no lo encuentra como listing, intentamos directo por caballo
                     const res = await horseService.getHorseById(id);
                     const data = res.data || res;
                     setHorse(data.horse || data);
