@@ -1,12 +1,12 @@
 import './Navbar.css';
 import logo from '@shared/branding/logo_218_64.png';
-import Btn from '@components/button/Btn';
-import IconBtn from '@components/button/IconBtn';
+import Btn from '@components/button/Btn.jsx';
+import IconBtn from '@components/button/IconBtn.jsx';
 import { NavLink, useNavigate } from "react-router-dom";
-import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut } from '@shared/branding/icons';
+import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut } from '@shared/branding/icons/index.js';
 
-import Dropdown from '@components/dropdown/Dropdown';
-import { useAuth } from '@shared/context/AuthContext';
+import Dropdown from '@components/dropdown/Dropdown.jsx';
+import { useAuth } from '@shared/context/AuthContext.jsx';
 
 const Navbar = () => {
     const navigate = useNavigate();
