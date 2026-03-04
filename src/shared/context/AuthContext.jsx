@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const checkAuth = () => {
@@ -44,11 +48,16 @@ export const AuthProvider = ({ children }) => {
         const handleAuthError = () => {
             console.warn('AuthContext: Auth error detected, logging out...');
             logout();
+
+            // Redirect to login if not already there
+            if (location.pathname !== '/login' && location.pathname !== '/registro') {
+                navigate('/login', { state: { from: location } });
+            }
         };
 
         window.addEventListener('auth-error', handleAuthError);
         return () => window.removeEventListener('auth-error', handleAuthError);
-    }, []);
+    }, [navigate, location]);
 
     return (
         <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, loading }}>
