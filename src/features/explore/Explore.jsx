@@ -23,25 +23,49 @@ const Explore = () => {
         priceMax: '',
     });
 
-    useEffect(() => {
-        const loadListings = async () => {
-            try {
-                setLoading(true);
-                const data = await exploreService.getListings();
-                console.log('Explore RAW data:', data);
-                const content = data?.content || [];
-                console.log('Explore CONTENT (listings):', content);
-                setHorses(content);
-                setLoading(false);
-            } catch (err) {
-                console.error("Error loading listings:", err);
-                setError("No se pudieron cargar los caballos. Inténtalo de nuevo más tarde.");
-                setLoading(false);
-            }
-        };
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
 
-        loadListings();
-    }, []);
+    const loadListings = async (pageNum, isInitial = false) => {
+        try {
+            if (isInitial) setLoading(true);
+            const data = await exploreService.getListings(pageNum);
+            console.log(`Explore RAW data (page ${pageNum}):`, data);
+
+            const content = data?.content || [];
+            console.log(`Explore CONTENT (listings, page ${pageNum}):`, content);
+
+            if (isInitial) {
+                setHorses(content);
+            } else {
+                setHorses(prev => [...prev, ...content]);
+            }
+
+            // Si recibimos menos de 10 elementos, asumimos que no hay más
+            if (content.length < 10) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+            }
+
+            setLoading(false);
+        } catch (err) {
+            console.error("Error loading listings:", err);
+            setError("No se pudieron cargar los caballos. Inténtalo de nuevo más tarde.");
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadListings(0, true);
+        setPage(0);
+    }, [activeTab, filters, search]); // Reiniciar cuando cambien los filtros
+
+    const handleLoadMore = () => {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        loadListings(nextPage);
+    };
 
 
 
@@ -95,12 +119,26 @@ const Explore = () => {
                         onPremiumChange={setPremium}
                     />
 
-                    {loading ? (
+                    {loading && horses.length === 0 ? (
                         <div className="explore-loading">Cargando caballos...</div>
                     ) : error ? (
                         <div className="explore-error">{error}</div>
                     ) : (
-                        <HorseGrid horses={filtered} totalCount={filtered.length} />
+                        <>
+                            <HorseGrid horses={filtered} totalCount={filtered.length} />
+
+                            {hasMore && (
+                                <div className="explore-load-more">
+                                    <button
+                                        className="btn-load-more"
+                                        onClick={handleLoadMore}
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Cargando...' : 'Cargar más caballos'}
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
                 </main>
             </div>
