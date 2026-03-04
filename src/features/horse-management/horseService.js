@@ -1,41 +1,7 @@
 /* horseService.js */
+import apiClient from '@shared/api/apiClient';
 
 const API_BASE = '/api/v1/horses';
-
-const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
-};
-
-const getAuthHeadersRaw = () => {
-    const token = localStorage.getItem('token');
-    return {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
-};
-
-const handleResponse = async (response) => {
-    const contentType = response.headers.get('content-type');
-    let data = null;
-
-    if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
-    } else {
-        const text = await response.text();
-        console.warn('Non-JSON response:', text);
-    }
-
-    if (!response.ok) {
-        throw new Error(data?.message || `Error ${response.status}: ${response.statusText}`);
-    }
-
-    return data;
-};
 
 export const horseService = {
     /**
@@ -43,24 +9,14 @@ export const horseService = {
      * @param {Object} horseData - Horse data following the API schema
      */
     createHorse: async (horseData) => {
-        const isFormData = horseData instanceof FormData;
-        const response = await fetch(`${API_BASE}`, {
-            method: 'POST',
-            headers: isFormData ? getAuthHeadersRaw() : getAuthHeaders(),
-            body: isFormData ? horseData : JSON.stringify(horseData),
-        });
-        return handleResponse(response);
+        return apiClient.post(`${API_BASE}`, horseData);
     },
 
     /**
      * Get all horses
      */
     getHorses: async () => {
-        const response = await fetch(`${API_BASE}`, {
-            method: 'GET',
-            headers: getAuthHeaders(),
-        });
-        return handleResponse(response);
+        return apiClient.get(`${API_BASE}`);
     },
 
     /**
@@ -69,24 +25,16 @@ export const horseService = {
      * @param {Object} horseData - Updated horse data
      */
     updateHorse: async (id, horseData) => {
-        const response = await fetch(`${API_BASE}/${id}`, {
-            method: 'PUT', // Assuming PUT for updates
-            headers: getAuthHeaders(),
-            body: JSON.stringify(horseData),
-        });
-        return handleResponse(response);
+        return apiClient.put(`${API_BASE}/${id}`, horseData);
     },
 
     /**
      * Get horses listed by the currently authenticated user
      */
     getUserHorses: async () => {
-        const response = await fetch(`${API_BASE}/me`, {
-            method: 'GET',
-            headers: getAuthHeaders(),
-        });
-        return handleResponse(response);
+        return apiClient.get(`${API_BASE}/me`);
     }
 };
 
 export default horseService;
+
