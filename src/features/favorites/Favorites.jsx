@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./favorites.css";
 import { Link } from "react-router-dom";
 import HorseCard from "@/shared/common/cards/HorseCard";
+import { useAuth } from "@shared/context/AuthContext";
+import { favoritesService } from "./favoritesService";
 
 const MOCK_USER = {
     name: "Alexandra Bennett",
@@ -102,12 +104,31 @@ const MOCK_RECO = [
 ];
 
 export default function Favorites() {
-    const [savedHorseIds] = useState(["1", "2", "4", "5"]);
+    const { user, isAuthenticated } = useAuth();
+    const [savedHorses, setSavedHorses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const savedHorses = useMemo(
-        () => MOCK_HORSES.filter((h) => savedHorseIds.includes(h.id)),
-        [savedHorseIds]
-    );
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (!isAuthenticated) {
+                setLoading(false);
+                return;
+            }
+            try {
+                setLoading(true);
+                const data = await favoritesService.getFavorites();
+                setSavedHorses(data || []);
+            } catch (err) {
+                console.error("Error fetching favorites:", err);
+                setError("No se pudieron cargar tus favoritos.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFavorites();
+    }, [isAuthenticated]);
 
     const avgPrice = useMemo(() => {
         if (!savedHorses.length) return 0;
@@ -117,7 +138,7 @@ export default function Favorites() {
 
     const avgTrust = useMemo(() => {
         if (!savedHorses.length) return 0;
-        const total = savedHorses.reduce((sum, h) => sum + Number(h.sellerScore || 0), 0);
+        const total = savedHorses.reduce((sum, h) => sum + Number(h.trustScore || 0), 0);
         return Math.round(total / savedHorses.length);
     }, [savedHorses]);
 
@@ -132,7 +153,7 @@ export default function Favorites() {
                     <div className="fav-hero__top">
                         <div className="fav-hero__left">
                             <div>
-                                <h1 className="fav-hero__title">Bienvenido, {MOCK_USER.name}</h1>
+                                <h1 className="fav-hero__title">Bienvenido, {user?.name || "Usuario"}</h1>
                                 <p className="fav-hero__subtitle">Tu colección ecuestre personalizada</p>
                             </div>
                         </div>
@@ -179,10 +200,14 @@ export default function Favorites() {
                             </div>
 
                             <div className="fav-card__body">
-                                {savedHorses.length > 0 ? (
+                                {loading ? (
+                                    <div className="fav-empty">
+                                        <p>Cargando tus favoritos...</p>
+                                    </div>
+                                ) : savedHorses.length > 0 ? (
                                     <div className="fav-horsesGrid">
                                         {savedHorses.map((horse) => (
-                                            <HorseCard key={horse.id} horse={horse} />
+                                            <HorseCard key={horse.id} horse={horse} isFavorite={true} />
                                         ))}
                                     </div>
                                 ) : (
@@ -251,14 +276,14 @@ export default function Favorites() {
                                 <div className="fav-status__item">
                                     <div>
                                         <p className="fav-status__label">Email</p>
-                                        <p className="fav-status__value">{MOCK_USER.email}</p>
+                                        <p className="fav-status__value">{user?.email || "No disponible"}</p>
                                     </div>
                                 </div>
 
                                 <div className="fav-status__item">
                                     <div>
-                                        <p className="fav-status__label">Miembro Desde</p>
-                                        <p className="fav-status__value">{MOCK_USER.memberSince}</p>
+                                        <p className="fav-status__label">Rol</p>
+                                        <p className="fav-status__value">{user?.role || "Comprador"}</p>
                                     </div>
                                 </div>
                             </div>

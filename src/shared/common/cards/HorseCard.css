@@ -76,6 +76,42 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+.horse-card__fav-btn {
+  position: absolute;
+  top: 16px;
+  right: 60px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #64748b;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.horse-card__fav-btn:hover {
+  background: white;
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+.horse-card__fav-btn.is-favorite {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.horse-card__fav-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 /* ACTION MENU (CRUD) */
 .horse-card__actions-container {
   position: absolute;

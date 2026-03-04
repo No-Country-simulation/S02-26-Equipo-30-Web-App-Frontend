@@ -8,6 +8,7 @@ import { useAuth } from "@shared/context/AuthContext";
 import { horseService } from "@features/horse-management/horseService";
 import { exploreService } from "@features/explore/exploreService";
 import { stripeService } from "@features/stripe/stripeService";
+import { favoritesService } from "@features/favorites/favoritesService";
 
 export default function HorseDetails() {
     const { id } = useParams();
@@ -18,6 +19,8 @@ export default function HorseDetails() {
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [listingId, setListingId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavLoading, setIsFavLoading] = useState(false);
     const { isAuthenticated, user } = useAuth();
 
     useEffect(() => {
@@ -55,6 +58,7 @@ export default function HorseDetails() {
                     };
 
                     setHorse(finalHorse);
+                    setIsFavorite(horseData.isFavorite || false);
                 } else {
                     throw new Error("Horse not found");
                 }
@@ -145,8 +149,27 @@ export default function HorseDetails() {
                         alt={horse.horseName || horse.name}
                         className="horse-image"
                     />
-                    <button className="favorite">
-                        <Heart size={20} color="#000" />
+                    <button
+                        className={`favorite ${isFavorite ? 'active' : ''}`}
+                        onClick={async () => {
+                            if (!isAuthenticated) {
+                                navigate('/login');
+                                return;
+                            }
+                            try {
+                                setIsFavLoading(true);
+                                await favoritesService.toggleFavorite(id);
+                                setIsFavorite(!isFavorite);
+                            } catch (err) {
+                                console.error("Error toggling favorite:", err);
+                            } finally {
+                                setIsFavLoading(false);
+                            }
+                        }}
+                        disabled={isFavLoading}
+                        aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+                    >
+                        <Heart size={20} fill={isFavorite ? "#ef4444" : "none"} color={isFavorite ? "#ef4444" : "#000"} />
                     </button>
                 </div>
 
