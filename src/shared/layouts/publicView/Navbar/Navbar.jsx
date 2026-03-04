@@ -42,15 +42,29 @@ const Navbar = () => {
                     <Btn>Explorar</Btn>
                 </NavLink>
 
-                <Dropdown
-                    trigger={
-                        <Btn className="dropdown-btn-trigger">
-                            Recursos
-                            <ChevronDown size={16} style={{ marginLeft: '6px' }} />
-                        </Btn>
-                    }
-                    items={recursosItems}
-                />
+                {!isAuthenticated ? (
+                    <>
+                        <NavLink to="/market">
+                            <Btn>Market</Btn>
+                        </NavLink>
+                        <NavLink to="/trust">
+                            <Btn>Trust</Btn>
+                        </NavLink>
+                        <NavLink to="/eventos">
+                            <Btn>Eventos</Btn>
+                        </NavLink>
+                    </>
+                ) : (
+                    <Dropdown
+                        trigger={
+                            <Btn className="dropdown-btn-trigger">
+                                Recursos
+                                <ChevronDown size={16} style={{ marginLeft: '6px' }} />
+                            </Btn>
+                        }
+                        items={recursosItems}
+                    />
+                )}
             </div>
 
             <div className="navbar-right">
