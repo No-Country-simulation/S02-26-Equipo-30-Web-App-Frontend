@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@shared/context/AuthContext";
 import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown } from "@shared/branding/icons";
 import "./HorseCard.css";
 
 export default function HorseCard(props) {
     const navigate = useNavigate();
+    const { user } = useAuth();
     // Soporta el nuevo esquema: { id, price, isVip, horse: { ... } }
     // O el antiguo por compatibilidad: { id, price, name, etc }
     const listing = props;
@@ -110,17 +112,21 @@ export default function HorseCard(props) {
                                 <Eye size={18} />
                                 <span>Ver</span>
                             </button>
-                            <button
-                                className="dropdown-item"
-                                onClick={() => navigate(`/caballo/editar/${id}`)}
-                            >
-                                <Edit size={18} />
-                                <span>Editar</span>
-                            </button>
-                            <button className="dropdown-item delete">
-                                <Trash size={18} />
-                                <span>Eliminar</span>
-                            </button>
+                            {(horseData.ownerId === user?.id || horseData.sellerId === user?.id || props.sellerId === user?.id || props.ownerId === user?.id) && (
+                                <>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => navigate(`/caballo/editar/${id}`)}
+                                    >
+                                        <Edit size={18} />
+                                        <span>Editar</span>
+                                    </button>
+                                    <button className="dropdown-item delete">
+                                        <Trash size={18} />
+                                        <span>Eliminar</span>
+                                    </button>
+                                </>
+                            )}
                         </div>
                     )}
                 </div>

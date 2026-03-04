@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info, Lock } from "@shared/branding/icons";
 import { useAuth } from "@shared/context/AuthContext";
 import { horseService } from "@features/horse-management/horseService";
+import { exploreService } from "@features/explore/exploreService";
 import { stripeService } from "@features/stripe/stripeService";
 
 export default function HorseDetails() {
@@ -22,9 +23,10 @@ export default function HorseDetails() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                // Fetch horse data directly
-                const res = await horseService.getHorseById(id);
-                const horseData = res.data || res;
+                // Fetch horse data from public explore endpoint
+                const res = await exploreService.getListingByHorseId(id);
+                // Handle content array if it's a search result or direct object
+                const horseData = res.content?.[0] || res.data || res;
 
                 if (horseData) {
                     console.log("=== Horse Data Loaded Successfully ===", horseData);
