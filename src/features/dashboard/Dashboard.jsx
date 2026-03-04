@@ -64,13 +64,17 @@ const Dashboard = () => {
         if (window.confirm(`¿Estás seguro de que deseas eliminar a "${name}"? Esta acción no se puede deshacer.`)) {
             try {
                 await horseService.deleteHorse(id);
-                // Optimistic local update: filter out the deleted horse immediately
+                // Success: remove from local state
                 setUserHorses(prev => prev.filter(h => h.id !== id));
-                // Optional: Refresh from server to sync other possible changes
-                // fetchUserHorses(); 
             } catch (err) {
                 console.error('Error deleting horse:', err);
-                alert('No se pudo eliminar el caballo. Por favor intenta de nuevo.');
+
+                // If it's already deleted in the backend (422), we still remove it from the UI
+                if (err.message?.toLowerCase().includes('already deleted') || err.response?.status === 422) {
+                    setUserHorses(prev => prev.filter(h => h.id !== id));
+                } else {
+                    alert('No se pudo eliminar el caballo. Por favor intenta de nuevo.');
+                }
             }
         }
     };
