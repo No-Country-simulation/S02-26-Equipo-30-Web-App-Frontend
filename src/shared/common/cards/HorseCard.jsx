@@ -12,21 +12,26 @@ export default function HorseCard(props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
+    // Placeholder image for horses without one
+    const HORSE_PLACEHOLDER = "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop";
+
     const {
         id = "",
-        name = "Sin nombre",
-        image = "https://via.placeholder.com/800x500",
+        name = horse.ownerName || "Caballo en Venta",
+        image = HORSE_PLACEHOLDER,
         breed = "",
         age = "",
         height = "",
         discipline = "",
         tags = [],
-        location = "",
-        price = "",
-        trustScore = 0,
+        location = "Ubicación no disponible",
+        price = "Consultar",
+        trustScore = 50, // Default trust score
         isVip = false,
         isFeatured = false,
     } = horse;
+
+    const displayImage = image && image !== "string" ? image : HORSE_PLACEHOLDER;
 
     // Handle click outside to close menu
     useEffect(() => {
@@ -61,7 +66,7 @@ export default function HorseCard(props) {
             <div className="horse-card__media">
                 <img
                     className="horse-card__img"
-                    src={image || "https://via.placeholder.com/800x500"}
+                    src={displayImage}
                     alt={name}
                 />
 
