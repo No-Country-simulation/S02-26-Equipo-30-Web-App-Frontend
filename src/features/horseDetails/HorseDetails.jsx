@@ -70,9 +70,14 @@ export default function HorseDetails() {
     const handleInterestClick = async () => {
         try {
             setIsCheckingOut(true);
-            // TEST: Usamos el listingId específico para Stripe
-            const listingId = "b4fb03a5-425a-445b-b162-a481db275001";
-            const response = await stripeService.createCheckoutSession([listingId]);
+            // Dynamic listing ID from horse object or URL params
+            const lid = horse.listingId || id || horse.id;
+
+            if (!lid) {
+                throw new Error("No se encontró el ID del anuncio para iniciar el proceso.");
+            }
+
+            const response = await stripeService.createCheckoutSession([lid]);
 
             if (response && response.url) {
                 window.location.href = response.url;
@@ -81,7 +86,7 @@ export default function HorseDetails() {
             }
         } catch (err) {
             console.error("Error initiating checkout:", err);
-            alert("Hubo un problema al iniciar el proceso de interés. Por favor, intenta de nuevo.");
+            alert(err.message || "Hubo un problema al iniciar el proceso de interés. Por favor, intenta de nuevo.");
         } finally {
             setIsCheckingOut(false);
         }
