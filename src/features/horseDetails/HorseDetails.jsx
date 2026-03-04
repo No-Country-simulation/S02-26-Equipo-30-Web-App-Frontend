@@ -18,35 +18,49 @@ export default function HorseDetails() {
     const [listingId, setListingId] = useState(null);
 
     useEffect(() => {
-        const fetchListing = async () => {
+        const fetchHorse = async () => {
             try {
                 setLoading(true);
-                const response = await exploreService.getListingById(id);
-                // La API de listings suele devolver el objeto caballo anidado en '.horse'
-                const listingData = response.data || response;
-
-                if (listingData.horse) {
-                    setHorse({
-                        ...listingData.horse,
-                        price: listingData.price,
-                        listingId: listingData.id || id,
-                        isVip: listingData.isVip
-                    });
-                } else {
-                    setHorse(listingData);
-                }
+                const response = await horseService.getHorseById(id);
+                const data = response.data || response;
+                setHorse(data.horse || data);
             } catch (err) {
-                console.error("Error fetching listing details:", err);
-                setError("No se pudo cargar la información del anuncio.");
+                console.error("Error fetching horse details:", err);
+                setError("No se pudo cargar la información del caballo.");
             } finally {
                 setLoading(false);
             }
         };
 
         if (id) {
-            fetchListing();
+            fetchHorse();
         }
     }, [id]);
+
+    useEffect(() => {
+        const fetchListingInfo = async () => {
+            try {
+                // Buscamos en el explore el anuncio que corresponda a este caballo para obtener el listingId y el precio
+                const data = await exploreService.getListings(0, 100);
+                const content = data?.content || [];
+                const match = content.find(l => l.horseId === id || l.listingId === id || l.id === id);
+                if (match) {
+                    console.log("=== match found in Explore ===", match);
+                    setListingId(match.listingId || match.id);
+                    // Si el anuncio tiene precio y el caballo no, lo actualizamos para mostrarlo en la UI
+                    if (match.price && horse && !horse.price) {
+                        setHorse(prev => ({ ...prev, price: match.price }));
+                    }
+                }
+            } catch (err) {
+                console.error("Error searching for listing info:", err);
+            }
+        };
+
+        if (id && horse) {
+            fetchListingInfo();
+        }
+    }, [id, horse]);
 
     if (loading) {
         return <div className="listing-container loading">Cargando detalles del caballo...</div>;
@@ -77,14 +91,14 @@ export default function HorseDetails() {
     const handleInterestClick = async () => {
         try {
             setIsCheckingOut(true);
-            // El 'id' de la URL ahora es siempre el listingId
-            const finalId = id;
+            // IMPORTANTE: Para Stripe necesitamos el listingId, no el horseId
+            const finalId = listingId || horse?.listingId;
 
             if (!finalId) {
-                throw new Error("No se encontró el ID del anuncio para iniciar el proceso.");
+                throw new Error("No se encontró el ID del anuncio para iniciar el proceso de interés.");
             }
 
-            console.log("=== Initiating Checkout with ID:", finalId);
+            console.log("=== Initiating Checkout with Listing ID:", finalId);
             const response = await stripeService.createCheckoutSession([finalId]);
 
             if (response && response.url) {
