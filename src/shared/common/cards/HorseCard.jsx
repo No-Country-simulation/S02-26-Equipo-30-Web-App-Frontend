@@ -5,44 +5,61 @@ import "./HorseCard.css";
 
 export default function HorseCard(props) {
     const navigate = useNavigate();
-    // Soporta 2 formas:
-    // 1) <HorseCard horse={horse} />
-    // 2) <HorseCard {...horse} />
-    const horse = props.horse ?? props;
+    // Soporta el nuevo esquema: { id, price, isVip, horse: { ... } }
+    // O el antiguo por compatibilidad: { id, price, name, etc }
+    const listing = props;
+    const horseData = props.horse ?? props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
     // Placeholder image for horses without one
     const HORSE_PLACEHOLDER = "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop";
 
+    // Cálculo de edad
+    const calculateAge = (birthDate) => {
+        if (!birthDate || birthDate === "string") return "";
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        if (age < 0) return "";
+        return `${age} años`;
+    };
+
+    // Mapeo de campos del objeto Horse
     const {
-        id = "",
-        name = horse.name || "Caballo en Venta",
+        name = horseData.name || "Caballo en Venta",
         image = HORSE_PLACEHOLDER,
-        breed = "",
-        age = "",
-        height = "",
-        discipline = "",
+        breed = horseData.breed || "",
+        birthDate = "",
+        heightM = 0,
+        mainUse = "",
         tags = [],
-        location = "Ubicación no disponible",
-        price = "Consultar",
-        trustScore = 50, // Default trust score
-        isVip = false,
-        isFeatured = false,
-    } = horse;
+        location: locObj = null,
+        trustScore = horseData.trustScore || 50,
+    } = horseData;
+
+    // Campos del Listing
+    const {
+        id = listing.id || "",
+        price = listing.price || "Consultar",
+        isVip = listing.isVip || false,
+        isFeatured = listing.isFeatured || false,
+    } = listing;
 
     const displayImage = image && image !== "string" ? image : HORSE_PLACEHOLDER;
+    const age = calculateAge(birthDate);
+    const height = heightM ? `${heightM}m` : "";
+    const discipline = mainUse || horseData.discipline || "";
 
-    // Handle click outside to close menu
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setIsMenuOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    // Formatear ubicación: "Ciudad, Región" o fallback
+    let displayLocation = "Ubicación no disponible";
+    if (locObj && typeof locObj === 'object') {
+        const { city, region } = locObj;
+        if (city && region) displayLocation = `${city}, ${region}`;
+        else if (city || region) displayLocation = city || region;
+    } else if (typeof horseData.location === 'string') {
+        displayLocation = horseData.location;
+    }
 
     // 1) Si viene tags, úsalo. Si no, construye tags desde age/height/discipline
     const pills =
@@ -50,7 +67,8 @@ export default function HorseCard(props) {
             ? tags
             : [age, height, discipline].filter(Boolean);
 
-    const safeTrust = Math.max(0, Math.min(100, Number(trustScore) || 0));
+    const safeTrust = Math.round(Number(trustScore) > 1 ? Number(trustScore) : (Number(trustScore) * 100));
+    const normalizedTrust = Math.max(0, Math.min(100, safeTrust));
 
     const getTrustMeta = (score) => {
         if (score >= 90) return { level: "excellent", label: "Excelente" };
@@ -59,7 +77,7 @@ export default function HorseCard(props) {
         return { level: "poor", label: "Mejorable" };
     };
 
-    const trust = getTrustMeta(safeTrust);
+    const trust = getTrustMeta(normalizedTrust);
 
     return (
         <article className="horse-card">
@@ -149,10 +167,10 @@ export default function HorseCard(props) {
                     </div>
                 )}
 
-                {location && (
+                {displayLocation && (
                     <p className="horse-card__location">
                         <MapPin size={14} className="location-icon" />
-                        {location}
+                        {displayLocation}
                     </p>
                 )}
 
@@ -164,7 +182,7 @@ export default function HorseCard(props) {
                         <span className="horse-card__trustLabel">Trust Score</span>
                     </div>
                     <div className={`horse-card__trustValue horse-card__trustValue--${trust.level}`}>
-                        <span className="score-num">{safeTrust}</span>
+                        <span className="score-num">{normalizedTrust}</span>
                         <span className="score-total">/100</span>
                     </div>
                 </div>
@@ -172,7 +190,7 @@ export default function HorseCard(props) {
                 <div className="horse-card__progress">
                     <div
                         className={`horse-card__progressFill horse-card__progressFill--${trust.level}`}
-                        style={{ width: `${safeTrust}%` }}
+                        style={{ width: `${normalizedTrust}%` }}
                     />
                 </div>
 

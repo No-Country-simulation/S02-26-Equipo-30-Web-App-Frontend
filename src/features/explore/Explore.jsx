@@ -41,14 +41,21 @@ const Explore = () => {
     }, []);
 
     const filtered = useMemo(() => {
-        return horses.filter((h) => {
-            // Manejo robusto de campos que podrían no venir de la API
+        return horses.filter((listing) => {
+            // El objeto real del caballo puede venir anidado en 'horse'
+            const h = listing.horse ?? listing;
+
             const name = h.name || 'Caballo Sin Nombre';
             const breed = h.breed || '';
-            const discipline = h.discipline || '';
-            const location = h.location || '';
-            const price = Number(h.price) || 0;
-            const trustScore = Number(h.trustScore) || 0;
+            const discipline = h.mainUse || h.discipline || '';
+
+            // Si location es objeto, unir campos para la búsqueda
+            const locText = typeof h.location === 'object'
+                ? `${h.location?.city || ''} ${h.location?.region || ''} ${h.location?.country || ''}`.toLowerCase()
+                : String(h.location || '').toLowerCase();
+
+            const price = Number(listing.price) || 0;
+            const trustScore = Number(h.trustScore) > 1 ? Number(h.trustScore) : (Number(h.trustScore) * 100);
 
             if (search && !name.toLowerCase().includes(search.toLowerCase()) &&
                 !breed.toLowerCase().includes(search.toLowerCase()) &&
@@ -56,11 +63,11 @@ const Explore = () => {
 
             if (activeTab !== 'Todos' && discipline !== activeTab) return false;
             if (verified && trustScore < 90) return false;
-            if (premium && !h.isVip) return false;
+            if (premium && !listing.isVip) return false;
 
             if (filters.discipline && discipline !== filters.discipline) return false;
             if (filters.breed && breed !== filters.breed) return false;
-            if (filters.location && !location.toLowerCase().includes(filters.location.toLowerCase())) return false;
+            if (filters.location && !locText.includes(filters.location.toLowerCase())) return false;
             if (filters.priceMin && price < Number(filters.priceMin)) return false;
             if (filters.priceMax && price > Number(filters.priceMax)) return false;
 
