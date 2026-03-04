@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MoreVertical, Eye, Edit, Trash } from "@shared/branding/icons";
+import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown } from "@shared/branding/icons";
 import "./HorseCard.css";
 
 export default function HorseCard(props) {
@@ -105,7 +105,12 @@ export default function HorseCard(props) {
 
                 {(isVip || isFeatured) && (
                     <div className="horse-card__badges">
-                        {isVip && <span className="badge badge--vip">VIP</span>}
+                        {isVip && (
+                            <span className="badge badge--vip">
+                                <Crown size={12} strokeWidth={2.5} />
+                                VIP
+                            </span>
+                        )}
                         {isFeatured && (
                             <span className="badge badge--featured">Destacado</span>
                         )}
@@ -113,7 +118,9 @@ export default function HorseCard(props) {
                 )}
 
                 <button className="horse-card__play" type="button" aria-label="Play video">
-                    ▶
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
                 </button>
             </div>
 
@@ -142,13 +149,24 @@ export default function HorseCard(props) {
                     </div>
                 )}
 
-                {location && <p className="horse-card__location">{location}</p>}
+                {location && (
+                    <p className="horse-card__location">
+                        <MapPin size={14} className="location-icon" />
+                        {location}
+                    </p>
+                )}
 
                 <hr className="horse-card__divider" />
 
                 <div className="horse-card__trustRow">
-                    <span className="horse-card__trustLabel">Trust Score</span>
-                    <span className="horse-card__trustValue">{safeTrust}/100</span>
+                    <div className="horse-card__trust-label-group">
+                        <Award size={18} className={`trust-icon trust-icon--${trust.level}`} />
+                        <span className="horse-card__trustLabel">Trust Score</span>
+                    </div>
+                    <div className={`horse-card__trustValue horse-card__trustValue--${trust.level}`}>
+                        <span className="score-num">{safeTrust}</span>
+                        <span className="score-total">/100</span>
+                    </div>
                 </div>
 
                 <div className="horse-card__progress">
