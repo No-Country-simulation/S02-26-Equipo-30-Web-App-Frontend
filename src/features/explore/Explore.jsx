@@ -43,21 +43,7 @@ const Explore = () => {
         loadListings();
     }, []);
 
-    useEffect(() => {
-        const fetchSpecificHorse = async () => {
-            const horseId = "e1b1d465-e95a-4de9-9516-bc7a74dc1444";
-            try {
-                const data = await horseService.getHorseById(horseId);
-                console.log('--- DATA FOR UUID: ' + horseId + ' ---');
-                console.log(data);
-                console.log('------------------------------------------');
-            } catch (err) {
-                console.error(`Error fetching horse ${horseId}:`, err);
-            }
-        };
 
-        fetchSpecificHorse();
-    }, []);
 
     const filtered = useMemo(() => {
         return horses.filter((listing) => {
