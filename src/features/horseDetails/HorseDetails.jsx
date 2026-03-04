@@ -70,7 +70,7 @@ export default function HorseDetails() {
         try {
             setIsCheckingOut(true);
             // TEST: Usamos el listingId específico para Stripe
-            const listingId = "e10b3b7d-1b33-41f2-a5d2-14ccc6eaff9f";
+            const listingId = "b4fb03a5-425a-445b-b162-a481db275001";
             const response = await stripeService.createCheckoutSession([listingId]);
 
             if (response && response.url) {
