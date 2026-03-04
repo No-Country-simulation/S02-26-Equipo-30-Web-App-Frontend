@@ -3,20 +3,22 @@ import logo from '@shared/branding/logo_218_64.png';
 import Btn from '@components/button/Btn';
 import IconBtn from '@components/button/IconBtn';
 import { NavLink, useNavigate } from "react-router-dom";
-import { Crown, User, Info, Shield, Dollar, Phone, ChevronDown } from '@shared/branding/icons';
+import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut } from '@shared/branding/icons';
 
 import Dropdown from '@components/dropdown/Dropdown';
+import { useAuth } from '@shared/context/AuthContext';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, logout } = useAuth();
+
     const recursosItems = [
         { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
         { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
-        { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
         { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
         { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
-    const navigate = useNavigate();
     const goHome = () => navigate("/");
     const goExplore = () => { window.location.hash = '#/explorar'; };
 
@@ -33,9 +35,6 @@ const Navbar = () => {
                 <NavLink to="/explorar">
                     <Btn>Explorar</Btn>
                 </NavLink>
-                <NavLink to="/premium">
-                    <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
-                </NavLink>
 
                 <Dropdown
                     trigger={
@@ -45,18 +44,35 @@ const Navbar = () => {
                         </Btn>
                     }
                     items={recursosItems}
-
                 />
+            </div>
 
-                <div className="navbar-right">
-                    <NavLink to="/login">
-                        <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
-                    </NavLink>
-                    <NavLink to="/registro">
-                        <Btn className="register-btn">Registrarse</Btn>
-                    </NavLink>
-                </div>
-
+            <div className="navbar-right">
+                {isAuthenticated ? (
+                    <>
+                        <NavLink to="/favoritos">
+                            <IconBtn icon={<Heart size={16} />}>Favoritos</IconBtn>
+                        </NavLink>
+                        <NavLink to="/chat">
+                            <IconBtn icon={<Message size={16} />}>Mensajes</IconBtn>
+                        </NavLink>
+                        <NavLink to="/dashboard">
+                            <Btn>Dashboard</Btn>
+                        </NavLink>
+                        <Btn className="logout-btn" onClick={logout}>
+                            Salir
+                        </Btn>
+                    </>
+                ) : (
+                    <>
+                        <NavLink to="/login">
+                            <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
+                        </NavLink>
+                        <NavLink to="/registro">
+                            <Btn className="register-btn">Registrarse</Btn>
+                        </NavLink>
+                    </>
+                )}
             </div>
         </nav>
     );
