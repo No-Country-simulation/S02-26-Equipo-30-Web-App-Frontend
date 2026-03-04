@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./Home.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Shield, Award, Heart, User, ArrowRight } from "@shared/branding/icons";
 import Badge from "@components/badge/Badge";
 import FeaturedHorses from './components/FeaturedHorses/FeaturedHorses'
+import { exploreService } from "@features/explore/exploreService";
 
 /** Inline small icons to avoid missing exports */
 const ChevronRight = ({ size = 16 }) => (
@@ -17,6 +18,12 @@ export default function Home() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
     const [discipline, setDiscipline] = useState("all");
+
+    useEffect(() => {
+        exploreService.getListings()
+            .then(res => console.log("=== GET /api/v1/listings RES ===", res))
+            .catch(err => console.error("Error fetching listings on Home:", err));
+    }, []);
 
     const disciplines = useMemo(
         () => [
