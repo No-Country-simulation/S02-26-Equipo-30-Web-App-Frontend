@@ -30,9 +30,7 @@ const Footer = () => {
                     <h3>Enlaces Rápidos</h3>
                     <ul>
                         <li><a href="#">Explorar Caballos</a></li>
-                        <li><a href="#">Caballos Premium</a></li>
                         <li><a href="#">Cómo Funciona</a></li>
-                        <li><a href="#">Planes y Precios</a></li>
                         <li><a href="#">Vender un Caballo</a></li>
                     </ul>
                 </div>

@@ -81,31 +81,13 @@ const FeaturedHorses = () => {
     ];
 
     return (
-        <section className="featured-horses-section">
             <div className="section-container">
-                <header className="featured-header">
-                    <div className="header-left">
-                        <Badge >
-                            DESTACADOS
-                        </Badge>
-                        <h2 className="featured-title">
-                            Caballos que <br /> Marcan la Diferencia
-                        </h2>
-                    </div>
-                    <div className="header-right">
-                        <button className="view-all-btn">
-                            Ver Todos (200) <ArrowRight size={18} />
-                        </button>
-                    </div>
-                </header>
-
                 <div className="featured-grid">
                     {featuredHorses.map(horse => (
                         <HorseCard key={horse.id} horse={horse} showMenu={false} />
                     ))}
                 </div>
             </div>
-        </section>
     );
 };
 

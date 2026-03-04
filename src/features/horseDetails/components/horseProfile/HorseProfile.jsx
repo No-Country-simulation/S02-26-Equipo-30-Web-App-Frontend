@@ -46,7 +46,6 @@ export default function HorseProfile() {
                             </div>
                         ) : (
                             <div className="locked-state">
-                                <div className="lock-icon">🔒</div>
                                 <p className="locked-title">Full veterinary records available to registered users</p>
                                 <p className="locked-desc">Sign in to view complete medical history and exam results</p>
                                 <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
@@ -73,7 +72,6 @@ export default function HorseProfile() {
                             </div>
                         ) : (
                             <div className="locked-state">
-                                <div className="lock-icon">🔒</div>
                                 <p className="locked-title">Full performance video library available</p>
                                 <p className="locked-desc">View verified competition footage and training videos</p>
                                 <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
@@ -101,7 +99,6 @@ export default function HorseProfile() {
                         </div>
                     ) : (
                         <div className="locked-state">
-                            <div className="lock-icon">🔒</div>
                             <p className="locked-title">Detailed ownership and competition history</p>
                             <p className="locked-desc">Access complete background, training timeline, and seller credentials</p>
                             <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
