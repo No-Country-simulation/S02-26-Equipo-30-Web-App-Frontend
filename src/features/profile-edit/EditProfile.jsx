@@ -1,61 +1,102 @@
 /* EditProfile.jsx */
-import React, { useEffect, useMemo, useState } from "react";
-import "./EditProfile.css";
-import { useNavigate } from "react-router-dom";
-import { userService } from "../profile/userService";
+import React from 'react';
+import './EditProfile.css';
+import {
+    User,
+    Mail,
+    Phone,
+    Lock,
+    Bell,
+    Info,
+    Shield,
+    ChevronDown,
+    Sparkles
+} from '@shared/branding/icons';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { userService } from '../profile/userService';
 
-const MOCK_USER = {
-  fullName: "María Zapata",
-  email: "maria@email.com",
-  phone: "+34 600 123 456",
-  status: "ACTIVE",
-  lastLoginAt: "2024-01-10",
-};
+const EditProfile = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        phone: '' // Although not in PUT, kept for UI
+    });
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState(null);
 
-export default function EditProfile() {
-  const navigate = useNavigate();
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const data = await userService.getCurrentUser();
+                setUserData(data);
+                setFormData({
+                    fullName: data.fullName || '',
+                    email: data.email || '',
+                    phone: ''
+                });
+            } catch (err) {
+                console.error('Error fetching user data:', err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState(null);
+        fetchUserData();
+    }, []);
 
-  // Form
-  const [formData, setFormData] = useState({
-    email: "",
-    phone: "",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    notificationsEmail: true,
-    notificationsSMS: false,
-  });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await userService.getCurrentUser();
-        setUserData(data);
+    const handlePasswordChangeInput = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({ ...prev, [name]: value }));
+    };
 
-        setFormData((prev) => ({
-          ...prev,
-          email: data?.email || "",
-          phone: data?.phone || "",
-        }));
-
+    const handleSave = async (e) => {
+        e.preventDefault();
+        setSaving(true);
         setError(null);
-      } catch (err) {
-        // ✅ para maquetar aunque backend falle
-        setUserData(MOCK_USER);
-        setFormData((prev) => ({
-          ...prev,
-          email: MOCK_USER.email,
-          phone: MOCK_USER.phone,
-        }));
-        setError(null);
-      } finally {
-        setLoading(false);
-      }
+        try {
+            // Update Profile Info
+            await userService.updateCurrentUser({
+                fullName: formData.fullName,
+                email: formData.email
+            });
+
+            // Update Password if fields are filled
+            if (passwordData.currentPassword || passwordData.newPassword) {
+                if (passwordData.newPassword !== passwordData.confirmPassword) {
+                    throw new Error('Las contraseñas nuevas no coinciden');
+                }
+                if (passwordData.newPassword.length < 8) {
+                    throw new Error('La nueva contraseña debe tener al least 8 caracteres');
+                }
+                await userService.updatePassword({
+                    currentPassword: passwordData.currentPassword,
+                    newPassword: passwordData.newPassword
+                });
+            }
+
+            alert('Cambios guardados correctamente');
+            navigate('/perfil');
+        } catch (err) {
+            console.error('Error updating profile:', err);
+            setError(err.message);
+        } finally {
+            setSaving(false);
+        }
     };
 
     fetchUserData();

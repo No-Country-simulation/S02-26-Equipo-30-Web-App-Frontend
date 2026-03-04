@@ -18,6 +18,7 @@ import Dashboard from '@features/dashboard/Dashboard.jsx';
 import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
 import Chat from '@features/chat/Chat.jsx';
 import HorseForm from '@features/horse-management/HorseForm.jsx';
+import ProtectedRoute from '@/shared/common/ProtectedRoute';
 
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../shared/context/AuthContext';
