@@ -17,7 +17,7 @@ export default function HorseCard(props) {
 
     const {
         id = "",
-        name = horse.ownerName || "Caballo en Venta",
+        name = horse.name || "Caballo en Venta",
         image = HORSE_PLACEHOLDER,
         breed = "",
         age = "",

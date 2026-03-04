@@ -43,7 +43,7 @@ const Explore = () => {
     const filtered = useMemo(() => {
         return horses.filter((h) => {
             // Manejo robusto de campos que podrían no venir de la API
-            const name = h.name || h.ownerName || 'Caballo Sin Nombre';
+            const name = h.name || 'Caballo Sin Nombre';
             const breed = h.breed || '';
             const discipline = h.discipline || '';
             const location = h.location || '';
