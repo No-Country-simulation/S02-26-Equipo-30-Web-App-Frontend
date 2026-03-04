@@ -269,22 +269,25 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 16px;
-  background-color: white !important;
-  border: 2px solid #ca8a04 !important;
-  border-radius: 10px;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%) !important;
+  border: 1.5px solid #ca8a04 !important;
+  border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
   color: #ca8a04 !important;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
+  box-shadow: 0 4px 6px rgba(202, 138, 4, 0.05);
 }
 
 .chat-btn:hover {
-  background-color: #fdf8ed !important;
-  transform: translateY(-1px);
+  background: #fdf8ed !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(202, 138, 4, 0.15);
+  border-color: #a16207 !important;
 }
 
 .cta {

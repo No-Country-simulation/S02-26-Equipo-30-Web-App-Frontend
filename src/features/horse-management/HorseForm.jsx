@@ -318,7 +318,7 @@ const HorseForm = () => {
                                     {errors.breed && <span className="hf-error-msg">{errors.breed}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.birthDate ? 'error' : ''}`}>
-                                    <label>Fecha de Nacimiento *</label>
+                                    <label>Fecha de Nacimiento</label>
                                     <input
                                         type="date"
                                         name="birthDate"
@@ -328,7 +328,7 @@ const HorseForm = () => {
                                     {errors.birthDate && <span className="hf-error-msg">{errors.birthDate}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.sex ? 'error' : ''}`}>
-                                    <label>Sexo *</label>
+                                    <label>Sexo</label>
                                     <div className="hf-select-wrap">
                                         <select name="sex" value={formData.sex} onChange={handleChange}>
                                             <option value="STALLION">Semental</option>
@@ -340,7 +340,7 @@ const HorseForm = () => {
                                     {errors.sex && <span className="hf-error-msg">{errors.sex}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.heightM ? 'error' : ''}`}>
-                                    <label>Altura (m) *</label>
+                                    <label>Altura (m)</label>
                                     <input
                                         type="number"
                                         name="heightM"
@@ -352,7 +352,7 @@ const HorseForm = () => {
                                     {errors.heightM && <span className="hf-error-msg">{errors.heightM}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.weightKg ? 'error' : ''}`}>
-                                    <label>Peso (Kg) *</label>
+                                    <label>Peso (Kg)</label>
                                     <input
                                         type="number"
                                         name="weightKg"
@@ -364,7 +364,7 @@ const HorseForm = () => {
                                     {errors.weightKg && <span className="hf-error-msg">{errors.weightKg}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.mainUse ? 'error' : ''}`}>
-                                    <label>Uso Principal *</label>
+                                    <label>Uso Principal</label>
                                     <div className="hf-select-wrap">
                                         <select name="mainUse" value={formData.mainUse} onChange={handleChange}>
                                             <option value="RACING">Carreras</option>
@@ -397,7 +397,7 @@ const HorseForm = () => {
                             <h3>Detalles Técnicos</h3>
                             <div className="hf-grid">
                                 <div className={`hf-input-group ${errors.lengthM ? 'error' : ''}`}>
-                                    <label>Longitud (m) *</label>
+                                    <label>Longitud (m)</label>
                                     <input
                                         type="number"
                                         name="lengthM"
@@ -409,7 +409,7 @@ const HorseForm = () => {
                                     {errors.lengthM && <span className="hf-error-msg">{errors.lengthM}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.maxSpeedKmh ? 'error' : ''}`}>
-                                    <label>Velocidad Máx (Kmh) *</label>
+                                    <label>Velocidad Máx (Kmh)</label>
                                     <input
                                         type="number"
                                         name="maxSpeedKmh"
@@ -421,7 +421,7 @@ const HorseForm = () => {
                                     {errors.maxSpeedKmh && <span className="hf-error-msg">{errors.maxSpeedKmh}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.temperament ? 'error' : ''}`}>
-                                    <label>Temperamento *</label>
+                                    <label>Temperamento</label>
                                     <div className="hf-select-wrap">
                                         <select name="temperament" value={formData.temperament} onChange={handleChange}>
                                             <option value="CALM">Calmado</option>
@@ -494,7 +494,7 @@ const HorseForm = () => {
                             <h3>Historial y Veterinaria</h3>
                             <div className="hf-grid">
                                 <div className={`hf-input-group ${errors.careerRaces ? 'error' : ''}`}>
-                                    <label>Carreras Realizadas *</label>
+                                    <label>Carreras Realizadas</label>
                                     <input
                                         type="number"
                                         name="careerRaces"
@@ -504,7 +504,7 @@ const HorseForm = () => {
                                     {errors.careerRaces && <span className="hf-error-msg">{errors.careerRaces}</span>}
                                 </div>
                                 <div className={`hf-input-group ${errors.daysSinceLastRace ? 'error' : ''}`}>
-                                    <label>Días desde última carrera *</label>
+                                    <label>Días desde última carrera</label>
                                     <input
                                         type="number"
                                         name="daysSinceLastRace"
