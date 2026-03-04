@@ -29,8 +29,8 @@ const Explore = () => {
     const loadListings = async (pageNum, isInitial = false) => {
         try {
             if (isInitial) setLoading(true);
-            // Pasamos el término de búsqueda como 'keyword' a la API
-            const data = await exploreService.getListings(pageNum, 10, search);
+            // Pasamos el término de búsqueda como 'keyword' a la API, con tamaño 100
+            const data = await exploreService.getListings(pageNum, 100, search);
             console.log(`Explore RAW data (page ${pageNum}):`, data);
 
             const content = data?.content || [];
@@ -42,8 +42,8 @@ const Explore = () => {
                 setHorses(prev => [...prev, ...content]);
             }
 
-            // Si recibimos menos de 10 elementos, asumimos que no hay más
-            if (content.length < 10) {
+            // Si recibimos menos de 100 elementos, asumimos que no hay más
+            if (content.length < 100) {
                 setHasMore(false);
             } else {
                 setHasMore(true);

@@ -3,7 +3,7 @@ import apiClient from '@shared/api/apiClient';
 const API_BASE = '/api/v1/listings/explore';
 
 export const exploreService = {
-    getListings: async (page = 0, size = 10, keyword = '') => {
+    getListings: async (page = 0, size = 100, keyword = '') => {
         let url = `${API_BASE}?page=${page}&size=${size}`;
         if (keyword) {
             url += `&keyword=${encodeURIComponent(keyword)}`;
