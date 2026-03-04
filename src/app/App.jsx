@@ -31,7 +31,7 @@ function App() {
           {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/explorar" element={<Explore />} />
-          <Route path="/detalle" element={<HorseDetails />} />
+          <Route path="/detalle/:id" element={<HorseDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/verificar" element={<Verification />} />

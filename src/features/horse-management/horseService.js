@@ -33,6 +33,14 @@ export const horseService = {
      */
     getUserHorses: async () => {
         return apiClient.get(`${API_BASE}/me`);
+    },
+
+    /**
+     * Get a horse by its ID
+     * @param {string} id - Horse UUID
+     */
+    getHorseById: async (id) => {
+        return apiClient.get(`${API_BASE}/${id}`);
     }
 };
 

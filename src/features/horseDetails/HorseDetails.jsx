@@ -1,23 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
 import HorseProfile from "./components/horseProfile/HorseProfile";
-import { useNavigate } from "react-router-dom";
-import { Heart, Message } from "@shared/branding/icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info } from "@shared/branding/icons";
+import { horseService } from "@features/horse-management/horseService";
 
 export default function HorseDetails() {
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [horse, setHorse] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchHorse = async () => {
+            try {
+                setLoading(true);
+                const response = await horseService.getHorseById(id);
+                setHorse(response.data);
+            } catch (err) {
+                console.error("Error fetching horse details:", err);
+                setError("No se pudo cargar la información del caballo.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchHorse();
+        }
+    }, [id]);
+
+    if (loading) {
+        return <div className="listing-container loading">Cargando detalles del caballo...</div>;
+    }
+
+    if (error || !horse) {
+        return (
+            <div className="listing-container error">
+                <p>{error || "Caballo no encontrado."}</p>
+                <Btn onClick={() => navigate("/explorar")}>Volver a explorar</Btn>
+            </div>
+        );
+    }
+
+    // Calcular edad a partir de birthDate
+    const calculateAge = (birthDate) => {
+        if (!birthDate) return "N/A";
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return `${age} años`;
+    };
+
     return (
         <div className="listing-container">
             <div className="listing-card">
                 <div className="image-section">
                     <div className="badges">
-                        <span className="badge verified">Verified Listing</span>
-                        <span className="badge score">Seller Score</span>
+                        {horse.sellerVerified && <span className="badge verified">Vendedor Verificado</span>}
+                        <span className="badge score">Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</span>
                     </div>
                     <img
-                        src="https://picsum.photos/900/700?random=horse"
-                        alt="Golden Promise"
+                        src={horse.imageUrl || "https://picsum.photos/900/700?random=horse"}
+                        alt={horse.name}
                         className="horse-image"
                     />
                     <button className="favorite">
@@ -26,72 +77,97 @@ export default function HorseDetails() {
                 </div>
 
                 <div className="info-section">
-                    <h1 className="title">Golden Promise</h1>
-                    <p className="subtitle">Selle Français</p>
-                    <h2 className="price">$60,249</h2>
+                    <div className="title-header">
+                        <h1 className="title">{horse.name}</h1>
+                        <span className={`sex-badge ${horse.sex?.toLowerCase()}`}>{horse.sex}</span>
+                    </div>
+                    <p className="subtitle">{horse.breed}</p>
+                    <h2 className="price">{horse.price ? `$${horse.price.toLocaleString()}` : "Contactar para precio"}</h2>
 
                     <div className="details-grid">
-                        <div>
-                            <p className="label">Age</p>
-                            <p>8 years</p>
+                        <div className="detail-item">
+                            <Calendar size={18} className="icon" />
+                            <div>
+                                <p className="label">Edad</p>
+                                <p>{calculateAge(horse.birthDate)}</p>
+                            </div>
                         </div>
-                        <div>
-                            <p className="label">Gender</p>
-                            <p>Gelding</p>
-                        </div>
-
-                        <div>
-                            <p className="label">Height</p>
-                            <p>18.1 hh</p>
-                        </div>
-                        <div>
-                            <p className="label">Color</p>
-                            <p>Grey</p>
+                        <div className="detail-item">
+                            <Ruler size={18} className="icon" />
+                            <div>
+                                <p className="label">Altura</p>
+                                <p>{horse.heightM} m</p>
+                            </div>
                         </div>
 
-                        <div>
-                            <p className="label">Discipline</p>
-                            <p>Barrel Racing</p>
+                        <div className="detail-item">
+                            <Weight size={18} className="icon" />
+                            <div>
+                                <p className="label">Peso</p>
+                                <p>{horse.weightKg} kg</p>
+                            </div>
                         </div>
-                        <div>
-                            <p className="label">Location</p>
-                            <p>Wellington, FL</p>
+                        <div className="detail-item">
+                            <Gauge size={18} className="icon" />
+                            <div>
+                                <p className="label">Velocidad Máx</p>
+                                <p>{horse.maxSpeedKmh} km/h</p>
+                            </div>
+                        </div>
+
+                        <div className="detail-item">
+                            <MapPin size={18} className="icon" />
+                            <div>
+                                <p className="label">Ubicación</p>
+                                <p>{horse.location?.city}, {horse.location?.country}</p>
+                            </div>
+                        </div>
+                        <div className="detail-item">
+                            <Info size={18} className="icon" />
+                            <div>
+                                <p className="label">Uso Principal</p>
+                                <p>{horse.mainUse}</p>
+                            </div>
                         </div>
                     </div>
 
                     <hr />
 
                     <div className="description">
-                        <h3>Description</h3>
+                        <h3>Descripción y Temperamento</h3>
                         <p>
-                            Amateur-friendly gelding perfect for dedicated rider.
+                            {horse.name} es un ejemplar de temperamento <strong>{horse.temperament}</strong>.
+                            Ideal para <strong>{horse.mainUse}</strong>.
                         </p>
+                        <div className="extra-stats">
+                            <p><strong>Linaje:</strong> {horse.lineage || "No especificado"}</p>
+                            <p><strong>Carreras realizadas:</strong> {horse.careerRaces}</p>
+                            <p><strong>Días desde última carrera:</strong> {horse.daysSinceLastRace}</p>
+                        </div>
                     </div>
 
-                    <div className="extra-info">
-                        <div>
-                            <p className="label">Temperament</p>
-                            <p>Forward, sensitive, talented</p>
-                        </div>
-                        <div>
-                            <p className="label">Training Level</p>
-                            <p>First Level</p>
+                    <div className="vet-summary">
+                        <h3>Estado Veterinario</h3>
+                        <div className="vet-stats">
+                            <p><span>Exámenes totales:</span> {horse.vetTotalExams}</p>
+                            <p><span>Problemas mayores:</span> {horse.vetMajorIssues}</p>
+                            <p><span>Estado de puntaje:</span> <span className={`status-${horse.trustScoreStatus?.toLowerCase()}`}>{horse.trustScoreStatus}</span></p>
                         </div>
                     </div>
 
                     <div className="listing-actions">
                         <Btn
                             className="chat-btn"
-                            onClick={() => navigate('/chat')}
+                            onClick={() => navigate(`/chat?horseId=${horse.id}`)}
                         >
                             <Message size={18} />
                             Chatear con el vendedor
                         </Btn>
-                        <Btn className="cta">Express Purchase Interest</Btn>
+                        <Btn className="cta">Expresar Interés de Compra</Btn>
                     </div>
                 </div>
             </div>
-            <HorseProfile />
+            <HorseProfile horse={horse} />
         </div>
     );
 }

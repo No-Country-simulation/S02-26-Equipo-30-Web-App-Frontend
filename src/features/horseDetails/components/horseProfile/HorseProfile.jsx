@@ -2,30 +2,12 @@ import React, { useState } from "react";
 import "./HorseProfile.css";
 import { Shield, Sparkles, Award } from "@shared/branding/icons";
 
-// Simulación de datos
-const veterinaryRecord = {
-    date: "2026-01-15",
-    vet: "Dr. Sarah Mitchell, DVM",
-    notes: "No significant findings. Excellent cardiovascular health, clean joints, optimal flexion tests.",
-    status: "Excellent"
-};
-
-const performanceVideos = [
-    { id: 1, title: "Performance Video 1" },
-    { id: 2, title: "Performance Video 2" }
-];
-
-const sellerInfo = {
-    name: "Elite Equine Center",
-    score: 93,
-    importedYear: 2024,
-    competitionRecord: "Clean competition record"
-};
-
-export default function HorseProfile() {
+export default function HorseProfile({ horse }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const handleLogin = () => setIsLoggedIn(true);
+
+    if (!horse) return null;
 
     return (
         <div className="container">
@@ -40,9 +22,12 @@ export default function HorseProfile() {
                     <div className="card-content">
                         {isLoggedIn ? (
                             <div className="logged-in-content">
-                                <p className="font-medium">{veterinaryRecord.date} • {veterinaryRecord.vet}</p>
-                                <p>{veterinaryRecord.notes}</p>
-                                <span className="status">{veterinaryRecord.status}</span>
+                                <p className="font-medium">Exámenes realizados: {horse.vetTotalExams}</p>
+                                <p>Problemas mayores detectados: {horse.vetMajorIssues}</p>
+                                <p>Última actualización: {new Date(horse.trustScoreUpdatedAt).toLocaleDateString()}</p>
+                                <span className={`status ${horse.trustScoreStatus?.toLowerCase()}`}>
+                                    {horse.trustScoreStatus}
+                                </span>
                             </div>
                         ) : (
                             <div className="locked-state">
@@ -55,27 +40,32 @@ export default function HorseProfile() {
                     </div>
                 </div>
 
-                {/* Performance Videos */}
+                {/* Performance & Trust */}
                 <div className="card">
                     <div className="card-header">
                         <Sparkles size={20} color="#ca8a04" />
-                        <h2>Performance Videos</h2>
+                        <h2>Performance & Trust</h2>
                     </div>
                     <div className="card-content">
                         {isLoggedIn ? (
                             <div className="logged-in-content space-y-2">
-                                {performanceVideos.map((video) => (
-                                    <div key={video.id} className="video-item">
-                                        {video.title} - Click to view
+                                <div className="trust-meter">
+                                    <p>Puntaje de Confianza: {Math.round(horse.trustScore * 100)}%</p>
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{ width: `${horse.trustScore * 100}%` }}
+                                        ></div>
                                     </div>
-                                ))}
-                                <p className="help-text">All videos are verified and timestamped for authenticity</p>
+                                </div>
+                                <p>Modelo de confianza: {horse.trustModelVersion}</p>
+                                <p className="help-text">Todos los datos son verificados por nuestro sistema de IA.</p>
                             </div>
                         ) : (
                             <div className="locked-state">
                                 <div className="lock-icon">🔒</div>
-                                <p className="locked-title">Full performance video library available</p>
-                                <p className="locked-desc">View verified competition footage and training videos</p>
+                                <p className="locked-title">Detailed trust analysis available</p>
+                                <p className="locked-desc">View verified performance metrics and trust scores</p>
                                 <button className="sign-in-btn" onClick={handleLogin}>Sign In to View</button>
                             </div>
                         )}
@@ -93,10 +83,13 @@ export default function HorseProfile() {
                 <div className="card-content">
                     {isLoggedIn ? (
                         <div className="logged-in-content space-y-2">
-                            <p>Imported from Europe in {sellerInfo.importedYear}. Competed successfully. {sellerInfo.competitionRecord}.</p>
+                            <p><strong>Linaje:</strong> {horse.lineage}</p>
+                            <p><strong>Carreras realizadas:</strong> {horse.careerRaces}</p>
+                            <p><strong>Días desde última carrera:</strong> {horse.daysSinceLastRace}</p>
+                            <p><strong>País de nacimiento:</strong> {horse.birthCountry}</p>
                             <div className="seller-card">
-                                <p>{sellerInfo.name}</p>
-                                <span className="seller-score">Seller Score: {sellerInfo.score}%</span>
+                                <p>Vendedor Verificado</p>
+                                <span className="seller-score">Disputas: {horse.sellerDisputes}</span>
                             </div>
                         </div>
                     ) : (
