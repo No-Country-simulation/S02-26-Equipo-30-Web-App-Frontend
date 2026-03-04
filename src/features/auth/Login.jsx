@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../shared/context/AuthContext';
 import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -49,9 +51,12 @@ const Login = () => {
                 throw new Error(data.message || 'Error al iniciar sesión');
             }
 
-            // Success: Store tokens
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            // Success: Use context login (it handles localStorage)
+            login(data.user || { email: formData.email }, data.token);
+
+            if (data.refreshToken) {
+                localStorage.setItem('refreshToken', data.refreshToken);
+            }
 
             if (data.emailVerificationRequired) {
                 navigate('/verificar', { state: { email: formData.email } });

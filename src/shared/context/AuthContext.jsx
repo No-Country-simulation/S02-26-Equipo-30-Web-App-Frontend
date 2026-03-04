@@ -7,16 +7,18 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkAuth = async () => {
+        const checkAuth = () => {
             const token = localStorage.getItem('token');
             const storedUser = localStorage.getItem('user');
 
             if (token && storedUser) {
                 try {
-                    setUser(JSON.parse(storedUser));
+                    const userData = JSON.parse(storedUser);
+                    setUser(userData);
                 } catch (e) {
                     console.error('Error parsing stored user', e);
                     localStorage.removeItem('user');
+                    localStorage.removeItem('token');
                 }
             }
             setLoading(false);
