@@ -25,9 +25,15 @@ export default function HorseDetails() {
                 // Usamos el ID de la URL que puede ser horseId o listingId
                 const response = await exploreService.getListingByHorseId(id);
 
-                // Si la respuesta es una lista (por ser un filtro), tomamos el primero
+                // Si la respuesta es una lista (por ser un filtro), buscamos la coincidencia exacta
                 const listings = response.data?.content || response.content || [];
-                const match = listings.find(l => l.horseId === id || l.listingId === id || l.id === id) || listings[0];
+                const match = listings.find(l =>
+                    l.horseId === id ||
+                    l.listingId === id ||
+                    l.id === id ||
+                    l.horse?.id === id ||
+                    l.horse?.horseId === id
+                );
 
                 if (match) {
                     console.log("=== Horse/Listing Data Found ===", match);

@@ -39,7 +39,8 @@ export default function HorseCard(props) {
     } = props;
 
     // Campos del Listing / Horse
-    const id = horseData.horseId || props.horseId || props.listingId || props.id || "";
+    // Priorizamos el ID del caballo (UUID) si está disponible en horseData o props
+    const id = horseData.id || horseData.horseId || props.horseId || props.listingId || props.id || "";
     const listingId = props.listingId || props.id || "";
     const {
         price = props.price || "Consultar",
