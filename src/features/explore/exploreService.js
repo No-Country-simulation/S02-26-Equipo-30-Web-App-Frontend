@@ -9,6 +9,10 @@ export const exploreService = {
             url += `&keyword=${encodeURIComponent(keyword)}`;
         }
         return apiClient.get(url);
+    },
+
+    getListingById: async (id) => {
+        return apiClient.get(`${API_BASE}/${id}`);
     }
 };
 

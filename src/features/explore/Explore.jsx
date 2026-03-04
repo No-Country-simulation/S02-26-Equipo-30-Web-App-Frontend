@@ -43,7 +43,7 @@ const Explore = () => {
             }
 
             // Si recibimos menos de 100 elementos, asumimos que no hay más
-            if (content.length < 100) {
+            if (content.length < 2000) {
                 setHasMore(false);
             } else {
                 setHasMore(true);

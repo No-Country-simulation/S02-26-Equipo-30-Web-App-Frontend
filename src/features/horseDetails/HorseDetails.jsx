@@ -18,52 +18,33 @@ export default function HorseDetails() {
     const [listingId, setListingId] = useState(null);
 
     useEffect(() => {
-        const fetchListingId = async () => {
-            try {
-                // Fetch listings to find the one associated with this horse
-                const data = await exploreService.getListings(0, 100);
-                const content = data?.content || [];
-                // Look for a listing where horseId matches our 'id' or where listingId matches
-                const match = content.find(l => l.horseId === id || l.listingId === id);
-                if (match) {
-                    console.log("=== Found match in Explore ===", match);
-                    setListingId(match.listingId);
-                } else {
-                    console.warn("=== No listing match found in Explore for ID:", id);
-                }
-            } catch (err) {
-                console.error("Error searching for listingId in Explore:", err);
-            }
-        };
-
-        if (id) {
-            fetchListingId();
-        }
-    }, [id]);
-
-    useEffect(() => {
-        const fetchHorse = async () => {
-            // TEST: Hacer un GET a /api/v1/horses y loguearlo independientemente del id
-            horseService.getHorseById(id)
-                .then(res => console.log("=== HorseDetails: Fetching Single Horse RES ===", res))
-                .catch(err => console.error("Error on GET horse details:", err));
-
+        const fetchListing = async () => {
             try {
                 setLoading(true);
-                const response = await horseService.getHorseById(id);
-                // La API suele devolver el objeto caballo directamente, o anidado en 'data' o 'horse'
-                const data = response.data || response;
-                setHorse(data.horse || data);
+                const response = await exploreService.getListingById(id);
+                // La API de listings suele devolver el objeto caballo anidado en '.horse'
+                const listingData = response.data || response;
+
+                if (listingData.horse) {
+                    setHorse({
+                        ...listingData.horse,
+                        price: listingData.price,
+                        listingId: listingData.id || id,
+                        isVip: listingData.isVip
+                    });
+                } else {
+                    setHorse(listingData);
+                }
             } catch (err) {
-                console.error("Error fetching horse details:", err);
-                setError("No se pudo cargar la información del caballo.");
+                console.error("Error fetching listing details:", err);
+                setError("No se pudo cargar la información del anuncio.");
             } finally {
                 setLoading(false);
             }
         };
 
         if (id) {
-            fetchHorse();
+            fetchListing();
         }
     }, [id]);
 
@@ -96,8 +77,8 @@ export default function HorseDetails() {
     const handleInterestClick = async () => {
         try {
             setIsCheckingOut(true);
-            // Prioritize the listingId found via Explore search
-            const finalId = listingId || horse?.listingId || id;
+            // El 'id' de la URL ahora es siempre el listingId
+            const finalId = id;
 
             if (!finalId) {
                 throw new Error("No se encontró el ID del anuncio para iniciar el proceso.");

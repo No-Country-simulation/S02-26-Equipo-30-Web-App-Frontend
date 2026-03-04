@@ -86,7 +86,7 @@ export default function HorseCard(props) {
                     className="horse-card__img"
                     src={displayImage}
                     alt={name}
-                    onClick={() => navigate(`/detalle/${id}`)}
+                    onClick={() => navigate(`/detalle/${listingId}`)}
                     style={{ cursor: 'pointer' }}
                 />
 
@@ -103,7 +103,7 @@ export default function HorseCard(props) {
                         <div className="horse-card__dropdown">
                             <button
                                 className="dropdown-item"
-                                onClick={() => navigate(`/detalle/${id}`)}
+                                onClick={() => navigate(`/detalle/${listingId}`)}
                             >
                                 <Eye size={18} />
                                 <span>Ver</span>
