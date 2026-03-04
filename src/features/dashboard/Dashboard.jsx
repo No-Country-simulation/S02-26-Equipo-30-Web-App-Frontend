@@ -96,7 +96,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '10px' }}>
-                            <button
+                            {/* <button
                                 className="db-btn-add"
                                 style={{ background: '#6366f1' }}
                                 onClick={async () => {
@@ -112,7 +112,7 @@ const Dashboard = () => {
                                 }}
                             >
                                 <span>🔍</span> Test API GET
-                            </button>
+                            </button> */}
                             <button
                                 className="db-btn-add"
                                 onClick={() => navigate('/caballo/nuevo')}
@@ -351,19 +351,6 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                {/* Promo Dashboard Upgrade */}
-                                <div className="db-side-card db-promo-card">
-                                    <h3 className="db-promo-header">👑 Destaca tus Listados</h3>
-                                    <p className="db-promo-title">Llega a más compradores premium</p>
-                                    <ul className="db-promo-list">
-                                        <li className="db-promo-item">✨ Aparece en la sección VIP Premium</li>
-                                        <li className="db-promo-item">📈 10x más visibilidad</li>
-                                        <li className="db-promo-item">⏳ Garantía extendida de 60 días</li>
-                                    </ul>
-                                    <button className="db-btn-promo">
-                                        Ver Premium 👑
-                                    </button>
-                                </div>
 
                                 {/* Seller Tips */}
                                 <div className="db-side-card db-tips-card">

@@ -128,9 +128,7 @@ export default function HorseCard(props) {
                 {(isVip || isFeatured) && (
                     <div className="horse-card__badges">
                         {isVip && (
-                            <span className="badge badge--vip">
-                                <Crown size={12} strokeWidth={2.5} />
-                                VIP
+                            <span>
                             </span>
                         )}
                         {isFeatured && (

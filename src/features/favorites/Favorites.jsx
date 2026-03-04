@@ -33,14 +33,6 @@ const Favorites = () => {
                 </button>
             </header>
 
-            {/* VIP Banner */}
-            <div className="db-vip-banner">
-                <div className="db-vip-info">
-                    <h4>¡Tienes 4 caballos VIP en tu lista!</h4>
-                    <p>Caballos de élite con verificación completa y garantía extendida de 60 días</p>
-                </div>
-                <button className="db-vip-btn">Ver Premium →</button>
-            </div>
 
             {/* Main Layout: (Grid + Sidebar) */}
             <div className="db-main-layout">
@@ -62,7 +54,6 @@ const Favorites = () => {
                         <div className="db-horse-card">
                             <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop")' }}>
                                 <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
                                     <span className="db-tag db-tag-destacado">Destacado</span>
                                 </div>
                             </div>
@@ -88,7 +79,6 @@ const Favorites = () => {
                         <div className="db-horse-card">
                             <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1534073733318-7f287900b135?q=80&w=2072&auto=format&fit=crop")' }}>
                                 <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
                                     <span className="db-tag db-tag-destacado">Destacado</span>
                                 </div>
                             </div>
@@ -114,7 +104,6 @@ const Favorites = () => {
                         <div className="db-horse-card">
                             <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=1974&auto=format&fit=crop")' }}>
                                 <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
                                     <span className="db-tag db-tag-destacado">Destacado</span>
                                 </div>
                             </div>
@@ -140,7 +129,6 @@ const Favorites = () => {
                         <div className="db-horse-card">
                             <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1528659550346-407399895c2f?q=80&w=2028&auto=format&fit=crop")' }}>
                                 <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
                                     <span className="db-tag db-tag-destacado">Destacado</span>
                                 </div>
                             </div>
@@ -171,7 +159,6 @@ const Favorites = () => {
                         <h4><span>⚡</span> Acciones Rápidas</h4>
                         <div className="db-quick-actions">
                             <button className="db-action-btn primary">Explorar Caballos</button>
-                            <button className="db-action-btn secondary">Ver Colección VIP</button>
                             <button className="db-action-btn secondary">Editar Perfil</button>
                         </div>
                     </div>
@@ -196,7 +183,7 @@ const Favorites = () => {
                     </div>
 
                     {/* Recommended for you */}
-                    <div className="db-widget">
+                    {/* <div className="db-widget">
                         <h4><span>⭐</span> Recomendado para Ti</h4>
                         <div className="db-reco-item">
                             <div className="db-reco-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1582234372722-50d7ccc30e5a?q=80&w=400&auto=format&fit=crop")' }}></div>
@@ -215,7 +202,7 @@ const Favorites = () => {
                         <button className="db-action-btn secondary" style={{ marginTop: '12px', textAlign: 'center' }}>
                             Ver Más Recomendaciones →
                         </button>
-                    </div>
+                    </div> */}
 
                     {/* Notifications */}
                     <div className="db-widget">

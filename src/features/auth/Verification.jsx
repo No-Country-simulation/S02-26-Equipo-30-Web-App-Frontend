@@ -11,6 +11,7 @@ const Verification = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const inputRefs = useRef([]);
+    const [timeLeft, setTimeLeft] = useState(600);
 
     useEffect(() => {
         if (!email) {
@@ -18,6 +19,16 @@ const Verification = () => {
             // navigate('/registro');
         }
     }, [email, navigate]);
+
+    useEffect(() => {
+        if (timeLeft <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft(prev => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft]);
 
     const handleChange = (index, value) => {
         if (isNaN(value)) return;
@@ -87,6 +98,12 @@ const Verification = () => {
         }
     };
 
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
     return (
         <div className="verification-container">
             <div className="verification-card">
@@ -131,7 +148,7 @@ const Verification = () => {
 
                 {/* Timer */}
                 <p className="timer-text">
-                    Espera <span>1:56</span> antes de solicitar un nuevo código.
+                    Espera <span>{formatTime(timeLeft)}</span> antes de solicitar un nuevo código.
                 </p>
             </div>
         </div>

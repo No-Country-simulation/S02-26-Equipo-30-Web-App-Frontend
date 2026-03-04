@@ -27,7 +27,7 @@
 .process-badge {
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #ca8a04 !important;
+    color: #c9a24d!important;
     font-size: 13px !important;
     font-weight: 600 !important;
     padding: 8px 20px !important;
@@ -48,7 +48,7 @@
 }
 
 .brand-highlight {
-    color: #ca8a04;
+    color:#c9a24d;
 }
 
 .how-hero-subtitle {
@@ -66,7 +66,7 @@
 }
 
 .btn-primary-how {
-    background: #ca8a04 !important;
+    background: #c9a24d !important;
     color: #000 !important;
     padding: 14px 28px !important;
     font-weight: 600 !important;
@@ -75,6 +75,19 @@
     box-shadow: 0 4px 20px rgba(202, 138, 4, 0.3) !important;
     transition: all 0.3s ease !important;
     border: none !important;
+}
+
+.btn-primary-how,
+.btn-secondary-how,
+.hf-btn-submit {
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+    height: auto !important;
+    min-height: 48px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .btn-primary-how:hover {
