@@ -15,13 +15,22 @@ const handleResponse = async (response) => {
     return data;
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Accept': 'application/json',
+    };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 export const exploreService = {
     getListings: async (page = 0, size = 10) => {
         const response = await fetch(`${API_BASE}?page=${page}&size=${size}`, {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            },
+            headers: getAuthHeaders(),
         });
         return handleResponse(response);
     }
