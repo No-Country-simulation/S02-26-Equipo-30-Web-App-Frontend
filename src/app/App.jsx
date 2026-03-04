@@ -19,7 +19,7 @@ import PurchaseProcess from '@features/purchase/PurchaseProcess.jsx';
 import Chat from '@features/chat/Chat.jsx';
 import HorseForm from '@features/horse-management/HorseForm.jsx';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '../shared/context/AuthContext.jsx';
 import ProtectedRoute from '@/shared/common/ProtectedRoute';
 
@@ -49,9 +49,13 @@ function App() {
           <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
           <Route path="/caballo/nuevo" element={<ProtectedRoute><HorseForm /></ProtectedRoute>} />
           <Route path="/caballo/editar/:id" element={<ProtectedRoute><HorseForm /></ProtectedRoute>} />
+
+          {/* Redirección 404 */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </PublicView>
     </AuthProvider>
+
   );
 }
 
