@@ -65,10 +65,10 @@ const request = async (url, options = {}) => {
     try {
         let response = await fetch(url, config);
 
-        // Global 403/401 Retry Logic:
+        // Global 401 Retry Logic:
         // If it fails with auth, retry once WITHOUT auth for public access
-        if ((response.status === 403 || response.status === 401) && headers['Authorization']) {
-            console.warn(`API: ${response.status} detected. Retrying without Authorization...`);
+        if (response.status === 401 && headers['Authorization']) {
+            console.warn(`API: 401 detected. Retrying without Authorization...`);
 
             const publicHeaders = { ...headers };
             delete publicHeaders['Authorization'];
@@ -78,14 +78,14 @@ const request = async (url, options = {}) => {
                 headers: publicHeaders,
             });
 
-            if (!publicResponse.ok && (publicResponse.status === 403 || publicResponse.status === 401)) {
+            if (!publicResponse.ok && publicResponse.status === 401) {
                 window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: publicResponse.status } }));
             }
 
             return await handleResponse(publicResponse);
         }
 
-        if (!response.ok && (response.status === 403 || response.status === 401)) {
+        if (!response.ok && response.status === 401) {
             window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: response.status } }));
         }
 

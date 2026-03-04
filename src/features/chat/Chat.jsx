@@ -61,9 +61,9 @@ const Chat = () => {
                     const data = await chatService.getMessages(activeConversationId);
                     setMessages(data);
 
-                    // Mark last message as read if it's not from me
+                    // Mark last message as read if it's from the other user
                     const lastMsg = data[data.length - 1];
-                    if (lastMsg && !lastMsg.isFromMe && !lastMsg.isRead) {
+                    if (lastMsg && lastMsg.senderId === activeConversation.otherUserId && !lastMsg.isRead) {
                         try {
                             await chatService.markAsRead(lastMsg.messageId);
                         } catch (e) {
