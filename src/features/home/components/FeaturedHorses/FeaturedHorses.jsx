@@ -3,6 +3,7 @@ import HorseCard from '@shared/common/cards/HorseCard';
 import { ArrowRight, Sparkles } from '@shared/branding/icons';
 import Badge from '@components/badge/Badge';
 import './FeaturedHorses.css';
+import { Link } from 'react-router-dom';
 
 const FeaturedHorses = () => {
     const featuredHorses = [
