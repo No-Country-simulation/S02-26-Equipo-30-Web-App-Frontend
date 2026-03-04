@@ -1,127 +1,131 @@
 @import url("https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap");
 
-:root{
-  --ink: #2B2E34;
-  --navy: #0B1F3B;
-  --gold: #C9A24D;
-  --gold-dark: #B8914A;
-  --muted: #6b7280;
-  --bg: #f8f9fb;
-  --card: #ffffff;
-  --border: rgba(43,46,52,0.10);
-  --shadow: 0 10px 30px rgba(0,0,0,0.05);
-  --radius: 16px;
-}
-
-.ep{
+.profile {
   min-height: 100vh;
   padding: 40px 16px;
-  background: var(--bg);
+  background: #f8f9fb;
   font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--ink);
 }
 
-.ep__wrap{
+.profile__wrapper {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-.ep__header{
+.profile__header {
   margin-bottom: 32px;
 }
 
-.ep__header h1{
+.profile__header h1 {
   font-size: 36px;
   margin: 0 0 8px 0;
 }
 
-.ep__header p{
+.profile__header p {
   margin: 0;
-  color: var(--muted);
+  color: #6b7280;
 }
 
-.ep__loading{
-  background: var(--card);
-  border-radius: var(--radius);
+/* Loading/Error */
+.profile-loading,
+.profile-error {
+  background: #fff;
+  border-radius: 16px;
   padding: 20px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(43, 46, 52, 0.1);
 }
 
-/* Card */
-.ep-card{
-  background: var(--card);
-  border-radius: var(--radius);
+/* Main Card */
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(43,46,52,0.08);
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 32px;
+  border: 1px solid rgba(43, 46, 52, 0.08);
 }
 
-.ep-card__banner{
-  background: var(--navy);
+.profile-card__banner {
+  background: #0B1F3B;
   padding: 32px;
 }
 
-.ep-card__bannerInner{
+.profile-card__content {
   display: flex;
   align-items: center;
   gap: 24px;
   flex-wrap: wrap;
 }
 
-.ep-card__avatarWrap{
+.profile-card__avatarWrapper {
   width: 100px;
   height: 100px;
 }
 
-.ep-card__avatar{
+.profile-card__avatar {
   width: 100%;
   height: 100%;
-  border-radius: 999px;
+  border-radius: 50%;
   object-fit: cover;
   border: 4px solid #fff;
 }
 
-.ep-card__info{
+.profile-card__info {
   flex: 1;
-  min-width: 240px;
   color: #fff;
+  min-width: 220px;
 }
 
-.ep-card__nameRow{
+.profile-card__nameRow {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 6px;
 }
 
-.ep-card__nameRow h2{
-  margin: 0;
+.profile-card__nameRow h2 {
   font-size: 24px;
+  margin: 0;
 }
 
-.ep-card__badge{
+.profile-card__verified {
   display: inline-flex;
   align-items: center;
+  background: rgba(255, 255, 255, 0.15);
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 700;
-  background: rgba(255,255,255,0.15);
+  font-weight: 600;
 }
 
-.ep-card__role{
+.profile-card__role {
   margin: 0;
   opacity: 0.85;
 }
 
-.ep-card__date{
+.profile-card__date {
   margin: 2px 0 0 0;
   opacity: 0.65;
   font-size: 14px;
 }
 
-/* Notice */
-.ep-card__notice{
+.profile-card__editBtn {
+  background: #C9A24D;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.profile-card__editBtn:hover {
+  background: #B8914A;
+}
+
+/* Alert */
+.profile-card__alert {
   display: flex;
   gap: 12px;
   background: #eaf3ff;
@@ -129,178 +133,137 @@
   border-left: 4px solid #2563eb;
 }
 
-.ep-card__notice h4{
+.profile-card__alert h4 {
   margin: 0 0 4px 0;
-  font-weight: 800;
-  color: #1e40af;
+  font-weight: 700;
 }
 
-.ep-card__notice p{
+.profile-card__alert p {
   margin: 0;
   font-size: 14px;
   color: #334155;
   line-height: 1.45;
 }
 
-/* Form */
-.ep-form{
-  padding: 24px;
-}
-
-.ep-error{
-  background: rgba(239,68,68,0.10);
-  border: 1px solid rgba(239,68,68,0.25);
-  color: #b91c1c;
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-
 /* Sections */
-.ep-section{
-  margin-bottom: 22px;
+.profile-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(43, 46, 52, 0.08);
 }
 
-.ep-section__title{
-  font-size: 16px;
-  margin: 0 0 14px 0;
-  font-weight: 800;
-  color: var(--ink);
+.profile-section__title {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2B2E34;
 }
 
-.ep-grid{
+.profile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
-.ep-field{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ep-field label{
+.profile-field label {
   font-size: 13px;
-  color: var(--muted);
+  color: #6b7280;
+}
+
+.profile-field__value {
+  margin-top: 6px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  color: #2B2E34;
   font-weight: 600;
 }
 
-.ep-field--span2{
-  grid-column: 1 / -1;
-}
-
-.ep-input{
-  border: 1px solid var(--border);
-  background: #fff;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 14px;
-  color: var(--ink);
-  outline: none;
-}
-
-.ep-input:focus{
-  border-color: rgba(201,162,77,0.9);
-  box-shadow: 0 0 0 3px rgba(201,162,77,0.25);
-}
-
-.ep-input--disabled{
-  background: #f3f4f6;
-  cursor: not-allowed;
-}
-
-.ep-hint{
-  margin: 0;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-/* Prefs */
-.ep-prefs{
+/* Preferences */
+.profile-prefs {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
-.ep-pref{
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 14px 16px;
+.profile-prefCard {
+  border: 1px solid rgba(43, 46, 52, 0.10);
   border-radius: 14px;
-  border: 1px solid var(--border);
+  padding: 14px 16px;
   background: #fff;
-  cursor: pointer;
   transition: background 0.15s ease;
 }
 
-.ep-pref:hover{
+.profile-prefCard:hover {
   background: #f8fafc;
 }
 
-.ep-pref input{
-  width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  accent-color: var(--gold);
-}
-
-.ep-pref__content{
+.profile-prefCard__head {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 
-.ep-pref__title{
+.profile-prefCard__title {
   font-weight: 800;
-  color: var(--ink);
+  color: #2B2E34;
 }
 
-.ep-pref__text{
+.profile-prefCard__text {
+  margin: 0;
   font-size: 13px;
-  color: var(--muted);
+  color: #6b7280;
   line-height: 1.45;
 }
 
-/* Actions */
-.ep-actions{
-  display: flex;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+/* Delete account */
+.profile-delete {
+  display: grid;
+  gap: 14px;
 }
 
-.ep-btn{
-  border-radius: 12px;
+.profile-delete__desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.profile-delete__warningBox {
+  border: 1px solid rgba(201, 162, 77, 0.35);
+  background: rgba(201, 162, 77, 0.10);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.profile-delete__warningTitle {
+  margin: 0 0 10px 0;
+  font-weight: 900;
+  color: #9a6b12;
+  font-size: 13px;
+}
+
+.profile-delete__list {
+  margin: 0;
+  padding-left: 18px;
+  color: #9a6b12;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-delete__btn {
+  width: fit-content;
+  background: #C9A24D;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
   padding: 10px 14px;
-  font-weight: 800;
+  border-radius: 12px;
   cursor: pointer;
-  border: 1px solid transparent;
   font-family: "Arimo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-.ep-btn:disabled{
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.ep-btn--gold{
-  background: var(--gold);
-  color:#ffffff;
-  border-color: rgba(0,0,0,0.06);
-}
-
-.ep-btn--gold:hover{
-  background: var(--gold-dark);
-}
-
-.ep-btn--ghost{
-  background: #fff;
-  border-color: rgba(43,46,52,0.18);
-  color: var(--ink);
-}
-
-.ep-btn--ghost:hover{
-  background: rgba(11,31,59,0.03);
+.profile-delete__btn:hover {
+  background: #B8914A;
 }
