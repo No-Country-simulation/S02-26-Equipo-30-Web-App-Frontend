@@ -71,10 +71,8 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        if (activeTab === 'my-horses') {
-            fetchUserHorses();
-        }
-    }, [activeTab]);
+        fetchUserHorses();
+    }, []);
 
     return (
         <main className="db">
@@ -96,23 +94,6 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '10px' }}>
-                            {/* <button
-                                className="db-btn-add"
-                                style={{ background: '#6366f1' }}
-                                onClick={async () => {
-                                    try {
-                                        console.log('Fetching horses...');
-                                        const horses = await horseService.getHorses();
-                                        console.log('Horses received:', horses);
-                                        alert('Datos recibidos. Revisa la consola (F12).');
-                                    } catch (err) {
-                                        console.error('Error fetching horses:', err);
-                                        alert('Error al obtener caballos: ' + err.message);
-                                    }
-                                }}
-                            >
-                                <span>🔍</span> Test API GET
-                            </button> */}
                             <button
                                 className="db-btn-add"
                                 onClick={() => navigate('/caballo/nuevo')}
@@ -139,8 +120,8 @@ const Dashboard = () => {
                                 <span>Activos</span>
                                 <HorseIcon size={14} style={{ opacity: 0.5 }} />
                             </div>
-                            <div className="db-hstat__value">3</div>
-                            <div className="db-hstat__meta">de 12 totales</div>
+                            <div className="db-hstat-value">{userHorses.length}</div>
+                            <div className="db-hstat-meta">de {userHorses.length} totales</div>
                         </div>
 
                         <div className="db-hstat">

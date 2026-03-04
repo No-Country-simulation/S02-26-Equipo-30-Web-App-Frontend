@@ -62,7 +62,7 @@ const FilterSidebar = ({ filters, onFilterChange, availableDisciplines = [], ava
                     <input
                         type="number"
                         className="filter-input price-input"
-                        placeholder="200000"
+                        placeholder="1500000"
                         min={0}
                         value={filters.priceMax}
                         onChange={(e) => handleChange('priceMax', e.target.value)}
@@ -72,14 +72,14 @@ const FilterSidebar = ({ filters, onFilterChange, availableDisciplines = [], ava
                     type="range"
                     className="price-slider"
                     min={0}
-                    max={200000}
+                    max={1500000}
                     step={1000}
-                    value={filters.priceMax || 200000}
+                    value={filters.priceMax || 1500000}
                     onChange={(e) => handleChange('priceMax', e.target.value)}
                 />
                 <div className="price-range-labels">
                     <span>$0</span>
-                    <span>$200,000</span>
+                    <span>$1,500,000</span>
                 </div>
             </div>
         </aside>

@@ -95,7 +95,7 @@ const Explore = () => {
             const price = Number(listing.price) || 0;
             const trustScore = Number(h.trustScore) > 1 ? Number(h.trustScore) : (Number(h.trustScore) * 100);
 
-            // Si la API no filtra por keyword, filtramos localmente como respaldo
+            // Si hay búsqueda, ignoramos los filtros laterales para esa búsqueda
             const searchLower = search.toLowerCase();
             const matchesSearch = !search ||
                 h.name?.toLowerCase().includes(searchLower) ||
@@ -103,8 +103,11 @@ const Explore = () => {
                 breed.toLowerCase().includes(searchLower) ||
                 discipline.toLowerCase().includes(searchLower);
 
-            if (!matchesSearch) return false;
+            if (search) {
+                return matchesSearch;
+            }
 
+            // Si no hay búsqueda por texto, aplicamos los filtros normales
             if (activeTab !== 'Todos' && discipline !== activeTab) return false;
             if (verified && trustScore < 90) return false;
             if (premium && !listing.isVip) return false;

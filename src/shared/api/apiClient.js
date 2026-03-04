@@ -78,14 +78,14 @@ const request = async (url, options = {}) => {
                 headers: publicHeaders,
             });
 
-            if (!publicResponse.ok && publicResponse.status === 401) {
+            if (!publicResponse.ok && (publicResponse.status === 401 || publicResponse.status === 403)) {
                 window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: publicResponse.status } }));
             }
 
             return await handleResponse(publicResponse);
         }
 
-        if (!response.ok && response.status === 401) {
+        if (!response.ok && (response.status === 401 || response.status === 403)) {
             window.dispatchEvent(new CustomEvent('auth-error', { detail: { status: response.status } }));
         }
 

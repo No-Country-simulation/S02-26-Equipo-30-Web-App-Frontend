@@ -81,7 +81,7 @@ export default function Home() {
 
     const handleSearch = () => {
         const params = new URLSearchParams();
-        if (searchTerm.trim()) params.set("search", searchTerm.trim());
+        if (searchTerm.trim()) params.set("keyword", searchTerm.trim());
         if (discipline !== "all") params.set("discipline", discipline);
         navigate(`/explorar?${params.toString()}`);
     };

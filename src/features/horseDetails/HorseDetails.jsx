@@ -16,7 +16,7 @@ export default function HorseDetails() {
     const [error, setError] = useState(null);
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [listingId, setListingId] = useState(null);
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -229,20 +229,33 @@ export default function HorseDetails() {
                     </div>
 
                     <div className="listing-actions">
-                        <Btn
-                            className="chat-btn"
-                            onClick={() => navigate(`/chat?listingId=${horse.listingId}`)}
-                        >
-                            <Message size={18} />
-                            Chatear con el vendedor
-                        </Btn>
-                        <Btn
-                            className="cta"
-                            onClick={handleInterestClick}
-                            disabled={isCheckingOut}
-                        >
-                            {isCheckingOut ? "Procesando..." : "Expresar Interés de Compra"}
-                        </Btn>
+                        {horse.ownerId === user?.id || horse.sellerId === user?.id ? (
+                            <Btn
+                                className="edit-btn"
+                                onClick={() => navigate(`/caballo/editar/${horse.id}`)}
+                                style={{ width: '100%', background: '#C9A24D', color: '#fff' }}
+                            >
+                                <Info size={18} />
+                                Editar mi publicación
+                            </Btn>
+                        ) : (
+                            <>
+                                <Btn
+                                    className="chat-btn"
+                                    onClick={() => navigate(`/chat?listingId=${horse.listingId}`)}
+                                >
+                                    <Message size={18} />
+                                    Chatear con el vendedor
+                                </Btn>
+                                <Btn
+                                    className="cta"
+                                    onClick={handleInterestClick}
+                                    disabled={isCheckingOut}
+                                >
+                                    {isCheckingOut ? "Procesando..." : "Expresar Interés de Compra"}
+                                </Btn>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
