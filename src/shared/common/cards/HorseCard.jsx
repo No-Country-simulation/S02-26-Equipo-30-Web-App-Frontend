@@ -25,47 +25,41 @@ export default function HorseCard(props) {
         return `${age} años`;
     };
 
-    // Mapeo de campos del objeto Horse
+    // Mapeo de campos del objeto Horse (desde /api/v1/listings/explore)
     const {
-        name = horseData.horseName || horseData.name || "Caballo en Venta",
-        image = HORSE_PLACEHOLDER,
-        breed = horseData.breed || "",
-        birthDate = "",
-        heightM = 0,
-        mainUse = "",
-        tags = [],
-        location: locObj = null,
-        trustScore = horseData.trustScore || 50,
-    } = horseData;
+        name = props.horseName || props.name || "Caballo en Venta",
+        image = props.coverImageUrl || props.image || HORSE_PLACEHOLDER,
+        breed = props.breed || "",
+        birthDate = props.birthDate || "",
+        heightM = props.heightM || 0,
+        mainUse = props.discipline || "",
+        tags = props.tags || [],
+        trustScore = props.trustScore || 50,
+        ageYears = props.ageYears || "",
+    } = props;
 
-    // Campos del Listing
-    const id = listing.listingId || listing.id || "";
+    // Campos del Listing / Horse
+    const id = props.horseId || props.listingId || props.id || "";
+    const listingId = props.listingId || props.id || "";
     const {
-        price = listing.price || "Consultar",
-        isVip = listing.isVip || false,
-        isFeatured = listing.isFeatured || false,
-    } = listing;
+        price = props.price || "Consultar",
+        isVip = props.vip || props.isVip || false,
+        isFeatured = props.isFeatured || false,
+    } = props;
 
     useEffect(() => {
         if (!id) {
-            console.warn("HorseCard: No ID found for listing:", listing);
+            console.warn("HorseCard: No ID found for listing:", props);
         }
-    }, [id, listing]);
+    }, [id, props]);
 
     const displayImage = image && image !== "string" ? image : HORSE_PLACEHOLDER;
-    const age = calculateAge(birthDate);
+    const age = ageYears ? `${ageYears} años` : calculateAge(birthDate);
     const height = heightM ? `${heightM}m` : "";
-    const discipline = mainUse || horseData.discipline || "";
+    const discipline = mainUse;
 
-    // Formatear ubicación: "Ciudad, Región" o fallback
-    let displayLocation = "Ubicación no disponible";
-    if (locObj && typeof locObj === 'object') {
-        const { city, region } = locObj;
-        if (city && region) displayLocation = `${city}, ${region}`;
-        else if (city || region) displayLocation = city || region;
-    } else if (typeof horseData.location === 'string') {
-        displayLocation = horseData.location;
-    }
+    // Ubicación
+    const displayLocation = props.locationLabel || "Ubicación no disponible";
 
     // 1) Si viene tags, úsalo. Si no, construye tags desde age/height/discipline
     const pills =
