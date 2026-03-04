@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Heart, Message, MapPin, Calendar, Ruler, Weight, Gauge, Info } from "@shared/branding/icons";
 import { horseService } from "@features/horse-management/horseService";
 import { stripeService } from "@features/stripe/stripeService";
+import { exploreService } from "@features/explore/exploreService";
 
 export default function HorseDetails() {
     const { id } = useParams();
@@ -14,13 +15,38 @@ export default function HorseDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isCheckingOut, setIsCheckingOut] = useState(false);
+    const [listingId, setListingId] = useState(null);
+
+    useEffect(() => {
+        const fetchListingId = async () => {
+            try {
+                // Fetch listings to find the one associated with this horse
+                const data = await exploreService.getListings(0, 100);
+                const content = data?.content || [];
+                // Look for a listing where horseId matches our 'id' or where listingId matches
+                const match = content.find(l => l.horseId === id || l.listingId === id);
+                if (match) {
+                    console.log("=== Found match in Explore ===", match);
+                    setListingId(match.listingId);
+                } else {
+                    console.warn("=== No listing match found in Explore for ID:", id);
+                }
+            } catch (err) {
+                console.error("Error searching for listingId in Explore:", err);
+            }
+        };
+
+        if (id) {
+            fetchListingId();
+        }
+    }, [id]);
 
     useEffect(() => {
         const fetchHorse = async () => {
             // TEST: Hacer un GET a /api/v1/horses y loguearlo independientemente del id
-            horseService.getHorses()
-                .then(res => console.log("=== GET /api/v1/horses RES ===", res))
-                .catch(err => console.error("Error on GET /api/v1/horses:", err));
+            horseService.getHorseById(id)
+                .then(res => console.log("=== HorseDetails: Fetching Single Horse RES ===", res))
+                .catch(err => console.error("Error on GET horse details:", err));
 
             try {
                 setLoading(true);
@@ -70,14 +96,15 @@ export default function HorseDetails() {
     const handleInterestClick = async () => {
         try {
             setIsCheckingOut(true);
-            // Dynamic listing ID from horse object or URL params
-            const lid = horse.listingId || id || horse.id;
+            // Prioritize the listingId found via Explore search
+            const finalId = listingId || horse?.listingId || id;
 
-            if (!lid) {
+            if (!finalId) {
                 throw new Error("No se encontró el ID del anuncio para iniciar el proceso.");
             }
 
-            const response = await stripeService.createCheckoutSession([lid]);
+            console.log("=== Initiating Checkout with ID:", finalId);
+            const response = await stripeService.createCheckoutSession([finalId]);
 
             if (response && response.url) {
                 window.location.href = response.url;
