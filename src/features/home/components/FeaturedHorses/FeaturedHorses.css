@@ -1,5 +1,5 @@
 .featured-horses-section {
-    padding: 100px 0;
+    padding: 60px 0 100px;
     background-color: #f8fafc;
     font-family: 'Inter', sans-serif;
 }
@@ -17,14 +17,7 @@
     margin-bottom: 60px;
 }
 
-.featured-badge {
-    background: #fef3c7;
-    color: #b45309;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
-    padding: 6px 16px;
-}
+
 
 .featured-title {
     font-size: 3rem;

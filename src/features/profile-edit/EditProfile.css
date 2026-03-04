@@ -1,0 +1,195 @@
+/* EditProfile.css */
+.edit-profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #0c1a32;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.edit-profile-header {
+    margin-bottom: 2.5rem;
+}
+
+.edit-profile-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.edit-profile-header p {
+    color: #64748b;
+}
+
+/* HEADER CARD */
+.ep-header-card {
+    background: #0c1a32;
+    border-radius: 12px;
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.ep-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
+}
+
+.ep-details h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ep-verified {
+    background: rgba(255, 255, 255, 0.1);
+    color: #c5a059;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+}
+
+/* SECURITY ALERT */
+.ep-security-alert {
+    background: #f0f7ff;
+    border: 1px solid #dbeafe;
+    border-left: 4px solid #3b82f6;
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+/* SECTIONS */
+.ep-section {
+    margin-bottom: 3rem;
+}
+
+.ep-section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0c1a32;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ep-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.ep-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ep-input-group label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+.ep-input {
+    padding: 0.875rem 1rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #0c1a32;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.ep-input:focus {
+    outline: none;
+    border-color: #c5a059;
+}
+
+.ep-input.readonly {
+    background: #f8fafc;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.ep-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* PREFERENCES */
+.ep-pref-card {
+    background: white;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+/* ACTIONS */
+.ep-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 4rem;
+}
+
+.ep-btn-save {
+    background: #c5a059;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ep-btn-save:hover {
+    background: #b08d4a;
+}
+
+.ep-btn-cancel {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ep-btn-cancel:hover {
+    background: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .ep-grid {
+        grid-template-columns: 1fr;
+    }
+    .ep-actions {
+        flex-direction: column;
+    }
+    .ep-btn-save, .ep-btn-cancel {
+        width: 100%;
+    }
+}

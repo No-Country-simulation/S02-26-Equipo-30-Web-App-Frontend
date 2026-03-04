@@ -1,0 +1,412 @@
+/* Contact.css */
+.contact {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #0c1a32;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* HERO SECTION */
+.contact-hero {
+    background: linear-gradient(180deg, #0c1a32 0%, #1e2e4d 100%);
+    padding: 5rem 0 10rem;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.contact-hero__inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-hero__badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #c5a059;
+}
+
+.contact-hero__title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.contact-hero__subtitle {
+    font-size: 1.125rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* MAIN CONTENT GRID */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    margin-top: -6rem;
+    margin-bottom: 6rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* LEFT COLUMN - INFO CARDS */
+.contact-info-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.contact-card__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #0c1a32;
+}
+
+.contact-item {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.contact-item:last-child {
+    margin-bottom: 0;
+}
+
+.contact-item__icon {
+    width: 44px;
+    height: 44px;
+    background: #fffbeb;
+    color: #c5a059;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.contact-item__icon.email { background: #fff1f2; color: #f43f5e; }
+.contact-item__icon.chat { background: #fdfbeb; color: #c5a059; }
+.contact-item__icon.office { background: #fffbeb; color: #c5a059; }
+
+.contact-item__label {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+    color: #0c1a32;
+}
+
+.contact-item__value {
+    font-size: 0.8125rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.contact-item__sub {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 0.25rem;
+}
+
+.contact-btn-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.875rem;
+    background: #c5a059;
+    color: white;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.contact-btn-link:hover {
+    background: #b08d4a;
+    transform: translateY(-1px);
+}
+
+/* BUSINESS HOURS CARD */
+.hours-card {
+    background: #0c1a32;
+    color: white;
+    padding: 2rem;
+}
+
+.hours-card__title {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.hours-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+}
+
+.hours-row__label { color: #94a3b8; }
+.hours-row__value { font-weight: 600; }
+
+.hours-response {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.75rem;
+    color: #c5a059;
+    font-weight: 500;
+}
+
+/* FAQ PREVIEW CARD */
+.faq-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.faq-card__text {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.faq-btn {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1.5px solid #0c1a32;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #0c1a32;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8125rem;
+}
+
+.faq-btn:hover {
+    background: #0c1a32;
+    color: white;
+}
+
+/* RIGHT COLUMN - FORM */
+.contact-form-card {
+    background: white;
+    padding: 4rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.form-header__title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #0c1a32;
+}
+
+.form-header__sub {
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group--full {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #0c1a32;
+}
+
+.form-input, .form-select, .form-textarea {
+    padding: 0.875rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f1f5f9;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #c5a059;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
+}
+
+.form-textarea {
+    resize: none;
+    min-height: 140px;
+}
+
+.form-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+}
+
+.form-submit-btn {
+    grid-column: 1 / -1;
+    background: #c5a059;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+
+.form-submit-btn:hover {
+    background: #b08d4a;
+    transform: translateY(-1px);
+}
+
+.form-footer {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 1.5rem;
+}
+
+.form-footer a {
+    color: #c5a059;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* OTHER CHANNELS SECTION */
+.contact-others {
+    padding: 4rem 0 10rem;
+    text-align: center;
+}
+
+.contact-others__title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #0c1a32;
+}
+
+.contact-others__sub {
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin-bottom: 4rem;
+}
+
+.others-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.other-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.other-card__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.other-card__icon.whatsapp { color: #22c55e; background: #ecfdf5; }
+.other-card__icon.telegram { color: #0ea5e9; background: #f0f9ff; }
+.other-card__icon.call { color: #c5a059; background: #fffbeb; }
+
+.other-card__title {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #0c1a32;
+}
+
+.other-card__text {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+.other-btn {
+    padding: 0.625rem 2rem;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.other-btn--whatsapp { background: #22c55e; color: white; }
+.other-btn--telegram { background: #0ea5e9; color: white; }
+.other-btn--call { background: #c5a059; color: white; }
+
+.other-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}

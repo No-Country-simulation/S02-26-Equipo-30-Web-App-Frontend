@@ -1,0 +1,17 @@
+.includes {
+  background: linear-gradient(135deg, #0f2747, #173b63);
+  color: white;
+  border-radius: 16px;
+  padding: 50px;
+  text-align: center;
+}
+
+.includes ul {
+  list-style: none;
+  margin-top: 30px;
+}
+
+.includes li {
+  margin-bottom: 12px;
+  opacity: 0.9;
+}

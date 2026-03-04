@@ -2,8 +2,11 @@ import React from "react";
 import "./HorseDetails.css";
 import Btn from "@/shared/common/button/Btn";
 import HorseProfile from "./components/horseProfile/HorseProfile";
+import { useNavigate } from "react-router-dom";
+import { Heart, Message } from "@shared/branding/icons";
 
 export default function HorseDetails() {
+    const navigate = useNavigate();
     return (
         <div className="listing-container">
             <div className="listing-card">
@@ -17,7 +20,9 @@ export default function HorseDetails() {
                         alt="Golden Promise"
                         className="horse-image"
                     />
-                    <button className="favorite">♡</button>
+                    <button className="favorite">
+                        <Heart size={20} color="#000" />
+                    </button>
                 </div>
 
                 <div className="info-section">
@@ -74,7 +79,16 @@ export default function HorseDetails() {
                         </div>
                     </div>
 
-                    <Btn className="cta">Express Purchase Interest</Btn>
+                    <div className="listing-actions">
+                        <Btn
+                            className="chat-btn"
+                            onClick={() => navigate('/chat')}
+                        >
+                            <Message size={18} />
+                            Chatear con el vendedor
+                        </Btn>
+                        <Btn className="cta">Express Purchase Interest</Btn>
+                    </div>
                 </div>
             </div>
             <HorseProfile />

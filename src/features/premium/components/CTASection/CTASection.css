@@ -1,0 +1,23 @@
+.cta {
+  background: linear-gradient(135deg, #0f2747, #173b63);
+  color: white;
+  text-align: center;
+  padding: 80px 8%;
+  margin-top: 80px;
+}
+
+.cta button {
+  margin-top: 20px;
+  background: #d4af37;
+  color: #0f2747;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta button:hover {
+  opacity: 0.85;
+}

@@ -1,0 +1,116 @@
+.how-hero {
+    background-color: #0b1a2d;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(202, 138, 4, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(202, 138, 4, 0.05) 0%, transparent 40%);
+    padding: 100px 20px 140px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.process-badge {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ca8a04 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 20px !important;
+    border-radius: 100px !important;
+    margin-bottom: 32px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    height: auto !important;
+    width: auto !important;
+}
+
+.how-hero-title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+}
+
+.brand-highlight {
+    color: #ca8a04;
+}
+
+.how-hero-subtitle {
+    font-size: 20px;
+    color: #9ca3af;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 48px;
+    font-weight: 400;
+}
+
+.how-hero-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.btn-primary-how {
+    background: #ca8a04 !important;
+    color: #000 !important;
+    padding: 14px 28px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    box-shadow: 0 4px 20px rgba(202, 138, 4, 0.3) !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+}
+
+.btn-primary-how:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 25px rgba(202, 138, 4, 0.4) !important;
+}
+
+.btn-secondary-how {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    padding: 14px 28px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-secondary-how:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+@media (max-width: 768px) {
+    .how-hero-title {
+        font-size: 40px;
+    }
+    
+    .how-hero-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .btn-primary-how, .btn-secondary-how {
+        width: 100%;
+    }
+}
