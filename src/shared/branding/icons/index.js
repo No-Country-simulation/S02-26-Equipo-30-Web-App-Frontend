@@ -32,13 +32,8 @@ export { default as Upload } from './Upload';
 export { default as FileText } from './FileText';
 export { default as Plus } from './Plus';
 export { default as ShoppingCart } from './ShoppingCart';
-<<<<<<< HEAD
-export { default as LayoutDashboard } from './LayoutDashboard';
-export { default as LogOut } from './LogOut';
-=======
 export { default as LogOut } from './LogOut';
 export { default as Dashboard } from './Dashboard';
 export { default as Ruler } from './Ruler';
 export { default as Weight } from './Weight';
 export { default as Gauge } from './Gauge';
->>>>>>> 247624f4605235412986ea140bb01005b2f35a5c
