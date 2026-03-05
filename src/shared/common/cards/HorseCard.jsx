@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@shared/context/AuthContext";
 import { MoreVertical, Eye, Edit, Trash, MapPin, Award, Crown } from "@shared/branding/icons";
 import { getHorsePlaceholder } from "@/shared/utils/placeholders";
