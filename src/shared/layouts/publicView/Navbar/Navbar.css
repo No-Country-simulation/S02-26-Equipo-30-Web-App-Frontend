@@ -66,8 +66,16 @@
     transition: all 0.2s ease !important;
 }
 
+<<<<<<< HEAD
+.logout-icon {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: transform 0.2s, opacity 0.2s;
+    color: #ffffff;
+=======
 .nav-icon-btn:hover {
     color: #C9A24D;
+>>>>>>> 247624f4605235412986ea140bb01005b2f35a5c
 }
 
 .nav-separator {
@@ -115,7 +123,11 @@
 
 .logout-icon-btn:hover {
     opacity: 1;
+<<<<<<< HEAD
+    transform: scale(1.1);
+=======
     color: #ff4d4d;
+>>>>>>> 247624f4605235412986ea140bb01005b2f35a5c
 }
 
 .logout-item {

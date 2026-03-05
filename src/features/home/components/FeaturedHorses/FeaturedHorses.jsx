@@ -43,7 +43,7 @@ const FeaturedHorses = () => {
             <div className="section-container">
                 <header className="featured-header">
                     <div className="header-left">
-                        <Badge className="featured-badge">
+                        <Badge >
                             DESTACADOS
                         </Badge>
                         <h2 className="featured-title">

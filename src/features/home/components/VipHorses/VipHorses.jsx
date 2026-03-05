@@ -64,11 +64,11 @@ const VipHorses = () => {
 
             <div className="vip-cards-grid">
                 {vipHorses.map((horse) => (
-                    <HorseCard key={horse.id} {...horse} />
+                    <HorseCard key={horse.id} horse={horse} showMenu={false} />
                 ))}
             </div>
 
-            <VipBenefits />
+
         </section>
     );
 };
