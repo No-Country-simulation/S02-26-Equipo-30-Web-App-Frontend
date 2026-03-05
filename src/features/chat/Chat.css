@@ -257,3 +257,26 @@
         border-radius: 0;
     }
 }
+.conversation-item {
+    position: relative;
+}
+
+.delete-conv-btn {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.conversation-item:hover .delete-conv-btn {
+    opacity: 1;
+}
+
+.delete-conv-btn:hover {
+    color: #dc2626;
+}

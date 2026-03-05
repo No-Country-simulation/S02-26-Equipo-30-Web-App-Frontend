@@ -18,8 +18,4 @@ const LogOut = ({ size = 24, color = 'currentColor', ...props }) => (
     </svg>
 );
 
-<<<<<<< HEAD
 export default LogOut;
-=======
-export default LogOut;
->>>>>>> 247624f4605235412986ea140bb01005b2f35a5c
