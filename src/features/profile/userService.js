@@ -52,6 +52,30 @@ export const userService = {
             body: JSON.stringify(userData),
         });
         return handleResponse(response);
+    },
+
+    /**
+     * Delete the currently authenticated user's account
+     */
+    deleteCurrentUser: async () => {
+        const response = await fetch(`${API_BASE}/me`, {
+            method: 'DELETE',
+            headers: getAuthHeaders(),
+        });
+        return handleResponse(response);
+    },
+
+    /**
+     * Update the currently authenticated user's password
+     * @param {Object} passwordData - Password data (currentPassword, newPassword)
+     */
+    updatePassword: async (passwordData) => {
+        const response = await fetch(`${API_BASE}/me/password`, {
+            method: 'PATCH',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(passwordData),
+        });
+        return handleResponse(response);
     }
 };
 

@@ -1,52 +1,45 @@
 import './Navbar.css';
 import logo from '@shared/branding/logo_218_64.png';
-import Btn from '@components/button/Btn';
-import IconBtn from '@components/button/IconBtn';
+import Btn from '@components/button/Btn.jsx';
+import IconBtn from '@components/button/IconBtn.jsx';
 import { NavLink, useNavigate } from "react-router-dom";
-import { Crown, User, Info, Shield, Dollar, Phone, ChevronDown, Heart, LayoutDashboard, LogOut } from '@shared/branding/icons';
+import { User, Info, Shield, Phone, ChevronDown, Message, Heart, LogOut, Dashboard } from '@shared/branding/icons/index.js';
 
-import Dropdown from '@components/dropdown/Dropdown';
-import { useAuth } from '@shared/context/AuthContext';
+import Dropdown from '@components/dropdown/Dropdown.jsx';
+import { useAuth } from '@shared/context/AuthContext.jsx';
 
 const Navbar = () => {
-    const { isAuthenticated, user, logout } = useAuth();
     const navigate = useNavigate();
+    const { isAuthenticated, user, logout } = useAuth();
 
     const recursosItems = [
         { label: "Cómo Funciona", icon: <Info size={16} />, onClick: () => navigate("/como-funciona") },
         { label: "Confianza y Seguridad", icon: <Shield size={16} />, onClick: () => navigate("/confianza-seguridad") },
-        { label: "Planes y Precios", icon: <Dollar size={16} />, onClick: () => navigate("/planes-precios") },
         { label: 'Sobre Nosotros', icon: <User size={16} />, onClick: () => navigate('/sobre-nosotros') },
         { label: "Contacto", icon: <Phone size={16} />, onClick: () => navigate("/contacto") },
     ];
 
+    const profileItems = [
+        { label: "Mi Perfil", icon: <User size={16} />, onClick: () => navigate("/perfil") },
+        { label: "Mis Favoritos", icon: <Heart size={16} />, onClick: () => navigate("/favoritos") },
+        { label: "Dashboard", icon: <Message size={16} />, onClick: () => navigate("/dashboard") },
+        { label: "Cerrar Sesión", icon: <LogOut size={16} />, onClick: logout, className: 'logout-item' },
+    ];
+
     const goHome = () => navigate("/");
 
-    const handleLogout = () => {
-        logout();
-        navigate("/");
-    };
-
     return (
-        <nav className="navbar-container">
+        <nav className={`navbar-container ${isAuthenticated ? 'auth' : ''}`}>
             <div className="navbar-left">
                 <img src={logo} alt="HorseTrust Logo" className="navbar-logo" onClick={goHome} style={{ cursor: 'pointer' }} />
             </div>
 
             <div className="navbar-center">
-                {!isAuthenticated && (
-                    <>
-                        <NavLink to="/">
-                            <Btn>Inicio</Btn>
-                        </NavLink>
-                        <NavLink to="/explorar">
-                            <Btn>Explorar</Btn>
-                        </NavLink>
-                    </>
-                )}
-
-                <NavLink to="/premium">
-                    <IconBtn className="premium-btn" icon={<Crown size={16} />}>Premium</IconBtn>
+                <NavLink to="/">
+                    <Btn>Inicio</Btn>
+                </NavLink>
+                <NavLink to="/explorar">
+                    <Btn>Explorar</Btn>
                 </NavLink>
 
                 <Dropdown
@@ -58,39 +51,53 @@ const Navbar = () => {
                     }
                     items={recursosItems}
                 />
+            </div>
 
-                {isAuthenticated && (
-                    <>
-                        <NavLink to="/favoritos">
-                            <IconBtn className="nav-icon-btn" icon={<Heart size={16} />}>Favoritos</IconBtn>
+            <div className="navbar-right">
+                {isAuthenticated ? (
+                    <div className="auth-nav-items">
+                        <NavLink to="/favoritos" className="nav-icon-link">
+                            <Btn className="nav-icon-btn">
+                                <Heart size={18} />
+                                <span>Favoritos</span>
+                            </Btn>
                         </NavLink>
-                        <NavLink to="/dashboard">
-                            <IconBtn className="nav-icon-btn" icon={<LayoutDashboard size={16} />}>Dashboard</IconBtn>
+                        <NavLink to="/dashboard" className="nav-icon-link">
+                            <Btn className="nav-icon-btn">
+                                <Dashboard size={18} />
+                                <span>Dashboard</span>
+                            </Btn>
+                        </NavLink>
+
+                        <div className="nav-separator"></div>
+
+                        <NavLink to="/perfil" className="profile-nav-link">
+                            <div className="user-profile-btn">
+                                <User size={18} />
+                                <span className="user-name">{user?.name || 'Mi Perfil'}</span>
+                            </div>
+                        </NavLink>
+
+                        <IconBtn
+                            icon={<LogOut size={18} />}
+                            title="Cerrar Sesión"
+                            onClick={logout}
+                            className="logout-icon-btn"
+                        />
+                    </div>
+                ) : (
+                    <>
+                        <NavLink to="/login">
+                            <Btn className='line-btn'>
+                                <User size={18} style={{ marginRight: '8px' }} />
+                                Ingresar
+                            </Btn>
+                        </NavLink>
+                        <NavLink to="/registro">
+                            <Btn className='primary-btn'>Registrarse</Btn>
                         </NavLink>
                     </>
                 )}
-
-                <div className="navbar-right">
-                    {isAuthenticated ? (
-                        <div className="user-menu-container">
-                            <div className="divider"></div>
-                            <NavLink to="/perfil" className="user-profile-link">
-                                <User size={18} />
-                                <span className="user-name">{user?.fullName || 'Usuario'}</span>
-                            </NavLink>
-                            <LogOut className="logout-icon" size={20} onClick={handleLogout} />
-                        </div>
-                    ) : (
-                        <>
-                            <NavLink to="/login">
-                                <IconBtn className='line-btn' icon={<User size={16} />}>Ingresar</IconBtn>
-                            </NavLink>
-                            <NavLink to="/registro">
-                                <Btn className="register-btn">Registrarse</Btn>
-                            </NavLink>
-                        </>
-                    )}
-                </div>
             </div>
         </nav>
     );

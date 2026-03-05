@@ -363,9 +363,26 @@
 .hf-btn-submit {
     background: #ca8a04 !important;
     color: #000 !important;
-    padding: 0.75rem 3rem;
+    padding: 0.9rem 3rem;
     border-radius: 10px;
     font-weight: 700 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+
+    line-height: 1.3;
+    white-space: nowrap;
+    border: none;
+}
+
+.hf-btn-cancel,
+.hf-btn-submit {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -383,4 +400,71 @@
         align-items: flex-start;
         gap: 1rem;
     }
+}
+
+/* FILE UPLOAD SPECIALS */
+.hf-file-dropzone {
+    background: #f8fafc;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    text-align: center;
+}
+
+.hf-file-dropzone:hover {
+    border-color: #ca8a04;
+    background: #fcf9f1;
+}
+
+.hf-file-dropzone svg {
+    color: #94a3b8;
+}
+
+.hf-file-dropzone span {
+    font-size: 0.875rem;
+    color: #475569;
+}
+
+.hf-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.hf-file-list {
+    font-size: 0.75rem;
+    color: #ca8a04;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+.hf-input-group.error label {
+    color: #ef4444;
+}
+
+.hf-input-group.error input,
+.hf-input-group.error select,
+.hf-input-group.error textarea {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.hf-input-group.error input:focus,
+.hf-input-group.error select:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.hf-error-msg {
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    display: block;
 }

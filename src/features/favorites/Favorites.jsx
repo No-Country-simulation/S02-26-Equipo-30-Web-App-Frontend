@@ -1,268 +1,321 @@
-import React from 'react';
-import './favorites.css';
+import React, { useMemo, useState, useEffect } from "react";
+import "./favorites.css";
+import { Link } from "react-router-dom";
+import HorseCard from "@/shared/common/cards/HorseCard";
+import { useAuth } from "@shared/context/AuthContext";
+import { favoritesService } from "./favoritesService";
 
-const Favorites = () => {
-    return (
-        <div className="dashboard-container">
-            {/* Header / Stats Section */}
-            <header className="db-header">
-                <div className="db-welcome">
-                    <h1>Bienvenido, Alexandra Bennett</h1>
-                    <p>Tu colección ecuestre personalizada</p>
-                    <div className="db-stats-grid">
-                        <div className="db-stat-card">
-                            <div className="db-stat-label"><span>❤️</span> Guardados</div>
-                            <div className="db-stat-value">4</div>
-                        </div>
-                        <div className="db-stat-card">
-                            <div className="db-stat-label"><span>💰</span> Precio Promedio</div>
-                            <div className="db-stat-value">$67k</div>
-                        </div>
-                        <div className="db-stat-card">
-                            <div className="db-stat-label"><span>⭐</span> Trust Score</div>
-                            <div className="db-stat-value">97</div>
-                        </div>
-                        <div className="db-stat-card">
-                            <div className="db-stat-label"><span>👑</span> VIP Premium</div>
-                            <div className="db-stat-value">4</div>
-                        </div>
-                    </div>
-                </div>
-                <button className="db-add-btn">
-                    <span>+</span> Agregar Caballo
-                </button>
-            </header>
-
-            {/* VIP Banner */}
-            <div className="db-vip-banner">
-                <div className="db-vip-info">
-                    <h4>¡Tienes 4 caballos VIP en tu lista!</h4>
-                    <p>Caballos de élite con verificación completa y garantía extendida de 60 días</p>
-                </div>
-                <button className="db-vip-btn">Ver Premium →</button>
-            </div>
-
-            {/* Main Layout: (Grid + Sidebar) */}
-            <div className="db-main-layout">
-                {/* Left Column: Saved Horses */}
-                <div className="db-content-box">
-                    <div className="db-box-header">
-                        <div className="db-box-title">
-                            <span>❤️</span>
-                            <div>
-                                <h3>Mis Caballos Guardados</h3>
-                                <p>Tu selección personalizada</p>
-                            </div>
-                        </div>
-                        <span className="db-count-badge">4 Total</span>
-                    </div>
-
-                    <div className="db-horse-grid">
-                        {/* Horse Card 1 */}
-                        <div className="db-horse-card">
-                            <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop")' }}>
-                                <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
-                                    <span className="db-tag db-tag-destacado">Destacado</span>
-                                </div>
-                            </div>
-                            <div className="db-horse-info">
-                                <div className="db-horse-header">
-                                    <h4>Midnight Star</h4>
-                                    <span className="price">$66,022</span>
-                                </div>
-                                <div className="db-horse-meta">
-                                    <span>8 years</span> • <span>15.1 hh</span> • <span>Hunter</span>
-                                </div>
-                                <div className="db-trust-score">
-                                    <div className="db-trust-row">
-                                        <span>Trust Score</span>
-                                        <span>95/100</span>
-                                    </div>
-                                    <div className="db-trust-bar"><div className="db-trust-fill" style={{ width: '95%' }}></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Horse Card 2 */}
-                        <div className="db-horse-card">
-                            <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1534073733318-7f287900b135?q=80&w=2072&auto=format&fit=crop")' }}>
-                                <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
-                                    <span className="db-tag db-tag-destacado">Destacado</span>
-                                </div>
-                            </div>
-                            <div className="db-horse-info">
-                                <div className="db-horse-header">
-                                    <h4>Royal Symphony</h4>
-                                    <span className="price">$58,020</span>
-                                </div>
-                                <div className="db-horse-meta">
-                                    <span>6 years</span> • <span>16.1 hh</span> • <span>Western Performance</span>
-                                </div>
-                                <div className="db-trust-score">
-                                    <div className="db-trust-row">
-                                        <span>Trust Score</span>
-                                        <span>100/100</span>
-                                    </div>
-                                    <div className="db-trust-bar"><div className="db-trust-fill" style={{ width: '100%' }}></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Horse Card 3 */}
-                        <div className="db-horse-card">
-                            <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=1974&auto=format&fit=crop")' }}>
-                                <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
-                                    <span className="db-tag db-tag-destacado">Destacado</span>
-                                </div>
-                            </div>
-                            <div className="db-horse-info">
-                                <div className="db-horse-header">
-                                    <h4>Silver Cloud</h4>
-                                    <span className="price">$75,486</span>
-                                </div>
-                                <div className="db-horse-meta">
-                                    <span>8 years</span> • <span>17.2 hh</span> • <span>Cutting</span>
-                                </div>
-                                <div className="db-trust-score">
-                                    <div className="db-trust-row">
-                                        <span>Trust Score</span>
-                                        <span>93/100</span>
-                                    </div>
-                                    <div className="db-trust-bar"><div className="db-trust-fill" style={{ width: '93%' }}></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Horse Card 4 */}
-                        <div className="db-horse-card">
-                            <div className="db-horse-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1528659550346-407399895c2f?q=80&w=2028&auto=format&fit=crop")' }}>
-                                <div className="db-badge-row">
-                                    <span className="db-tag db-tag-vip">VIP</span>
-                                    <span className="db-tag db-tag-destacado">Destacado</span>
-                                </div>
-                            </div>
-                            <div className="db-horse-info">
-                                <div className="db-horse-header">
-                                    <h4>Golden Promise</h4>
-                                    <span className="price">$69,373</span>
-                                </div>
-                                <div className="db-horse-meta">
-                                    <span>6 years</span> • <span>17.2 hh</span> • <span>Eventing</span>
-                                </div>
-                                <div className="db-trust-score">
-                                    <div className="db-trust-row">
-                                        <span>Trust Score</span>
-                                        <span>100/100</span>
-                                    </div>
-                                    <div className="db-trust-bar"><div className="db-trust-fill" style={{ width: '100%' }}></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right Column: Sidebar */}
-                <aside className="db-sidebar">
-                    {/* Quick Actions */}
-                    <div className="db-widget">
-                        <h4><span>⚡</span> Acciones Rápidas</h4>
-                        <div className="db-quick-actions">
-                            <button className="db-action-btn primary">Explorar Caballos</button>
-                            <button className="db-action-btn secondary">Ver Colección VIP</button>
-                            <button className="db-action-btn secondary">Editar Perfil</button>
-                        </div>
-                    </div>
-
-                    {/* Account Status */}
-                    <div className="db-widget" style={{ backgroundColor: '#ecfdf5', borderColor: '#d1fae5' }}>
-                        <h4 style={{ color: '#065f46' }}><span>🛡️</span> Estado de la Cuenta</h4>
-                        <div className="db-status-item">
-                            <div className="db-status-icon">✉</div>
-                            <div>
-                                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>Email Verificado</p>
-                                <p style={{ color: '#64748b', fontSize: '0.8rem' }}>asdasd@asd.com</p>
-                            </div>
-                        </div>
-                        <div className="db-status-item">
-                            <div className="db-status-icon">📅</div>
-                            <div>
-                                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>Miembro Desde</p>
-                                <p style={{ color: '#64748b', fontSize: '0.8rem' }}>Febrero 2024</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Recommended for you */}
-                    <div className="db-widget">
-                        <h4><span>⭐</span> Recomendado para Ti</h4>
-                        <div className="db-reco-item">
-                            <div className="db-reco-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1582234372722-50d7ccc30e5a?q=80&w=400&auto=format&fit=crop")' }}></div>
-                            <div>
-                                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>Copper Sunset</p>
-                                <p style={{ color: '#c5a059', fontWeight: '700', fontSize: '0.8rem' }}>$74k • <span style={{ color: '#64748b' }}>Nashville</span></p>
-                            </div>
-                        </div>
-                        <div className="db-reco-item">
-                            <div className="db-reco-img" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=400&auto=format&fit=crop")' }}></div>
-                            <div>
-                                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>Eclipse</p>
-                                <p style={{ color: '#c5a059', fontWeight: '700', fontSize: '0.8rem' }}>$62k • <span style={{ color: '#64748b' }}>Scottsdale</span></p>
-                            </div>
-                        </div>
-                        <button className="db-action-btn secondary" style={{ marginTop: '12px', textAlign: 'center' }}>
-                            Ver Más Recomendaciones →
-                        </button>
-                    </div>
-
-                    {/* Notifications */}
-                    <div className="db-widget">
-                        <h4><span>🔔</span> Notificaciones</h4>
-                        <div style={{ padding: '16px', backgroundColor: '#eff6ff', borderRadius: '8px', border: '1px solid #dbeafe' }}>
-                            <p style={{ fontWeight: '700', color: '#1e40af', fontSize: '0.85rem', marginBottom: '8px' }}>🔔 Nuevos caballos disponibles</p>
-                            <p style={{ color: '#3b82f6', fontSize: '0.8rem' }}>3 caballos que coinciden con tus criterios fueron agregados hoy</p>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-
-            {/* Bottom Section: Recently Viewed */}
-            <section className="db-recent-section">
-                <div className="db-box-title">
-                    <span>📈</span>
-                    <div>
-                        <h3>Vistos Recientemente</h3>
-                        <p>Caballos que has explorado</p>
-                    </div>
-                </div>
-                <div className="db-recent-row">
-                    <div className="db-recent-card">
-                        <img src="https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=600&auto=format&fit=crop" alt="Horse" />
-                        <div className="db-recent-overlay">
-                            <p style={{ fontWeight: '700' }}>Eclipse</p>
-                            <p style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>Belgian Warmblood</p>
-                        </div>
-                    </div>
-                    <div className="db-recent-card">
-                        <img src="https://images.unsplash.com/photo-1534073733318-7f287900b135?q=80&w=600&auto=format&fit=crop" alt="Horse" />
-                        <div className="db-recent-overlay" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
-                            <p style={{ fontWeight: '700' }}>Thunder Strike</p>
-                            <p style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>Hanoverian</p>
-                        </div>
-                    </div>
-                    <div className="db-recent-card">
-                        <img src="https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=600&auto=format&fit=crop" alt="Horse" />
-                        <div className="db-recent-overlay">
-                            <p style={{ fontWeight: '700' }}>Diamond Belle</p>
-                            <p style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>Holsteiner</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    );
+const MOCK_USER = {
+    name: "Alexandra Bennett",
+    email: "alexandra@email.com",
+    memberSince: "Enero 2024",
 };
 
-export default Favorites;
+// Mock horses (si luego lo conectas a tu data real, sustituyes esto)
+const MOCK_HORSES = [
+    {
+        id: "1",
+        name: "Golden Promise",
+        breed: "Selle Français",
+        price: 60249,
+        image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop",
+        sellerScore: 94,
+        age: "8 years",
+        height: "18.1 hh",
+        discipline: "Barrel Racing",
+        location: "Wellington, FL",
+    },
+    {
+        id: "2",
+        name: "Royal Symphony",
+        breed: "Friesian",
+        price: 58020,
+        image: "https://images.unsplash.com/photo-1534073733318-7f287900b135?q=80&w=2072&auto=format&fit=crop",
+        sellerScore: 100,
+        age: "6 years",
+        height: "16.1 hh",
+        discipline: "Western Performance",
+        location: "Scottsdale, AZ",
+    },
+    {
+        id: "4",
+        name: "Silver Cloud",
+        breed: "Holsteiner",
+        price: 75486,
+        image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=1974&auto=format&fit=crop",
+        sellerScore: 93,
+        age: "8 years",
+        height: "17.2 hh",
+        discipline: "Cutting",
+        location: "Nashville, TN",
+    },
+    {
+        id: "5",
+        name: "Midnight Star",
+        breed: "Hanoverian",
+        price: 66022,
+        image: "https://images.unsplash.com/photo-1528659550346-407399895c2f?q=80&w=2028&auto=format&fit=crop",
+        sellerScore: 95,
+        age: "8 years",
+        height: "15.1 hh",
+        discipline: "Hunter",
+        location: "Ocala, FL",
+    },
+];
+
+const MOCK_RECENT = [
+    {
+        id: "10",
+        name: "Eclipse",
+        breed: "Belgian Warmblood",
+        image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+        id: "11",
+        name: "Thunder Strike",
+        breed: "Hanoverian",
+        image: "https://images.unsplash.com/photo-1534073733318-7f287900b135?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+        id: "12",
+        name: "Diamond Belle",
+        breed: "Holsteiner",
+        image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=600&auto=format&fit=crop",
+    },
+];
+
+const MOCK_RECO = [
+    {
+        id: "20",
+        name: "Copper Sunset",
+        breed: "Quarter Horse",
+        price: 74000,
+        image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30e5a?q=80&w=400&auto=format&fit=crop",
+        location: "Nashville, TN",
+    },
+    {
+        id: "21",
+        name: "Eclipse",
+        breed: "Warmblood",
+        price: 62000,
+        image: "https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=400&auto=format&fit=crop",
+        location: "Scottsdale, AZ",
+    },
+];
+
+export default function Favorites() {
+    const { user, isAuthenticated } = useAuth();
+    const [savedHorses, setSavedHorses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (!isAuthenticated) {
+                setLoading(false);
+                return;
+            }
+            try {
+                setLoading(true);
+                const data = await favoritesService.getFavorites();
+                setSavedHorses(data || []);
+            } catch (err) {
+                console.error("Error fetching favorites:", err);
+                setError("No se pudieron cargar tus favoritos.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFavorites();
+    }, [isAuthenticated]);
+
+
+    const avgTrust = useMemo(() => {
+        if (!savedHorses.length) return 0;
+        const total = savedHorses.reduce((sum, h) => sum + Number(h.trustScore || 0), 0);
+        return Math.round(total / savedHorses.length);
+    }, [savedHorses]);
+
+    return (
+        <main className="fav">
+            <div className="fav__wrap">
+                {/* Hero */}
+                <section className="fav-hero">
+                    <div className="fav-hero__glow fav-hero__glow--gold" />
+                    <div className="fav-hero__glow fav-hero__glow--teal" />
+
+                    <div className="fav-hero__top">
+                        <div className="fav-hero__left">
+                            <div>
+                                <h1 className="fav-hero__title">Bienvenido, {user?.fullName || user?.name || "Usuario"}</h1>
+                                <p className="fav-hero__subtitle">Tu colección ecuestre personalizada</p>
+                            </div>
+                        </div>
+
+                        <div className="fav-hero__actions">
+                            <Link to="/chat" className="fav-btn fav-btn--gold fav-btn--messages">
+                                Ver mensajes
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="fav-stats">
+                        <div className="fav-stat">
+                            <p className="fav-stat__label">Guardados</p>
+                            <p className="fav-stat__value">{savedHorses.length}</p>
+                        </div>
+                        <div className="fav-stat">
+                            <p className="fav-stat__label">Trust Score</p>
+                            <p className="fav-stat__value">{avgTrust}</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Main layout */}
+                <section className="fav-layout">
+                    {/* Left / Main */}
+                    <div className="fav-main">
+                        {/* Saved horses */}
+                        <div className="fav-card">
+                            <div className="fav-card__head">
+                                <div>
+                                    <h2 className="fav-card__title">Mis Caballos Guardados</h2>
+                                    <p className="fav-card__desc">Tu selección personalizada</p>
+                                </div>
+
+                                {savedHorses.length > 0 && (
+                                    <span className="fav-badge">{savedHorses.length} Total</span>
+                                )}
+                            </div>
+
+                            <div className="fav-card__body">
+                                {loading ? (
+                                    <div className="fav-empty">
+                                        <p>Cargando tus favoritos...</p>
+                                    </div>
+                                ) : savedHorses.length > 0 ? (
+                                    <div className="fav-horsesGrid">
+                                        {savedHorses.map((horse) => (
+                                            <HorseCard key={horse.id} horse={horse} isFavorite={true} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="fav-empty">
+                                        <div className="fav-empty__icon" aria-hidden="true" />
+                                        <h3>No tienes caballos guardados</h3>
+                                        <p>
+                                            Explora nuestro catálogo y guarda los caballos que te interesen para
+                                            revisar más tarde.
+                                        </p>
+                                        <Link to="/browse" className="fav-btn fav-btn--gold">
+                                            Explorar Caballos
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Recently viewed */}
+                        <div className="fav-card">
+                            <div className="fav-card__head">
+                                <div>
+                                    <h2 className="fav-card__title">Vistos Recientemente</h2>
+                                    <p className="fav-card__desc">Caballos que has explorado</p>
+                                </div>
+                            </div>
+
+                            <div className="fav-card__body">
+                                <div className="fav-recentGrid">
+                                    {MOCK_RECENT.map((horse) => (
+                                        <Link key={horse.id} to={`/horse/${horse.id}`} className="fav-recent">
+                                            <img src={horse.image} alt={horse.name} />
+                                            <div className="fav-recent__overlay">
+                                                <p className="fav-recent__name">{horse.name}</p>
+                                                <p className="fav-recent__breed">{horse.breed}</p>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right / Sidebar */}
+                    <aside className="fav-side">
+                        {/* Quick actions */}
+                        <div className="fav-widget">
+                            <h3 className="fav-widget__title">Acciones Rápidas</h3>
+                            <div className="fav-actions">
+                                <Link to="/browse" className="fav-btn fav-btn--gold">
+                                    Explorar Caballos
+                                </Link>
+                                <Link to="/perfil" className="fav-btn fav-btn--outline">
+                                    Ver Perfil
+                                </Link>
+                                <Link to="/perfil/editar" className="fav-btn fav-btn--outline">
+                                    Editar Perfil
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Account status */}
+                        <div className="fav-widget fav-widget--soft">
+                            <h3 className="fav-widget__title">Estado de la Cuenta</h3>
+                            <div className="fav-status">
+                                <div className="fav-status__item">
+                                    <div>
+                                        <p className="fav-status__label">Email</p>
+                                        <p className="fav-status__value">{user?.email || "No disponible"}</p>
+                                    </div>
+                                </div>
+
+                                <div className="fav-status__item">
+                                    <div>
+                                        <p className="fav-status__label">Rol</p>
+                                        <p className="fav-status__value">{user?.role || "Comprador"}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Recommendations */}
+                        <div className="fav-widget">
+                            <h3 className="fav-widget__title">Recomendado para Ti</h3>
+
+                            <div className="fav-recoList">
+                                {MOCK_RECO.map((horse) => (
+                                    <Link key={horse.id} to={`/horse/${horse.id}`} className="fav-reco">
+                                        <img src={horse.image} alt={horse.name} />
+                                        <div className="fav-reco__info">
+                                            <p className="fav-reco__name">{horse.name}</p>
+                                            <p className="fav-reco__sub">
+                                                ${(horse.price / 1000).toFixed(0)}k • {horse.location.split(",")[0]}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <Link to="/browse" className="fav-btn fav-btn--outline fav-btn--full">
+                                Ver Más Recomendaciones
+                            </Link>
+                        </div>
+
+                        {/* Notifications */}
+                        <div className="fav-widget">
+                            <h3 className="fav-widget__title">Notificaciones</h3>
+                            <div className="fav-note">
+                                <p className="fav-note__title">Nuevos caballos disponibles</p>
+                                <p className="fav-note__text">
+                                    3 caballos que coinciden con tus criterios fueron agregados hoy
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                </section>
+            </div>
+        </main>
+    );
+}

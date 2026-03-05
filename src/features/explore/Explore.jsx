@@ -1,60 +1,137 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ExploreHeader from './components/ExploreHeader/ExploreHeader';
 import DisciplineTabs from './components/DisciplineTabs/DisciplineTabs';
 import FilterSidebar from './components/FilterSidebar/FilterSidebar';
 import HorseGrid from './components/HorseGrid/HorseGrid';
+import { exploreService } from './exploreService';
+import { horseService } from '@features/horse-management/horseService';
 import './Explore.css';
 
-const ALL_HORSES = [
-    { id: 1, name: 'Bright Future', price: 25513, breed: 'Morgan', tags: ['11 years', '12.1 hh', 'Endurance'], location: 'San Diego, CA', trustScore: 83, isVip: false, discipline: 'Endurance', image: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop' },
-    { id: 2, name: 'Copper Sunset', price: 67552, breed: 'Trakehner', tags: ['11 years', '16.3 hh', 'Dressage'], location: 'Middleburg, VA', trustScore: 94, isVip: false, discipline: 'Dressage', image: 'https://images.unsplash.com/photo-1518467166778-b8c6b252b19a?q=80&w=800&auto=format&fit=crop' },
-    { id: 3, name: 'Jade Dragon', price: 37538, breed: 'Dutch Warmblood', tags: ['14 years', '16.0 hh', 'Cutting'], location: 'Middleburg, VA', trustScore: 73, isVip: false, discipline: 'Cutting', image: 'https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?q=80&w=800&auto=format&fit=crop' },
-    { id: 4, name: 'Fresh Start', price: 47336, breed: 'Morgan', tags: ['12 years', '16.0 hh', 'Barrel Racing'], location: 'Lexington, KY', trustScore: 85, isVip: false, discipline: 'Barrel Racing', image: 'https://images.unsplash.com/photo-1534070348795-40a2322a303a?q=80&w=800&auto=format&fit=crop' },
-    { id: 5, name: 'Fantastic Voyage', price: 38345, breed: 'Palomino', tags: ['8 years', '15.1 hh', 'Barrel Racing'], location: 'Nashville, TN', trustScore: 96, isVip: false, discipline: 'Barrel Racing', image: 'https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=800&auto=format&fit=crop' },
-    { id: 6, name: 'Breath Heaving', price: 31334, breed: 'Morgan', tags: ['14 years', '16.1 hh', 'Show Jumping'], location: 'Middleburg, VA', trustScore: 71, isVip: false, discipline: 'Endurance', image: 'https://images.unsplash.com/photo-1520108930432-8cf3bb519280?q=80&w=800&auto=format&fit=crop' },
-    { id: 7, name: 'Midnight Star', price: 53778, breed: 'Andalusian', tags: ['11 years', '18.0 hh', 'Hunter'], location: 'Aiken, SC', trustScore: 94, isVip: true, discipline: 'Endurance', image: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop' },
-    { id: 8, name: 'Royal Symphony', price: 79286, breed: 'Trakehner', tags: ['8 years', '16.2 hh', 'Show Jumping'], location: 'Charleston, SC', trustScore: 94, isVip: true, discipline: 'Dressage', image: 'https://images.unsplash.com/photo-1598974357801-cbca100e65d3?q=80&w=800&auto=format&fit=crop' },
-    { id: 9, name: 'Silver Cloud', price: 67369, breed: 'Dutch Warmblood', tags: ['4 years', '17.0 hh', 'Cutting'], location: 'Saratoga Springs, NY', trustScore: 95, isVip: true, discipline: 'Cutting', image: 'https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?q=80&w=800&auto=format&fit=crop' },
-    { id: 10, name: 'Golden Promise', price: 81501, breed: 'Arabian', tags: ['7 years', '15.1 hh', 'Dressage'], location: 'Lexington, KY', trustScore: 93, isVip: true, discipline: 'Dressage', image: 'https://images.unsplash.com/photo-1534070348795-40a2322a303a?q=80&w=800&auto=format&fit=crop' },
-    { id: 11, name: 'Eclipse', price: 53027, breed: 'Westphalian', tags: ['6 years', '17.2 hh', 'Endurance'], location: 'Charleston, SC', trustScore: 96, isVip: true, discipline: 'Endurance', image: 'https://images.unsplash.com/photo-1520108930432-8cf3bb519280?q=80&w=800&auto=format&fit=crop' },
-    { id: 12, name: 'Desert Wind', price: 44200, breed: 'Arabian', tags: ['9 years', '15.3 hh', 'Barrel Racing'], location: 'Scottsdale, AZ', trustScore: 88, isVip: false, discipline: 'Barrel Racing', image: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=800&auto=format&fit=crop' },
-];
-
 const Explore = () => {
-    const [search, setSearch] = useState('');
+    const [searchParams] = useSearchParams();
+    const [horses, setHorses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [search, setSearch] = useState(searchParams.get('keyword') || '');
     const [activeTab, setActiveTab] = useState('Todos');
     const [verified, setVerified] = useState(false);
-    const [premium, setPremium] = useState(false);
+    const [premium, setPremium] = useState(searchParams.get('premium') === 'true');
     const [filters, setFilters] = useState({
-        discipline: '',
+        discipline: searchParams.get('discipline') || '',
         breed: '',
         location: '',
         priceMin: '',
         priceMax: '',
     });
 
+    const [availableDisciplines, setAvailableDisciplines] = useState([]);
+    const [availableBreeds, setAvailableBreeds] = useState([]);
+
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+
+    const loadListings = async (pageNum, isInitial = false) => {
+        try {
+            if (isInitial) setLoading(true);
+            // Pasamos el término de búsqueda como 'keyword' a la API, con tamaño 100
+            const data = await exploreService.getListings(pageNum, 100, search);
+            console.log(`Explore RAW data (page ${pageNum}):`, data);
+
+            const content = data?.content || [];
+            console.log(`Explore CONTENT (listings, page ${pageNum}):`, content);
+
+            if (isInitial) {
+                setHorses(content);
+
+                // Extract dynamic filters from the first 50 results
+                const first50 = content.slice(0, 50);
+                const disciplines = [...new Set(first50.map(item => (item.horse?.mainUse || item.horse?.discipline || item.mainUse || item.discipline)).filter(Boolean))].sort();
+                const breeds = [...new Set(first50.map(item => (item.horse?.breed || item.breed)).filter(Boolean))].sort();
+
+                setAvailableDisciplines(['', ...disciplines]);
+                setAvailableBreeds(['', ...breeds]);
+            } else {
+                setHorses(prev => [...prev, ...content]);
+            }
+
+            // Si recibimos menos de 100 elementos, asumimos que no hay más
+            if (content.length < 2000) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+            }
+
+            setLoading(false);
+        } catch (err) {
+            console.error("Error loading listings:", err);
+            setError("No se pudieron cargar los caballos. Inténtalo de nuevo más tarde.");
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadListings(0, true);
+        setPage(0);
+    }, [activeTab, filters, search, premium]); // Reiniciar cuando cambien los filtros o la búsqueda
+
+    const handleLoadMore = () => {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        loadListings(nextPage);
+    };
+
     const filtered = useMemo(() => {
-        return ALL_HORSES.filter((h) => {
-            if (search && !h.name.toLowerCase().includes(search.toLowerCase()) &&
-                !h.breed.toLowerCase().includes(search.toLowerCase()) &&
-                !h.discipline.toLowerCase().includes(search.toLowerCase())) return false;
-            if (activeTab !== 'Todos' && h.discipline !== activeTab) return false;
-            if (verified && h.trustScore < 90) return false;
-            if (premium && !h.isVip) return false;
-            if (filters.discipline && h.discipline !== filters.discipline) return false;
-            if (filters.breed && h.breed !== filters.breed) return false;
-            if (filters.location && !h.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
-            if (filters.priceMin && h.price < Number(filters.priceMin)) return false;
-            if (filters.priceMax && h.price > Number(filters.priceMax)) return false;
+        return horses.filter((listing) => {
+            const h = listing.horse ?? listing;
+
+            const breed = h.breed || '';
+            const discipline = h.mainUse || h.discipline || '';
+
+            const locText = typeof h.location === 'object'
+                ? `${h.location?.city || ''} ${h.location?.region || ''} ${h.location?.country || ''}`.toLowerCase()
+                : String(h.location || '').toLowerCase();
+
+            const price = Number(listing.price) || 0;
+            const trustScore = Number(h.trustScore) > 1 ? Number(h.trustScore) : (Number(h.trustScore) * 100);
+
+            // Si hay búsqueda, ignoramos los filtros laterales para esa búsqueda
+            const searchLower = search.toLowerCase();
+            const matchesSearch = !search ||
+                h.name?.toLowerCase().includes(searchLower) ||
+                h.horseName?.toLowerCase().includes(searchLower) ||
+                breed.toLowerCase().includes(searchLower) ||
+                discipline.toLowerCase().includes(searchLower);
+
+            if (search) {
+                return matchesSearch;
+            }
+
+            // Si no hay búsqueda por texto, aplicamos los filtros normales
+            if (activeTab !== 'Todos' && discipline !== activeTab) return false;
+            if (verified && trustScore < 90) return false;
+            if (premium && !listing.isVip) return false;
+
+            if (filters.discipline && discipline !== filters.discipline) return false;
+            if (filters.breed && breed !== filters.breed) return false;
+            if (filters.location && !locText.includes(filters.location.toLowerCase())) return false;
+            if (filters.priceMin && price < Number(filters.priceMin)) return false;
+            if (filters.priceMax && price > Number(filters.priceMax)) return false;
+
             return true;
         });
-    }, [search, activeTab, verified, premium, filters]);
+    }, [horses, activeTab, verified, premium, filters, search]);
 
     return (
         <div className="explore-page">
             <ExploreHeader searchValue={search} onSearchChange={setSearch} />
             <div className="explore-body">
-                <FilterSidebar filters={filters} onFilterChange={setFilters} />
+                <FilterSidebar
+                    filters={filters}
+                    onFilterChange={setFilters}
+                    availableDisciplines={availableDisciplines}
+                    availableBreeds={availableBreeds}
+                />
                 <main className="explore-main">
                     <DisciplineTabs
                         activeTab={activeTab}
@@ -63,8 +140,30 @@ const Explore = () => {
                         onVerifiedChange={setVerified}
                         premium={premium}
                         onPremiumChange={setPremium}
+                        disciplines={availableDisciplines}
                     />
-                    <HorseGrid horses={filtered} totalCount={filtered.length} />
+
+                    {loading && horses.length === 0 ? (
+                        <div className="explore-loading">Cargando caballos...</div>
+                    ) : error ? (
+                        <div className="explore-error">{error}</div>
+                    ) : (
+                        <>
+                            <HorseGrid horses={filtered} totalCount={filtered.length} />
+
+                            {hasMore && (
+                                <div className="explore-load-more">
+                                    <button
+                                        className="btn-load-more"
+                                        onClick={handleLoadMore}
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Cargando...' : 'Cargar más caballos'}
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </main>
             </div>
         </div>

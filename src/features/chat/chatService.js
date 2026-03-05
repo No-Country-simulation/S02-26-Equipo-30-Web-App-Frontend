@@ -1,44 +1,14 @@
 /* chatService.js */
+import apiClient from '@shared/api/apiClient';
 
 const API_BASE = '/api/v1/chat';
-
-const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
-};
-
-const handleResponse = async (response) => {
-    const contentType = response.headers.get('content-type');
-    let data = null;
-
-    if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
-    } else {
-        const text = await response.text();
-        console.warn('Non-JSON response:', text);
-    }
-
-    if (!response.ok) {
-        throw new Error(data?.message || `Error ${response.status}: ${response.statusText}`);
-    }
-
-    return data;
-};
 
 export const chatService = {
     /**
      * Get all conversations for the authenticated user
      */
     getUserConversations: async () => {
-        const response = await fetch(`${API_BASE}/conversations`, {
-            method: 'GET',
-            headers: getAuthHeaders(),
-        });
-        return handleResponse(response);
+        return apiClient.get(`${API_BASE}/conversations`);
     },
 
     /**
@@ -46,11 +16,7 @@ export const chatService = {
      * @param {string} listingId - UUID of the listing
      */
     createConversation: async (listingId) => {
-        const response = await fetch(`${API_BASE}/conversations?listingId=${listingId}`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-        });
-        return handleResponse(response);
+        return apiClient.post(`${API_BASE}/conversations?listingId=${listingId}`);
     },
 
     /**
@@ -58,11 +24,7 @@ export const chatService = {
      * @param {string} conversationId - UUID of the conversation
      */
     getMessages: async (conversationId) => {
-        const response = await fetch(`${API_BASE}/conversations/${conversationId}/messages`, {
-            method: 'GET',
-            headers: getAuthHeaders(),
-        });
-        return handleResponse(response);
+        return apiClient.get(`${API_BASE}/conversations/${conversationId}/messages`);
     },
 
     /**
@@ -72,12 +34,15 @@ export const chatService = {
      */
     sendMessage: async (conversationId, text) => {
         const payload = { text };
-        const response = await fetch(`${API_BASE}/conversations/${conversationId}/messages`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload),
-        });
-        return handleResponse(response);
+        return apiClient.post(`${API_BASE}/conversations/${conversationId}/messages`, payload);
+    },
+
+    /**
+     * Mark a message as read
+     * @param {string} messageId - UUID of the message
+     */
+    markAsRead: async (messageId) => {
+        return apiClient.patch(`${API_BASE}/messages/${messageId}/read`);
     }
 };
 

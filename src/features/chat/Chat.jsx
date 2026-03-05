@@ -1,10 +1,13 @@
-/* Chat.jsx */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './Chat.css';
 import { Search, Send } from '@shared/branding/icons';
 import { chatService } from './chatService';
 
 const Chat = () => {
+    const [searchParams] = useSearchParams();
+    const listingIdFromUrl = searchParams.get('listingId');
+
     const [conversations, setConversations] = useState([]);
     const [activeConversationId, setActiveConversationId] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -19,9 +22,24 @@ const Chat = () => {
                 setLoading(true);
                 const data = await chatService.getUserConversations();
                 setConversations(data);
-                // Automatically select first conversation if any
-                if (data.length > 0 && !activeConversationId) {
-                    setActiveConversationId(data[0].id);
+
+                // Logic to select or create conversation based on listingIdFromUrl
+                if (listingIdFromUrl) {
+                    const existing = data.find(c => c.listingId === listingIdFromUrl);
+                    if (existing) {
+                        setActiveConversationId(existing.conversationId);
+                    } else {
+                        // Create new conversation
+                        try {
+                            const newConv = await chatService.createConversation(listingIdFromUrl);
+                            setConversations(prev => [newConv, ...prev]);
+                            setActiveConversationId(newConv.conversationId);
+                        } catch (e) {
+                            console.error("Error creating conversation:", e);
+                        }
+                    }
+                } else if (data.length > 0 && !activeConversationId) {
+                    setActiveConversationId(data[0].conversationId);
                 }
             } catch (err) {
                 console.error("Error fetching conversations:", err);
@@ -32,7 +50,7 @@ const Chat = () => {
         };
 
         fetchConversations();
-    }, [activeConversationId]);
+    }, [listingIdFromUrl]);
 
     // Fetch messages when active conversation changes
     useEffect(() => {
@@ -42,6 +60,16 @@ const Chat = () => {
                 try {
                     const data = await chatService.getMessages(activeConversationId);
                     setMessages(data);
+
+                    // Mark last message as read if it's from the other user
+                    const lastMsg = data[data.length - 1];
+                    if (lastMsg && lastMsg.senderId === activeConversation.otherUserId && !lastMsg.isRead) {
+                        try {
+                            await chatService.markAsRead(lastMsg.messageId);
+                        } catch (e) {
+                            console.error("Error marking as read:", e);
+                        }
+                    }
                 } catch (err) {
                     console.error("Error fetching messages:", err);
                 }
@@ -62,17 +90,17 @@ const Chat = () => {
         setMessageInput(""); // Optimistic clear
 
         try {
-            const newMessage = await chatService.sendMessage(activeConversationId, text);
-            setMessages(prev => [...prev, newMessage]);
+            const response = await chatService.sendMessage(activeConversationId, text);
+            // Re-fetch messages or append if response includes the new message
+            setMessages(prev => [...prev, response]);
         } catch (err) {
             console.error("Error sending message:", err);
-            // Revert message input on error (optional but helpful)
             setMessageInput(text);
             alert("No se pudo enviar el mensaje.");
         }
     };
 
-    const activeConversation = conversations.find(c => c.id === activeConversationId);
+    const activeConversation = conversations.find(c => c.conversationId === activeConversationId);
 
     if (loading && conversations.length === 0) {
         return <div className="chat-loading">Cargando chats...</div>;
@@ -97,22 +125,21 @@ const Chat = () => {
                         ) : (
                             conversations.map((conv) => (
                                 <div
-                                    key={conv.id}
-                                    className={`conversation-item ${activeConversationId === conv.id ? 'active' : ''}`}
-                                    onClick={() => setActiveConversationId(conv.id)}
+                                    key={conv.conversationId}
+                                    className={`conversation-item ${activeConversationId === conv.conversationId ? 'active' : ''}`}
+                                    onClick={() => setActiveConversationId(conv.conversationId)}
                                 >
-                                    <img
-                                        src={conv.participantAvatar || "https://ui-avatars.com/api/?name=" + conv.participantName}
-                                        alt={conv.participantName}
-                                        className="conv-avatar"
-                                    />
+                                    <div className="conv-avatar-placeholder">
+                                        {/* Placeholder logic if participantAvatar not in schema */}
+                                        {conv.otherUserName?.charAt(0).toUpperCase() || "?"}
+                                    </div>
                                     <div className="conv-info">
                                         <div className="conv-header">
-                                            <h4>{conv.participantName}</h4>
-                                            {conv.unreadCount > 0 && <span className="unread-badge">{conv.unreadCount}</span>}
+                                            <h4>{conv.otherUserName}</h4>
+                                            {/* Logic for unread badges could be added if provided in schema */}
                                         </div>
                                         <p className="conv-subject">{conv.listingTitle}</p>
-                                        <p className="conv-last-msg">{conv.lastMessage?.text || "Inicia la conversación"}</p>
+                                        <p className="conv-last-msg">{conv.lastMessage || "Inicia la conversación"}</p>
                                     </div>
                                 </div>
                             ))
@@ -125,24 +152,22 @@ const Chat = () => {
                     {activeConversation ? (
                         <>
                             <header className="active-chat-header">
-                                <img
-                                    src={activeConversation.participantAvatar || "https://ui-avatars.com/api/?name=" + activeConversation.participantName}
-                                    alt=""
-                                    className="active-avatar"
-                                />
+                                <div className="active-avatar-placeholder">
+                                    {activeConversation.otherUserName?.charAt(0).toUpperCase()}
+                                </div>
                                 <div className="active-info">
-                                    <h3>{activeConversation.participantName}</h3>
+                                    <h3>{activeConversation.otherUserName}</h3>
                                     <p>Conversación sobre: {activeConversation.listingTitle}</p>
                                 </div>
                             </header>
 
                             <div className="chat-messages-area">
                                 {messages.map((msg) => (
-                                    <div key={msg.id} className={`message-bubble ${msg.isFromMe ? 'sent' : 'received'}`}>
+                                    <div key={msg.messageId} className={`message-bubble ${msg.senderId !== activeConversation.otherUserId ? 'sent' : 'received'}`}>
                                         <div className="message-content">
                                             <p>{msg.text}</p>
                                             <span className="message-time">
-                                                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {new Date(msg.sentAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
                                     </div>

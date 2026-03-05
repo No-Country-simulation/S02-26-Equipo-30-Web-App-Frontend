@@ -3,11 +3,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import {
-    Phone,
-    Mail,
-    MapPin,
-    ChevronDown,
-    User,
     Info,
     Dollar,
     Award,
@@ -16,7 +11,12 @@ import {
     Support,
     Crown,
     Search,
-    ArrowRight
+    ArrowRight,
+    Sparkles,
+    MoreVertical,
+    Edit,
+    Trash,
+    // Loader2
 } from '@shared/branding/icons';
 
 // Custom Icons for Dashboard
@@ -49,11 +49,65 @@ const MessageIcon = ({ size = 18 }) => (
     </svg>
 );
 
+import { useEffect } from 'react';
 import horseService from '../horse-management/horseService';
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [userHorses, setUserHorses] = useState([]);
+    const [loadingHorses, setLoadingHorses] = useState(false);
+    const [errorHorses, setErrorHorses] = useState(null);
+    const [menuOpenId, setMenuOpenId] = useState(null);
+
+    const handleDeleteHorse = async (id, name) => {
+        if (window.confirm(`¿Estás seguro de que deseas eliminar a "${name}"? Esta acción no se puede deshacer.`)) {
+            try {
+                await horseService.deleteHorse(id);
+                // Success: remove from local state
+                setUserHorses(prev => prev.filter(h => h.id !== id));
+            } catch (err) {
+                console.error('Error deleting horse:', err);
+
+                // If it's already deleted in the backend (422), we still remove it from the UI
+                if (err.message?.toLowerCase().includes('already deleted') || err.response?.status === 422) {
+                    setUserHorses(prev => prev.filter(h => h.id !== id));
+                } else {
+                    alert('No se pudo eliminar el caballo. Por favor intenta de nuevo.');
+                }
+            }
+        }
+    };
+
+    const fetchUserHorses = async () => {
+        setLoadingHorses(true);
+        setErrorHorses(null);
+        try {
+            const data = await horseService.getUserHorses();
+            setUserHorses(data);
+        } catch (err) {
+            console.error('Error fetching user horses:', err);
+            setErrorHorses(err.message);
+        } finally {
+            setLoadingHorses(false);
+        }
+    };
+
+    const calculateAge = (birthDate) => {
+        if (!birthDate) return "N/A";
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    useEffect(() => {
+        fetchUserHorses();
+    }, []);
 
     return (
         <main className="db">
@@ -75,23 +129,6 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '10px' }}>
-                            <button
-                                className="db-btn-add"
-                                style={{ background: '#6366f1' }}
-                                onClick={async () => {
-                                    try {
-                                        console.log('Fetching horses...');
-                                        const horses = await horseService.getHorses();
-                                        console.log('Horses received:', horses);
-                                        alert('Datos recibidos. Revisa la consola (F12).');
-                                    } catch (err) {
-                                        console.error('Error fetching horses:', err);
-                                        alert('Error al obtener caballos: ' + err.message);
-                                    }
-                                }}
-                            >
-                                <span>🔍</span> Test API GET
-                            </button>
                             <button
                                 className="db-btn-add"
                                 onClick={() => navigate('/caballo/nuevo')}
@@ -118,8 +155,8 @@ const Dashboard = () => {
                                 <span>Activos</span>
                                 <HorseIcon size={14} style={{ opacity: 0.5 }} />
                             </div>
-                            <div className="db-hstat__value">3</div>
-                            <div className="db-hstat__meta">de 12 totales</div>
+                            <div className="db-hstat-value">{userHorses.length}</div>
+                            <div className="db-hstat-meta">de {userHorses.length} totales</div>
                         </div>
 
                         <div className="db-hstat">
@@ -159,215 +196,317 @@ const Dashboard = () => {
                             className={`db-tab ${activeTab === 'my-horses' ? 'active' : ''}`}
                             onClick={() => setActiveTab('my-horses')}
                         >
-                            <span>📋</span> Mis Caballos (12)
+                            <span>📋</span> Mis Caballos ({userHorses.length})
                         </div>
                     </div>
                 </nav>
 
                 {/* MAIN CONTENT AREA */}
                 <div className="db-main-grid">
-                    {/* LEFT COLUMN */}
-                    <section className="db-stats-section">
-                        {/* Summary Earnings */}
-                        <div className="db-card db-summary-card">
-                            <div className="db-summary-left">
-                                <p className="db-summary-label">Ingresos Totales</p>
-                                <h2 className="db-summary-val">$185,000</h2>
-                                <span className="db-summary-trend">↗ +23.5% este mes</span>
+                    {activeTab === 'dashboard' ? (
+                        <>
+                            {/* LEFT COLUMN */}
+                            <section className="db-stats-section">
+                                {/* Summary Earnings */}
+                                <div className="db-card db-summary-card">
+                                    <div className="db-summary-left">
+                                        <p className="db-summary-label">Ingresos Totales</p>
+                                        <h2 className="db-summary-val">$185,000</h2>
+                                        <span className="db-summary-trend">↗ +23.5% este mes</span>
 
-                                <div className="db-summary-grid">
-                                    <div>
-                                        <p className="db-smini-label">Este Mes</p>
-                                        <p className="db-smini-val">$92,000</p>
+                                        <div className="db-summary-grid">
+                                            <div>
+                                                <p className="db-smini-label">Este Mes</p>
+                                                <p className="db-smini-val">$92,000</p>
+                                            </div>
+                                            <div>
+                                                <p className="db-smini-label">Ahorros Comisiones</p>
+                                                <p className="db-smini-val teal">$8,400</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="db-smini-label">Ahorros Comisiones</p>
-                                        <p className="db-smini-val teal">$8,400</p>
+                                    <div className="db-sicon-box">
+                                        <Dollar size={32} />
                                     </div>
                                 </div>
-                            </div>
-                            <div className="db-sicon-box">
-                                <Dollar size={32} />
-                            </div>
-                        </div>
 
-                        {/* Quad Grid Stats */}
-                        <div className="db-quad-stats">
-                            <div className="db-card db-qstat">
-                                <div>
-                                    <p className="db-qstat__label">Tasa de Conversión</p>
-                                    <h3 className="db-qstat__val">12.5%</h3>
-                                    <p className="db-qstat__meta">Por encima del promedio</p>
+                                {/* Quad Grid Stats */}
+                                <div className="db-quad-stats">
+                                    <div className="db-card db-qstat">
+                                        <div>
+                                            <p className="db-qstat__label">Tasa de Conversión</p>
+                                            <h3 className="db-qstat__val">12.5%</h3>
+                                            <p className="db-qstat__meta">Por encima del promedio</p>
+                                        </div>
+                                        <div className="db-qstat__icon">🌐</div>
+                                    </div>
+                                    <div className="db-card db-qstat">
+                                        <div>
+                                            <p className="db-qstat__label">Tiempo de Respuesta</p>
+                                            <h3 className="db-qstat__val">2h 15m</h3>
+                                            <p className="db-qstat__meta">Promedio</p>
+                                        </div>
+                                        <div className="db-qstat__icon">🕒</div>
+                                    </div>
+                                    <div className="db-card db-qstat">
+                                        <div>
+                                            <p className="db-qstat__label">Vendidos Este Mes</p>
+                                            <h3 className="db-qstat__val">2</h3>
+                                            <p className="db-qstat__meta">Caballos</p>
+                                        </div>
+                                        <div className="db-qstat__icon">✅</div>
+                                    </div>
+                                    <div className="db-card db-qstat">
+                                        <div>
+                                            <p className="db-qstat__label">En Revisión</p>
+                                            <h3 className="db-qstat__val">0</h3>
+                                            <p className="db-qstat__meta">Listados</p>
+                                        </div>
+                                        <div className="db-qstat__icon">🕒</div>
+                                    </div>
                                 </div>
-                                <div className="db-qstat__icon">🌐</div>
-                            </div>
-                            <div className="db-card db-qstat">
-                                <div>
-                                    <p className="db-qstat__label">Tiempo de Respuesta</p>
-                                    <h3 className="db-qstat__val">2h 15m</h3>
-                                    <p className="db-qstat__meta">Promedio</p>
-                                </div>
-                                <div className="db-qstat__icon">🕒</div>
-                            </div>
-                            <div className="db-card db-qstat">
-                                <div>
-                                    <p className="db-qstat__label">Vendidos Este Mes</p>
-                                    <h3 className="db-qstat__val">2</h3>
-                                    <p className="db-qstat__meta">Caballos</p>
-                                </div>
-                                <div className="db-qstat__icon">✅</div>
-                            </div>
-                            <div className="db-card db-qstat">
-                                <div>
-                                    <p className="db-qstat__label">En Revisión</p>
-                                    <h3 className="db-qstat__val">0</h3>
-                                    <p className="db-qstat__meta">Listados</p>
-                                </div>
-                                <div className="db-qstat__icon">🕒</div>
-                            </div>
-                        </div>
 
-                        {/* Recent Activity */}
-                        <div className="db-card db-activity-card">
-                            <div className="db-card-header">
-                                <div className="db-header-icon">
-                                    <PanelIcon size={18} />
-                                </div>
-                                <div>
-                                    <h3 className="db-card-title">Actividad Reciente</h3>
-                                    <p className="db-card-sub">Últimas interacciones con tus listados</p>
-                                </div>
-                            </div>
-
-                            <div className="db-activity-list">
-                                <div className="db-activity-item">
-                                    <div className="db-act-content">
-                                        <div className="db-act-icon msg">
-                                            <MessageIcon size={18} />
+                                {/* Recent Activity */}
+                                <div className="db-card db-activity-card">
+                                    <div className="db-card-header">
+                                        <div className="db-header-icon">
+                                            <PanelIcon size={18} />
                                         </div>
                                         <div>
-                                            <p className="db-act-title">Nueva consulta de María González</p>
-                                            <p className="db-act-sub">Interesada en Thunder Strike</p>
+                                            <h3 className="db-card-title">Actividad Reciente</h3>
+                                            <p className="db-card-sub">Últimas interacciones con tus listados</p>
                                         </div>
                                     </div>
-                                    <span className="db-act-time">2 horas</span>
+
+                                    <div className="db-activity-list">
+                                        <div className="db-activity-item">
+                                            <div className="db-act-content">
+                                                <div className="db-act-icon msg">
+                                                    <MessageIcon size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="db-act-title">Nueva consulta de María González</p>
+                                                    <p className="db-act-sub">Interesada en Thunder Strike</p>
+                                                </div>
+                                            </div>
+                                            <span className="db-act-time">2 horas</span>
+                                        </div>
+
+                                        <div className="db-activity-item">
+                                            <div className="db-act-content">
+                                                <div className="db-act-icon view">
+                                                    <EyeIcon size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="db-act-title">15 nuevas vistas</p>
+                                                    <p className="db-act-sub">Midnight Glory</p>
+                                                </div>
+                                            </div>
+                                            <span className="db-act-time">3 horas</span>
+                                        </div>
+
+                                        <div className="db-activity-item">
+                                            <div className="db-act-content">
+                                                <div className="db-act-icon offer">
+                                                    <Dollar size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="db-act-title">Oferta recibida: $48,000</p>
+                                                    <p className="db-act-sub">Storm Chaser</p>
+                                                </div>
+                                            </div>
+                                            <span className="db-act-time">5 horas</span>
+                                        </div>
+
+                                        <div className="db-activity-item">
+                                            <div className="db-act-content">
+                                                <div className="db-act-icon msg">
+                                                    <MessageIcon size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="db-act-title">Nueva consulta de Carlos Ramírez</p>
+                                                    <p className="db-act-sub">Interesado en Thunder Strike</p>
+                                                </div>
+                                            </div>
+                                            <span className="db-act-time">1 día</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* RIGHT SIDEBAR */}
+                            <aside className="db-sidebar">
+                                {/* Listing Statuses */}
+                                <div className="db-side-card">
+                                    <div className="db-side-header">Estado de Listados</div>
+                                    <div className="db-side-list">
+                                        <div className="db-stat-row">
+                                            <div className="db-stat-label">
+                                                <div className="db-stat-icon active">
+                                                    <Shield size={14} />
+                                                </div> Activos
+                                            </div>
+                                            <span className="db-stat-val active">3</span>
+                                        </div>
+                                        <div className="db-stat-row">
+                                            <div className="db-stat-label">
+                                                <div className="db-stat-icon review">
+                                                    <Info size={14} />
+                                                </div> En Revisión
+                                            </div>
+                                            <span className="db-stat-val review">0</span>
+                                        </div>
+                                        <div className="db-stat-row">
+                                            <div className="db-stat-label">
+                                                <div className="db-stat-icon sold">
+                                                    <Star size={14} />
+                                                </div> Vendidos
+                                            </div>
+                                            <span className="db-stat-val sold">2</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="db-activity-item">
-                                    <div className="db-act-content">
-                                        <div className="db-act-icon view">
-                                            <EyeIcon size={18} />
-                                        </div>
+
+                                {/* Seller Tips */}
+                                <div className="db-side-card db-tips-card">
+                                    <h3 className="db-promo-header">📈 Mejora tus Ventas</h3>
+                                    <div className="db-tip-item">
+                                        <div className="db-tip-icon">✨</div>
                                         <div>
-                                            <p className="db-act-title">15 nuevas vistas</p>
-                                            <p className="db-act-sub">Midnight Glory</p>
+                                            <p className="db-tip-text">Videos de rendimiento</p>
+                                            <p className="db-tip-sub">3x más consultas</p>
                                         </div>
                                     </div>
-                                    <span className="db-act-time">3 horas</span>
-                                </div>
-
-                                <div className="db-activity-item">
-                                    <div className="db-act-content">
-                                        <div className="db-act-icon offer">
-                                            <Dollar size={18} />
-                                        </div>
+                                    <div className="db-tip-item">
+                                        <div className="db-tip-icon">📄</div>
                                         <div>
-                                            <p className="db-act-title">Oferta recibida: $48,000</p>
-                                            <p className="db-act-sub">Storm Chaser</p>
+                                            <p className="db-tip-text">Documentación completa</p>
+                                            <p className="db-tip-sub">Aumenta confianza</p>
                                         </div>
                                     </div>
-                                    <span className="db-act-time">5 horas</span>
-                                </div>
-
-                                <div className="db-activity-item">
-                                    <div className="db-act-content">
-                                        <div className="db-act-icon msg">
-                                            <MessageIcon size={18} />
-                                        </div>
+                                    <div className="db-tip-item">
+                                        <div className="db-tip-icon">⚡</div>
                                         <div>
-                                            <p className="db-act-title">Nueva consulta de Carlos Ramírez</p>
-                                            <p className="db-act-sub">Interesado en Thunder Strike</p>
+                                            <p className="db-tip-text">Respuesta rápida</p>
+                                            <p className="db-tip-sub">Mantén tu score alto</p>
                                         </div>
                                     </div>
-                                    <span className="db-act-time">1 día</span>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* RIGHT SIDEBAR */}
-                    <aside className="db-sidebar">
-                        {/* Listing Statuses */}
-                        <div className="db-side-card">
-                            <div className="db-side-header">Estado de Listados</div>
-                            <div className="db-side-list">
-                                <div className="db-stat-row">
-                                    <div className="db-stat-label">
-                                        <div className="db-stat-icon active">
-                                            <Shield size={14} />
-                                        </div> Activos
+                            </aside>
+                        </>
+                    ) : (
+                        /* MY HORSES GRID VIEW */
+                        <section className="db-stats-section" style={{ gridColumn: '1 / -1' }}>
+                            <div className="db-horse-grid">
+                                {loadingHorses ? (
+                                    <div className="db-no-horses">
+                                        <Sparkles className="animate-spin" size={48} />
+                                        <p>Cargando tus caballos...</p>
                                     </div>
-                                    <span className="db-stat-val active">3</span>
-                                </div>
-                                <div className="db-stat-row">
-                                    <div className="db-stat-label">
-                                        <div className="db-stat-icon review">
-                                            <Info size={14} />
-                                        </div> En Revisión
+                                ) : errorHorses ? (
+                                    <div className="db-no-horses">
+                                        <span>⚠️</span>
+                                        <h3>Error al cargar</h3>
+                                        <p>{errorHorses}</p>
+                                        <button onClick={fetchUserHorses} className="db-btn-add" style={{ margin: '1rem auto' }}>Reintentar</button>
                                     </div>
-                                    <span className="db-stat-val review">0</span>
-                                </div>
-                                <div className="db-stat-row">
-                                    <div className="db-stat-label">
-                                        <div className="db-stat-icon sold">
-                                            <Star size={14} />
-                                        </div> Vendidos
+                                ) : userHorses.length > 0 ? (
+                                    userHorses.map(horse => (
+                                        <div
+                                            key={horse.id}
+                                            className="db-horse-card"
+                                            onClick={(e) => {
+                                                // Prevent navigation if clicking on action menu
+                                                if (e.target.closest('.db-horse-actions')) return;
+                                                navigate(`/detalle/${horse.id}`);
+                                            }}
+                                        >
+                                            <div
+                                                className="db-horse-img"
+                                                style={{ backgroundImage: `url(${horse.imageUrl || horse.images?.[0] || `https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=1200&auto=format&fit=crop&random=${horse.id}`})` }}
+                                            >
+                                                <div className="db-badge-row">
+                                                    {horse.isVip && <span className="db-tag db-tag-vip">VIP</span>}
+                                                    <span className={`db-tag db-tag-${horse.status?.toLowerCase() || 'active'}`}>
+                                                        {horse.status || 'Activo'}
+                                                    </span>
+                                                </div>
+
+                                                {/* ACTIONS MENU */}
+                                                <div className="db-horse-actions">
+                                                    <button
+                                                        className="db-action-trigger"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setMenuOpenId(menuOpenId === horse.id ? null : horse.id);
+                                                        }}
+                                                    >
+                                                        <MoreVertical size={18} />
+                                                    </button>
+
+                                                    {menuOpenId === horse.id && (
+                                                        <div className="db-actions-dropdown">
+                                                            <button
+                                                                className="db-action-item"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    navigate(`/caballo/editar/${horse.id}`);
+                                                                }}
+                                                            >
+                                                                <Edit size={14} /> Editar
+                                                            </button>
+                                                            <button
+                                                                className="db-action-item delete"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDeleteHorse(horse.id, horse.name || horse.horseName);
+                                                                    setMenuOpenId(null);
+                                                                }}
+                                                            >
+                                                                <Trash size={14} /> Eliminar
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="db-horse-info">
+                                                <div className="db-horse-header">
+                                                    <h4>{horse.name || horse.horseName || "Caballo"}</h4>
+                                                    <span className="price">{horse.price ? `$${horse.price.toLocaleString()}` : "Contactar"}</span>
+                                                </div>
+                                                <div className="db-horse-meta">
+                                                    <span>{calculateAge(horse.birthDate) || horse.age || "N/A"} años</span> • <span>{horse.heightM || horse.height || "N/A"} m</span> • <span>{horse.breed}</span>
+                                                </div>
+                                                <div className="db-trust-score-mini">
+                                                    <div className="db-trust-row">
+                                                        <span>Trust Score</span>
+                                                        <span>{Math.round((horse.trustScore || 0.95) * 100)}/100</span>
+                                                    </div>
+                                                    <div className="db-trust-bar">
+                                                        <div className="db-trust-fill" style={{ width: `${(horse.trustScore || 0.95) * 100}%` }}></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="db-no-horses">
+                                        <span>🐴</span>
+                                        <h3>No tienes caballos publicados</h3>
+                                        <p>Comienza agregando tu primer caballo al mercado.</p>
+                                        <button
+                                            className="db-btn-add"
+                                            style={{ margin: '1rem auto' }}
+                                            onClick={() => navigate('/caballo/nuevo')}
+                                        >
+                                            Agregar Caballo
+                                        </button>
                                     </div>
-                                    <span className="db-stat-val sold">2</span>
-                                </div>
+                                )}
                             </div>
-                        </div>
-
-                        {/* Promo Dashboard Upgrade */}
-                        <div className="db-side-card db-promo-card">
-                            <h3 className="db-promo-header">👑 Destaca tus Listados</h3>
-                            <p className="db-promo-title">Llega a más compradores premium</p>
-                            <ul className="db-promo-list">
-                                <li className="db-promo-item">✨ Aparece en la sección VIP Premium</li>
-                                <li className="db-promo-item">📈 10x más visibilidad</li>
-                                <li className="db-promo-item">⏳ Garantía extendida de 60 días</li>
-                            </ul>
-                            <button className="db-btn-promo">
-                                Ver Premium 👑
-                            </button>
-                        </div>
-
-                        {/* Seller Tips */}
-                        <div className="db-side-card db-tips-card">
-                            <h3 className="db-promo-header">📈 Mejora tus Ventas</h3>
-                            <div className="db-tip-item">
-                                <div className="db-tip-icon">✨</div>
-                                <div>
-                                    <p className="db-tip-text">Videos de rendimiento</p>
-                                    <p className="db-tip-sub">3x más consultas</p>
-                                </div>
-                            </div>
-                            <div className="db-tip-item">
-                                <div className="db-tip-icon">📄</div>
-                                <div>
-                                    <p className="db-tip-text">Documentación completa</p>
-                                    <p className="db-tip-sub">Aumenta confianza</p>
-                                </div>
-                            </div>
-                            <div className="db-tip-item">
-                                <div className="db-tip-icon">⚡</div>
-                                <div>
-                                    <p className="db-tip-text">Respuesta rápida</p>
-                                    <p className="db-tip-sub">Mantén tu score alto</p>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
+                        </section>
+                    )}
                 </div>
             </div>
         </main>

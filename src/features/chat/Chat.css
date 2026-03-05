@@ -81,11 +81,21 @@
     border-left: 4px solid #ca8a04;
 }
 
-.conv-avatar {
+.conv-avatar, .conv-avatar-placeholder {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.conv-avatar-placeholder {
+    background-color: #ca8a04;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
 .conv-info {
@@ -148,11 +158,20 @@
     gap: 1rem;
 }
 
-.active-avatar {
+.active-avatar, .active-avatar-placeholder {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.active-avatar-placeholder {
+    background-color: #ca8a04;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
 }
 
 .active-info h3 {

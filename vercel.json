@@ -5,6 +5,10 @@
             "destination": "https://horsetrust.codershub.top/api/:path*"
         },
         {
+            "source": "/stripe/:path*",
+            "destination": "https://horsetrust.codershub.top/stripe/:path*"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

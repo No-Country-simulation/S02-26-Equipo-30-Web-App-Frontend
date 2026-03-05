@@ -1,10 +1,7 @@
 import React from 'react';
 import './FilterSidebar.css';
 
-const DISCIPLINES = ['', 'Barrel Racing', 'Cutting', 'Dressage', 'Endurance', 'Hunter', 'Show Jumping'];
-const BREEDS = ['', 'Andalusian', 'Arabian', 'Dutch Warmblood', 'Morgan', 'Trakehner', 'Westphalian'];
-
-const FilterSidebar = ({ filters, onFilterChange }) => {
+const FilterSidebar = ({ filters, onFilterChange, availableDisciplines = [], availableBreeds = [] }) => {
     const handleChange = (key, value) => {
         onFilterChange({ ...filters, [key]: value });
     };
@@ -20,7 +17,7 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     value={filters.discipline}
                     onChange={(e) => handleChange('discipline', e.target.value)}
                 >
-                    {DISCIPLINES.map((d) => (
+                    {availableDisciplines.map((d) => (
                         <option key={d} value={d}>{d || 'Todas'}</option>
                     ))}
                 </select>
@@ -33,7 +30,7 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     value={filters.breed}
                     onChange={(e) => handleChange('breed', e.target.value)}
                 >
-                    {BREEDS.map((b) => (
+                    {availableBreeds.map((b) => (
                         <option key={b} value={b}>{b || 'Todas'}</option>
                     ))}
                 </select>
@@ -65,7 +62,7 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     <input
                         type="number"
                         className="filter-input price-input"
-                        placeholder="200000"
+                        placeholder="1500000"
                         min={0}
                         value={filters.priceMax}
                         onChange={(e) => handleChange('priceMax', e.target.value)}
@@ -75,14 +72,14 @@ const FilterSidebar = ({ filters, onFilterChange }) => {
                     type="range"
                     className="price-slider"
                     min={0}
-                    max={200000}
+                    max={1500000}
                     step={1000}
-                    value={filters.priceMax || 200000}
+                    value={filters.priceMax || 1500000}
                     onChange={(e) => handleChange('priceMax', e.target.value)}
                 />
                 <div className="price-range-labels">
                     <span>$0</span>
-                    <span>$200,000</span>
+                    <span>$1,500,000</span>
                 </div>
             </div>
         </aside>
