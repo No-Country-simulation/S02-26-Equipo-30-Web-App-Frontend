@@ -99,32 +99,6 @@ const Chat = () => {
             alert("No se pudo enviar el mensaje.");
         }
     };
-    // Function delete conversation, only if chatService.deleteConversation is implemented
-    const handleDeleteConversation = async (conversationId, e) => {
-        e.stopPropagation(); // Evita activar el onClick del item
-
-        const confirmDelete = window.confirm("¿Seguro que quieres eliminar esta conversación?");
-        if (!confirmDelete) return;
-
-        try {
-            if (chatService.deleteConversation) {
-                await chatService.deleteConversation(conversationId);
-            }
-
-            setConversations(prev =>
-                prev.filter(conv => conv.conversationId !== conversationId)
-            );
-
-            if (conversationId === activeConversationId) {
-                setActiveConversationId(null);
-                setMessages([]);
-            }
-
-        } catch (error) {
-            console.error("Error eliminando conversación:", error);
-            alert("No se pudo eliminar la conversación.");
-        }
-    };
 
     const activeConversation = conversations.find(c => c.conversationId === activeConversationId);
 
@@ -167,13 +141,6 @@ const Chat = () => {
                                         <p className="conv-subject">{conv.listingTitle}</p>
                                         <p className="conv-last-msg">{conv.lastMessage || "Inicia la conversación"}</p>
                                     </div>
-                                    {/* 🆕 BOTÓN ELIMINAR */}
-                                    <button
-                                        className="delete-conv-btn"
-                                        onClick={(e) => handleDeleteConversation(conv.conversationId, e)}
-                                    >
-                                        ✕
-                                    </button>
                                 </div>
                             ))
                         )}

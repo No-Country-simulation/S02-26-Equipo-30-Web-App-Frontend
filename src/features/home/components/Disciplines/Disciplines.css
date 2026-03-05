@@ -1,5 +1,5 @@
 .disciplines-section {
-    padding: 80px 5% 40px;
+    padding: 80px 5%;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -37,7 +37,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto auto auto;
     gap: 24px;
-    min-height: 500px;
+    min-height: 800px;
 }
 
 .discipline-card {
