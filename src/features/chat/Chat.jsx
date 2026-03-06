@@ -32,10 +32,13 @@ const Chat = () => {
                         // Create new conversation
                         try {
                             const newConv = await chatService.createConversation(listingIdFromUrl);
-                            setConversations(prev => [newConv, ...prev]);
+                            // Re-fetch full list to get complete seller data (otherUserName, otherUserId)
+                            const updatedConversations = await chatService.getUserConversations();
+                            setConversations(updatedConversations);
                             setActiveConversationId(newConv.conversationId);
                         } catch (e) {
                             console.error("Error creating conversation:", e);
+                            setError("No se pudo iniciar la conversación con el vendedor.");
                         }
                     }
                 } else if (data.length > 0 && !activeConversationId) {
@@ -63,7 +66,7 @@ const Chat = () => {
 
                     // Mark last message as read if it's from the other user
                     const lastMsg = data[data.length - 1];
-                    if (lastMsg && lastMsg.senderId === activeConversation.otherUserId && !lastMsg.isRead) {
+                    if (lastMsg && lastMsg.senderId === activeConversation?.otherUserId && !lastMsg.isRead) {
                         try {
                             await chatService.markAsRead(lastMsg.messageId);
                         } catch (e) {
